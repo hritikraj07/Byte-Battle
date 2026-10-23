@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { PatternShiftArena } from '@/games/pattern-shift/PatternShiftArena';
 import { WordWeaveArena } from '@/games/word-weave/WordWeaveArena';
@@ -14,7 +14,7 @@ import { NumberBlitzArena } from '@/games/number-blitz/NumberBlitzArena';
 import { MazeRunnerArena } from '@/games/maze-runner/MazeRunnerArena';
 import { PixelInvadersArena } from '@/games/pixel-invaders/PixelInvadersArena';
 
-export default function GamePlayPage() {
+function GamePlayContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -72,5 +72,19 @@ export default function GamePlayPage() {
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden select-none bg-[#05050D] z-50 flex flex-col justify-center items-center">
       {renderGame()}
     </div>
+  );
+}
+
+export default function GamePlayPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="fixed inset-0 w-screen h-[100dvh] bg-[#05050D] z-50 flex flex-col justify-center items-center font-pixel text-xs text-[#00F0FF]">
+          LOADING ARENA...
+        </div>
+      }
+    >
+      <GamePlayContent />
+    </Suspense>
   );
 }

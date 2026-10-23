@@ -35,20 +35,21 @@ export const ByteBattleLogo: React.FC<ByteBattleLogoProps> = ({
         >
           <defs>
             <linearGradient id="bb-grad-primary" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#C8FF3D" />
-              <stop offset="100%" stopColor="#9B6BFF" />
+              <stop offset="0%" stopColor="#00F0FF" />
+              <stop offset="100%" stopColor="#FF2E97" />
             </linearGradient>
             <linearGradient id="bb-grad-bolt" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#FFFFFF" />
-              <stop offset="100%" stopColor="#C8FF3D" />
+              <stop offset="100%" stopColor="#00F0FF" />
             </linearGradient>
           </defs>
 
           {/* Background Octagonal Chip */}
           <path
             d="M10 4 H38 L44 10 V38 L38 44 H10 L4 38 V10 Z"
-            fill="#191B24"
-            stroke="#282B3A"
+            fill="#0D0D22"
+            stroke="#00F0FF"
+            strokeOpacity="0.4"
             strokeWidth="2"
           />
 
@@ -59,10 +60,10 @@ export const ByteBattleLogo: React.FC<ByteBattleLogoProps> = ({
           />
 
           {/* Inner Negative Space: Upper B loop */}
-          <rect x="20" y="16" width="9" height="6" rx="2" fill="#101116" />
+          <rect x="20" y="16" width="9" height="6" rx="2" fill="#05050D" />
 
           {/* Inner Negative Space: Lower B loop */}
-          <rect x="20" y="28" width="10" height="7" rx="2" fill="#101116" />
+          <rect x="20" y="28" width="10" height="7" rx="2" fill="#05050D" />
 
           {/* Dynamic Lightning Bolt Slit Cutting Through the B */}
           <polygon
@@ -73,16 +74,14 @@ export const ByteBattleLogo: React.FC<ByteBattleLogoProps> = ({
         </svg>
       </div>
 
-      {/* Brand Wordmark */}
+      {/* Brand Wordmark: Shortened name with exact font colors */}
       {showWordmark && (
-        <div className="flex flex-col leading-none">
-          <span
-            className={`font-black tracking-wider uppercase text-neo-text font-mono ${wordmarkSizes}`}
-          >
-            BYTE<span className="text-neo-lime">BATTLE</span>
+        <div className="flex items-center tracking-tight leading-none">
+          <span className="font-pixel text-xs sm:text-sm text-[#00F0FF] uppercase mr-1 drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]">
+            BYTE
           </span>
-          <span className="text-[9px] font-mono font-bold tracking-widest text-neo-secondary uppercase">
-            ARCADE ARENA
+          <span className="font-pixel text-xs sm:text-sm text-[#FF2E97] uppercase drop-shadow-[0_0_8px_rgba(255,46,151,0.6)]">
+            BATTLE
           </span>
         </div>
       )}

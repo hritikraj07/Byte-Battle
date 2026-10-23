@@ -4,7 +4,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'BYTE BATTLE — Interactive Gamified Technology Arena',
+  title: 'BYTE BATTLE',
   description: 'A futuristic gamified tech puzzle arena for school students and personal practice. Works 100% offline.',
   manifest: '/manifest.webmanifest',
   icons: {

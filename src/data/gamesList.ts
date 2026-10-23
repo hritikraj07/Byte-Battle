@@ -29,7 +29,6 @@ import {
 
 export type ArcadeCategory =
   | 'all'
-  | '2-player'
   | 'action'
   | 'arcade'
   | 'classic'
@@ -37,16 +36,12 @@ export type ArcadeCategory =
   | 'puzzle'
   | 'shooter';
 
-export const ARCADE_CATEGORIES: { id: ArcadeCategory; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: '2-player', label: '2-Player' },
-  { id: 'action', label: 'Action' },
-  { id: 'arcade', label: 'Arcade' },
-  { id: 'classic', label: 'Classic' },
-  { id: 'endless', label: 'Endless' },
-  { id: 'puzzle', label: 'Puzzle' },
-  { id: 'shooter', label: 'Shooter' },
-];
+export interface ArcadeCategoryItem {
+  id: ArcadeCategory;
+  name: string;
+  label: string;
+  count: number;
+}
 
 export interface GameDefinition {
   id: GameId;
@@ -279,3 +274,29 @@ export const ACTIVE_GAMES: GameDefinition[] = [
     supportsDifficulty: true,
   },
 ];
+
+const RAW_CATEGORIES: { id: ArcadeCategory; name: string }[] = [
+  { id: 'all', name: 'All' },
+  { id: 'action', name: 'Action' },
+  { id: 'arcade', name: 'Arcade' },
+  { id: 'classic', name: 'Classic' },
+  { id: 'endless', name: 'Endless' },
+  { id: 'puzzle', name: 'Puzzle' },
+  { id: 'shooter', name: 'Shooter' },
+];
+
+export const ARCADE_CATEGORIES: ArcadeCategoryItem[] = RAW_CATEGORIES
+  .map((cat) => {
+    const count =
+      cat.id === 'all'
+        ? ACTIVE_GAMES.length
+        : ACTIVE_GAMES.filter((g) => g.categories.includes(cat.id)).length;
+    return {
+      id: cat.id,
+      name: cat.name,
+      label: `${cat.name} (${count})`,
+      count,
+    };
+  })
+  .filter((cat) => cat.count > 0);
+

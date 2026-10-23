@@ -19,6 +19,7 @@ import {
 } from '@/data/gamesList';
 import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardModal';
 import { GameSetupModal } from '@/components/common/GameSetupModal';
+import { useArcadeShortcuts } from '@/hooks/useArcadeShortcuts';
 
 export default function GamesHubPage() {
   const router = useRouter();
@@ -69,6 +70,23 @@ export default function GamesHubPage() {
     router.push(targetRoute);
   };
 
+  // Keyboard Shortcuts: / to search, Esc to close, R for random game
+  useArcadeShortcuts({
+    onSearch: () => {
+      const input = document.querySelector('input[type="text"]') as HTMLInputElement | null;
+      input?.focus();
+      input?.select();
+    },
+    onEscape: () => {
+      setSetupGame(null);
+      setSelectedLeaderboardGame(null);
+      setSearchQuery('');
+    },
+    onRandom: () => {
+      handleRandomGame();
+    },
+  });
+
   const filteredGames = useMemo(() => {
     return ACTIVE_GAMES.filter((game) => {
       const matchesSearch =
@@ -84,7 +102,7 @@ export default function GamesHubPage() {
   }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn text-[#E8E8FF]">
+    <div className="w-full max-w-[1720px] mx-auto px-3 sm:px-5 lg:px-6 py-8 animate-fadeIn text-[#E8E8FF]">
       {/* Universal Name & Difficulty Setup Modal */}
       {setupGame && (
         <GameSetupModal
@@ -115,7 +133,7 @@ export default function GamesHubPage() {
             type="button"
             onClick={handleRandomGame}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0D0D22] hover:bg-[#12122A] border border-[#A855F7]/70 hover:border-[#00F0FF] text-[#E8E8FF] hover:text-[#00F0FF] text-xs font-pixel tracking-wider focus:outline-none focus:ring-2 focus:ring-[#00F0FF] transition-all group shrink-0"
-            aria-label="Play a random arcade game"
+            aria-label="Play a random arcade game (Shortcut: Press R)"
           >
             <Dices className="w-3.5 h-3.5 text-[#FFE45E] group-hover:rotate-45 transition-transform" />
             <span className="hidden sm:inline">RANDOM GAME</span>
@@ -128,7 +146,7 @@ export default function GamesHubPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search arenas..."
+              placeholder="Search arenas... (Press /)"
               className="w-full md:w-64 pl-10 pr-4 py-2 rounded-full bg-[#0D0D22] border border-[#24244A] text-white text-xs font-sans placeholder:text-[#8A8AB8]/60 focus:outline-none focus:border-[#00F0FF] focus:shadow-[0_0_12px_rgba(0,240,255,0.3)] transition-all"
             />
           </div>
@@ -157,9 +175,9 @@ export default function GamesHubPage() {
         })}
       </div>
 
-      {/* 3 Cards Per Row on Desktop Grid */}
+      {/* 4 Cards Per Row on Desktop Grid */}
       {filteredGames.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5">
           {filteredGames.map((game) => {
             const Artwork = game.artwork;
             const pb = personalBests[game.id] || personalBests[game.routeId] || 0;

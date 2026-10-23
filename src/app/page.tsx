@@ -20,6 +20,7 @@ import {
 import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardModal';
 import { GameSetupModal } from '@/components/common/GameSetupModal';
 import { ArcadeInstallButton } from '@/components/common/ArcadeInstallButton';
+import { useArcadeShortcuts } from '@/hooks/useArcadeShortcuts';
 
 export default function HomePage() {
   const router = useRouter();
@@ -33,6 +34,28 @@ export default function HomePage() {
 
   // Active Category Filter
   const [activeCategory, setActiveCategory] = useState<ArcadeCategory>('all');
+
+  const handleRandomGame = () => {
+    const eligibleGames = ACTIVE_GAMES.filter((g) => Boolean(g && g.routeId));
+    if (eligibleGames.length === 0) return;
+    const randomIndex = Math.floor(Math.random() * eligibleGames.length);
+    const chosenGame = eligibleGames[randomIndex];
+    setSetupGame(chosenGame);
+  };
+
+  // Keyboard Shortcuts: / to search, Esc to close modals, R for random game
+  useArcadeShortcuts({
+    onSearch: () => {
+      router.push('/games');
+    },
+    onEscape: () => {
+      setSetupGame(null);
+      setSelectedLeaderboardGame(null);
+    },
+    onRandom: () => {
+      handleRandomGame();
+    },
+  });
 
   useEffect(() => {
     async function loadStats() {
@@ -52,14 +75,6 @@ export default function HomePage() {
 
   const handleStartGameClick = (game: GameDefinition) => {
     setSetupGame(game);
-  };
-
-  const handleRandomGame = () => {
-    const eligibleGames = ACTIVE_GAMES.filter((g) => Boolean(g && g.routeId));
-    if (eligibleGames.length === 0) return;
-    const randomIndex = Math.floor(Math.random() * eligibleGames.length);
-    const chosenGame = eligibleGames[randomIndex];
-    setSetupGame(chosenGame);
   };
 
   const handleConfirmSetup = (nickname: string, difficulty: string) => {
@@ -88,7 +103,7 @@ export default function HomePage() {
       )}
 
       {/* Marquee Arcade Hero Section matching GH-Arcade */}
-      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 sm:pt-16 sm:pb-12 text-center relative overflow-hidden">
+      <section className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 sm:pt-14 sm:pb-10 text-center relative overflow-hidden">
         {/* Retro perspective neon grid floor extending under the hero */}
         <div className="arcade-perspective-grid" aria-hidden="true" />
 
@@ -117,7 +132,7 @@ export default function HomePage() {
               onClick={handleRandomGame}
               id="random-game-hero-btn"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#0D0D22]/90 hover:bg-[#12122A] border border-[#A855F7]/70 hover:border-[#00F0FF] text-[#E8E8FF] hover:text-[#00F0FF] shadow-[0_0_15px_rgba(168,85,247,0.25)] hover:shadow-[0_0_20px_rgba(0,240,255,0.35)] transition-all font-pixel text-xs tracking-wider focus:outline-none focus:ring-2 focus:ring-[#00F0FF] active:scale-95 group"
-              aria-label="Launch a random arcade game"
+              aria-label="Launch a random arcade game (Shortcut: Press R)"
             >
               <Dices className="w-4 h-4 text-[#FFE45E] group-hover:rotate-45 transition-transform duration-300" />
               <span>RANDOM GAME</span>
@@ -127,7 +142,7 @@ export default function HomePage() {
       </section>
 
       {/* Main Game Catalog Section with GH-Arcade Toolbar & Category Filters */}
-      <section id="game-catalog" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mb-16 scroll-mt-20 relative z-10">
+      <section id="game-catalog" className="w-full max-w-[1720px] mx-auto px-3 sm:px-5 lg:px-6 py-6 mb-16 scroll-mt-20 relative z-10">
         {/* Toolbar: Section Title on left + Category Filters on right */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-8 pb-4 border-b border-[#24244A]">
           <div className="flex items-center gap-3">
@@ -160,9 +175,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 3 Cards Per Row on Desktop Grid */}
+        {/* 4 Cards Per Row on Desktop Grid */}
         {filteredGames.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 sm:gap-5">
             {filteredGames.map((game) => {
               const Artwork = game.artwork;
               const pb = personalBests[game.id] || personalBests[game.routeId] || 0;
