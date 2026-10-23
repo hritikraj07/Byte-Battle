@@ -1,0 +1,860 @@
+[
+  {
+    "id": "PS-001",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Binary Doubler",
+    "prompt": "Identify the next number in the doubling sequence.",
+    "sequence": [
+      2,
+      4,
+      8,
+      16,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "24",
+      "30",
+      "32",
+      "36"
+    ],
+    "canonicalSolution": "32",
+    "explanation": "Each number is multiplied by 2 (2^n).",
+    "hints": [
+      "The numbers are doubling each step.",
+      "Multiply 16 by 2."
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-002",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Step by Five",
+    "prompt": "Find the missing term in this arithmetic progression.",
+    "sequence": [
+      5,
+      10,
+      15,
+      "?",
+      25
+    ],
+    "missingIndex": 3,
+    "options": [
+      "18",
+      "20",
+      "22",
+      "24"
+    ],
+    "canonicalSolution": "20",
+    "explanation": "The sequence increases by +5 each step.",
+    "hints": [
+      "Look at the difference between consecutive numbers.",
+      "Add 5 to 15."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-003",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Triple Jump",
+    "prompt": "Calculate the next power of three.",
+    "sequence": [
+      3,
+      9,
+      27,
+      "?"
+    ],
+    "missingIndex": 3,
+    "options": [
+      "54",
+      "81",
+      "72",
+      "90"
+    ],
+    "canonicalSolution": "81",
+    "explanation": "Each term is multiplied by 3 (3^n).",
+    "hints": [
+      "Each number is three times the prior number.",
+      "27 * 3 = ?"
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-004",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Even Stepping",
+    "prompt": "What comes next in the even sequence?",
+    "sequence": [
+      12,
+      16,
+      20,
+      24,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "26",
+      "28",
+      "30",
+      "32"
+    ],
+    "canonicalSolution": "28",
+    "explanation": "The sequence adds +4 each time.",
+    "hints": [
+      "Count up by 4s.",
+      "24 + 4 = 28."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-005",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Countdown Protocol",
+    "prompt": "Find the next value in the decreasing sequence.",
+    "sequence": [
+      50,
+      43,
+      36,
+      29,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "21",
+      "22",
+      "23",
+      "24"
+    ],
+    "canonicalSolution": "22",
+    "explanation": "The sequence subtracts 7 at each step.",
+    "hints": [
+      "The numbers are decreasing at a steady pace.",
+      "Subtract 7 from 29."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-006",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Perfect Squares",
+    "prompt": "Identify the missing square integer.",
+    "sequence": [
+      1,
+      4,
+      9,
+      16,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "20",
+      "24",
+      "25",
+      "30"
+    ],
+    "canonicalSolution": "25",
+    "explanation": "Square numbers: 1^2, 2^2, 3^2, 4^2, 5^2 = 25.",
+    "hints": [
+      "These are numbers multiplied by themselves.",
+      "5 times 5 = ?"
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-007",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Hex Step",
+    "prompt": "Find the missing multiple of six.",
+    "sequence": [
+      6,
+      12,
+      "?",
+      24,
+      30
+    ],
+    "missingIndex": 2,
+    "options": [
+      "16",
+      "18",
+      "20",
+      "22"
+    ],
+    "canonicalSolution": "18",
+    "explanation": "Multiples of 6 (+6 each time).",
+    "hints": [
+      "The pattern goes up by 6.",
+      "12 + 6 = 18."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-008",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Ten Scale",
+    "prompt": "Find the missing order of magnitude.",
+    "sequence": [
+      10,
+      100,
+      1000,
+      "?"
+    ],
+    "missingIndex": 3,
+    "options": [
+      "10000",
+      "100000",
+      "2000",
+      "5000"
+    ],
+    "canonicalSolution": "10000",
+    "explanation": "Powers of 10: 10^1, 10^2, 10^3, 10^4.",
+    "hints": [
+      "Count the number of zeros added.",
+      "Add one more zero to 1000."
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-009",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Odd Run",
+    "prompt": "Complete the sequence of odd numbers.",
+    "sequence": [
+      21,
+      23,
+      25,
+      "?",
+      29
+    ],
+    "missingIndex": 3,
+    "options": [
+      "26",
+      "27",
+      "28",
+      "31"
+    ],
+    "canonicalSolution": "27",
+    "explanation": "Consecutive odd integers (+2).",
+    "hints": [
+      "Skip the even number between 25 and 29.",
+      "25 + 2 = 27."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-010",
+    "gameId": "pattern-shift",
+    "difficulty": "easy",
+    "title": "Sub-Zero Descent",
+    "prompt": "Predict the next number below zero.",
+    "sequence": [
+      6,
+      3,
+      0,
+      -3,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "-5",
+      "-6",
+      "-7",
+      "-9"
+    ],
+    "canonicalSolution": "-6",
+    "explanation": "The sequence subtracts 3 each time.",
+    "hints": [
+      "Continue counting backwards by 3.",
+      "-3 - 3 = -6."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-011",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Fibonacci Pulse",
+    "prompt": "Determine the next term in the Fibonacci sequence.",
+    "sequence": [
+      1,
+      1,
+      2,
+      3,
+      5,
+      8,
+      "?"
+    ],
+    "missingIndex": 6,
+    "options": [
+      "11",
+      "12",
+      "13",
+      "15"
+    ],
+    "canonicalSolution": "13",
+    "explanation": "Each number is the sum of the two preceding numbers (5 + 8 = 13).",
+    "hints": [
+      "Add the two previous numbers together.",
+      "5 + 8 = ?"
+    ],
+    "patternType": "fibonacci"
+  },
+  {
+    "id": "PS-012",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Alternating Operators",
+    "prompt": "Decode the alternating add/multiply rule.",
+    "sequence": [
+      2,
+      5,
+      10,
+      13,
+      26,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "29",
+      "32",
+      "39",
+      "52"
+    ],
+    "canonicalSolution": "29",
+    "explanation": "Pattern alternates between +3 and *2 (+3, *2, +3, *2, +3). 26 + 3 = 29.",
+    "hints": [
+      "Observe how the operations toggle between addition and multiplication.",
+      "The last step was *2 (13 * 2 = 26), so now add 3."
+    ],
+    "patternType": "alternating"
+  },
+  {
+    "id": "PS-013",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Prime Sequence",
+    "prompt": "Identify the next prime number in sequence.",
+    "sequence": [
+      2,
+      3,
+      5,
+      7,
+      11,
+      13,
+      "?"
+    ],
+    "missingIndex": 6,
+    "options": [
+      "15",
+      "17",
+      "19",
+      "21"
+    ],
+    "canonicalSolution": "17",
+    "explanation": "Sequence of prime numbers. Next prime after 13 is 17.",
+    "hints": [
+      "These numbers have only two factors: 1 and themselves.",
+      "15 is divisible by 3 and 5, so look higher."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-014",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Triangular Numbers",
+    "prompt": "Calculate the next triangular number.",
+    "sequence": [
+      1,
+      3,
+      6,
+      10,
+      15,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "18",
+      "20",
+      "21",
+      "24"
+    ],
+    "canonicalSolution": "21",
+    "explanation": "Differences increase by 1 each step (+2, +3, +4, +5, +6). 15 + 6 = 21.",
+    "hints": [
+      "Look at the gaps: +2, +3, +4, +5...",
+      "Add 6 to 15."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-015",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Oscillating Wave",
+    "prompt": "Determine the next value in the alternating wave.",
+    "sequence": [
+      10,
+      15,
+      12,
+      17,
+      14,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "16",
+      "18",
+      "19",
+      "21"
+    ],
+    "canonicalSolution": "19",
+    "explanation": "Alternates between +5 and -3 (+5, -3, +5, -3, +5). 14 + 5 = 19.",
+    "hints": [
+      "The sequence goes up, then down, then up.",
+      "After subtracting 3, add 5."
+    ],
+    "patternType": "alternating"
+  },
+  {
+    "id": "PS-016",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Cube Sequence",
+    "prompt": "Find the next cubic integer.",
+    "sequence": [
+      1,
+      8,
+      27,
+      64,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "100",
+      "120",
+      "125",
+      "144"
+    ],
+    "canonicalSolution": "125",
+    "explanation": "Cubes of integers: 1^3, 2^3, 3^3, 4^3, 5^3 = 125.",
+    "hints": [
+      "These are numbers cubed (n * n * n).",
+      "5 * 5 * 5 = ?"
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-017",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Two-Step Ladder",
+    "prompt": "Decode the missing value in this progression.",
+    "sequence": [
+      3,
+      6,
+      11,
+      18,
+      27,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "36",
+      "38",
+      "40",
+      "42"
+    ],
+    "canonicalSolution": "38",
+    "explanation": "First differences are odd numbers: +3, +5, +7, +9, +11. 27 + 11 = 38.",
+    "hints": [
+      "Calculate the difference between adjacent terms.",
+      "The gap grows: +3, +5, +7, +9... next is +11."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-018",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Multiplication Cascade",
+    "prompt": "Find the missing product.",
+    "sequence": [
+      1,
+      2,
+      6,
+      24,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "96",
+      "120",
+      "144",
+      "180"
+    ],
+    "canonicalSolution": "120",
+    "explanation": "Factorials: *2, *3, *4, *5. 24 * 5 = 120.",
+    "hints": [
+      "Multiply by an incrementing factor each step.",
+      "Multiply 24 by 5."
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-019",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Binary Shift Register",
+    "prompt": "Find the missing bit value in 8-bit register expansion.",
+    "sequence": [
+      1,
+      3,
+      7,
+      15,
+      31,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "57",
+      "61",
+      "63",
+      "64"
+    ],
+    "canonicalSolution": "63",
+    "explanation": "Rule is (2^n - 1) or double and add 1 (31 * 2 + 1 = 63).",
+    "hints": [
+      "Notice how each term is one less than a power of 2.",
+      "Double 31 and add 1."
+    ],
+    "patternType": "bit-shift"
+  },
+  {
+    "id": "PS-020",
+    "gameId": "pattern-shift",
+    "difficulty": "medium",
+    "title": "Subtract-Divide Loop",
+    "prompt": "Find the next value in the dual loop.",
+    "sequence": [
+      48,
+      24,
+      20,
+      10,
+      6,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "canonicalSolution": "3",
+    "explanation": "Alternates between /2 and -4 (/2, -4, /2, -4, /2). 6 / 2 = 3.",
+    "hints": [
+      "Look at the alternating pattern of division and subtraction.",
+      "Divide 6 by 2."
+    ],
+    "patternType": "alternating"
+  },
+  {
+    "id": "PS-021",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Quadratic Delta",
+    "prompt": "Solve the quadratic sequence with growing second differences.",
+    "sequence": [
+      2,
+      5,
+      10,
+      17,
+      26,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "35",
+      "37",
+      "39",
+      "41"
+    ],
+    "canonicalSolution": "37",
+    "explanation": "Rule is n^2 + 1 for n=1,2,3,4,5,6 (6^2 + 1 = 37) or differences +3,+5,+7,+9,+11.",
+    "hints": [
+      "The differences are +3, +5, +7, +9. What is next?",
+      "Add 11 to 26."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-022",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Tribonacci Matrix",
+    "prompt": "Calculate the next Tribonacci term.",
+    "sequence": [
+      1,
+      1,
+      2,
+      4,
+      7,
+      13,
+      "?"
+    ],
+    "missingIndex": 6,
+    "options": [
+      "20",
+      "22",
+      "24",
+      "26"
+    ],
+    "canonicalSolution": "24",
+    "explanation": "Each number is the sum of the preceding THREE numbers (4 + 7 + 13 = 24).",
+    "hints": [
+      "Sum the previous three numbers together.",
+      "4 + 7 + 13 = ?"
+    ],
+    "patternType": "fibonacci"
+  },
+  {
+    "id": "PS-023",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Dual Interleaved Series",
+    "prompt": "Solve the two interleaved independent sequences.",
+    "sequence": [
+      3,
+      20,
+      5,
+      17,
+      7,
+      14,
+      "?"
+    ],
+    "missingIndex": 6,
+    "options": [
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "canonicalSolution": "9",
+    "explanation": "Two interleaved streams: Odds (3, 5, 7, 9) and Evens (20, 17, 14). Missing slot is in Odds (+2).",
+    "hints": [
+      "Separate the odd positions (1st, 3rd, 5th) from the even positions.",
+      "Follow the stream: 3, 5, 7..."
+    ],
+    "patternType": "alternating"
+  },
+  {
+    "id": "PS-024",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Square Plus Index",
+    "prompt": "Deduce the formula for this computational series.",
+    "sequence": [
+      2,
+      6,
+      12,
+      20,
+      30,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "38",
+      "40",
+      "42",
+      "46"
+    ],
+    "canonicalSolution": "42",
+    "explanation": "Formula n*(n+1) or differences +4, +6, +8, +10, +12. 30 + 12 = 42.",
+    "hints": [
+      "Differences are consecutive even numbers: +4, +6, +8, +10...",
+      "Add 12 to 30."
+    ],
+    "patternType": "arithmetic"
+  },
+  {
+    "id": "PS-025",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Exponent Escalation",
+    "prompt": "Find the missing exponential value.",
+    "sequence": [
+      2,
+      3,
+      5,
+      9,
+      17,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "27",
+      "31",
+      "33",
+      "35"
+    ],
+    "canonicalSolution": "33",
+    "explanation": "Differences are powers of 2 (+1, +2, +4, +8, +16). 17 + 16 = 33.",
+    "hints": [
+      "Check the differences: +1, +2, +4, +8...",
+      "Add 16 to 17."
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-026",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Look-and-Say Seed",
+    "prompt": "Count the digital frequencies in sequence representation.",
+    "sequence": [
+      1,
+      11,
+      21,
+      1211,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "111221",
+      "312211",
+      "122111",
+      "112211"
+    ],
+    "canonicalSolution": "111221",
+    "explanation": "Look-and-say sequence: 1211 has one 1, one 2, two 1s -> 111221.",
+    "hints": [
+      "Describe what you see in the previous number aloud.",
+      "1211 is one 1, one 2, and two 1s."
+    ],
+    "patternType": "alternating"
+  },
+  {
+    "id": "PS-027",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Lucas Sequence Prime",
+    "prompt": "Compute the next term of the Lucas series.",
+    "sequence": [
+      2,
+      1,
+      3,
+      4,
+      7,
+      11,
+      "?"
+    ],
+    "missingIndex": 6,
+    "options": [
+      "16",
+      "18",
+      "19",
+      "21"
+    ],
+    "canonicalSolution": "18",
+    "explanation": "Lucas sequence: L(n) = L(n-1) + L(n-2). 7 + 11 = 18.",
+    "hints": [
+      "Sum of the last two terms: 7 + 11.",
+      "7 + 11 = 18."
+    ],
+    "patternType": "fibonacci"
+  },
+  {
+    "id": "PS-028",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Cubic Difference Step",
+    "prompt": "Find the missing term in the cubic differential series.",
+    "sequence": [
+      0,
+      7,
+      26,
+      63,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "99",
+      "124",
+      "125",
+      "142"
+    ],
+    "canonicalSolution": "124",
+    "explanation": "Formula n^3 - 1 for n=1,2,3,4,5 (5^3 - 1 = 125 - 1 = 124).",
+    "hints": [
+      "Compare each term to perfect cubes: 1, 8, 27, 64, 125...",
+      "Each number is one less than a cube. 125 - 1 = ?"
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-029",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Alternating Power Series",
+    "prompt": "Find the missing sign-flip term.",
+    "sequence": [
+      1,
+      -2,
+      4,
+      -8,
+      16,
+      "?"
+    ],
+    "missingIndex": 5,
+    "options": [
+      "-24",
+      "-32",
+      "32",
+      "-64"
+    ],
+    "canonicalSolution": "-32",
+    "explanation": "Multiplied by -2 at each step: 16 * -2 = -32.",
+    "hints": [
+      "Signs alternate (+, -, +, -, +). Multiply by -2.",
+      "16 * -2 = -32."
+    ],
+    "patternType": "geometric"
+  },
+  {
+    "id": "PS-030",
+    "gameId": "pattern-shift",
+    "difficulty": "hard",
+    "title": "Byte Alignment Padding",
+    "prompt": "Determine the next memory boundary alignment.",
+    "sequence": [
+      64,
+      96,
+      112,
+      120,
+      "?"
+    ],
+    "missingIndex": 4,
+    "options": [
+      "122",
+      "124",
+      "126",
+      "128"
+    ],
+    "canonicalSolution": "124",
+    "explanation": "Increments halve each time (+32, +16, +8, +4). 120 + 4 = 124.",
+    "hints": [
+      "The added gap halves at each iteration (+32, +16, +8...).",
+      "Add 4 to 120."
+    ],
+    "patternType": "bit-shift"
+  }
+]

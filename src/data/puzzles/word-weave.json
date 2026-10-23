@@ -1,0 +1,918 @@
+[
+  {
+    "id": "WW-001",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "ladder",
+    "title": "Bit to Byte",
+    "prompt": "Transform BIT into BOT, then DOT.",
+    "startWord": "BIT",
+    "targetWord": "DOT",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "BIT",
+      "BOT",
+      "DOT"
+    ],
+    "hints": [
+      "Change the vowel first.",
+      "BIT -> BOT -> DOT."
+    ],
+    "explanation": "BIT -> BOT (change I to O) -> DOT (change B to D)."
+  },
+  {
+    "id": "WW-002",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "category",
+    "title": "Hardware Basics",
+    "prompt": "Group the 4 terms that belong to Computer Hardware.",
+    "categories": [
+      {
+        "name": "Computer Hardware",
+        "items": [
+          "CPU",
+          "RAM",
+          "GPU",
+          "SSD"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "PHP",
+      "CPU",
+      "SSD",
+      "HTML",
+      "GPU",
+      "CSS",
+      "SQL",
+      "RAM"
+    ],
+    "hints": [
+      "Look for physical physical computing components.",
+      "Silicon chips and storage drives."
+    ],
+    "explanation": "CPU, RAM, GPU, and SSD are physical computer hardware components.",
+    "decoys": [
+      "HTML",
+      "CSS",
+      "SQL",
+      "PHP"
+    ]
+  },
+  {
+    "id": "WW-003",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "ladder",
+    "title": "Bug to Fix",
+    "prompt": "Transform BUG into BAG, then BIG, then FIX.",
+    "startWord": "BUG",
+    "targetWord": "BIG",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "BUG",
+      "BAG",
+      "BIG"
+    ],
+    "hints": [
+      "Change U to A first.",
+      "BUG -> BAG -> BIG."
+    ],
+    "explanation": "BUG -> BAG -> BIG."
+  },
+  {
+    "id": "WW-004",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "category",
+    "title": "Input Devices",
+    "prompt": "Select the 4 devices used for human computer input.",
+    "categories": [
+      {
+        "name": "Input Devices",
+        "items": [
+          "Mouse",
+          "Keyboard",
+          "Scanner",
+          "Microphone"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Mouse",
+      "Keyboard",
+      "Monitor",
+      "Projector",
+      "Microphone",
+      "Speaker",
+      "Printer",
+      "Scanner"
+    ],
+    "hints": [
+      "Devices that send data INTO the computer.",
+      "Things you type or click with."
+    ],
+    "explanation": "Mouse, Keyboard, Scanner, and Microphone feed user inputs to a computer.",
+    "decoys": [
+      "Monitor",
+      "Speaker",
+      "Printer",
+      "Projector"
+    ]
+  },
+  {
+    "id": "WW-005",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "ladder",
+    "title": "Web to Net",
+    "prompt": "Shift from WEB to NET in two rungs.",
+    "startWord": "WEB",
+    "targetWord": "NET",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "WEB",
+      "WET",
+      "NET"
+    ],
+    "hints": [
+      "Think of moisture for the middle step.",
+      "WEB -> WET -> NET."
+    ],
+    "explanation": "WEB -> WET -> NET."
+  },
+  {
+    "id": "WW-006",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "category",
+    "title": "Operating Systems",
+    "prompt": "Identify the 4 major Operating Systems.",
+    "categories": [
+      {
+        "name": "Operating Systems",
+        "items": [
+          "Linux",
+          "Windows",
+          "macOS",
+          "Android"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Photoshop",
+      "Android",
+      "Linux",
+      "Excel",
+      "Firefox",
+      "macOS",
+      "Windows",
+      "Spotify"
+    ],
+    "hints": [
+      "System software that manages computer hardware.",
+      "Open source penguins and phone platforms."
+    ],
+    "explanation": "Linux, Windows, macOS, and Android are primary operating systems.",
+    "decoys": [
+      "Firefox",
+      "Photoshop",
+      "Excel",
+      "Spotify"
+    ]
+  },
+  {
+    "id": "WW-007",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "ladder",
+    "title": "App to Apt",
+    "prompt": "Transform APP to OPT in two rungs.",
+    "startWord": "APP",
+    "targetWord": "OPT",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "APP",
+      "APT",
+      "OPT"
+    ],
+    "hints": [
+      "Apt means suitable or quick to learn.",
+      "APP -> APT -> OPT."
+    ],
+    "explanation": "APP -> APT -> OPT."
+  },
+  {
+    "id": "WW-008",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "category",
+    "title": "Programming Languages",
+    "prompt": "Select the 4 coding languages from the list.",
+    "categories": [
+      {
+        "name": "Programming Languages",
+        "items": [
+          "Python",
+          "Java",
+          "Rust",
+          "Kotlin"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Kubernetes",
+      "Nginx",
+      "Kotlin",
+      "Rust",
+      "Apache",
+      "Docker",
+      "Java",
+      "Python"
+    ],
+    "hints": [
+      "Languages used to write application logic.",
+      "Snakes, coffee, and oxidized iron."
+    ],
+    "explanation": "Python, Java, Rust, and Kotlin are general purpose programming languages.",
+    "decoys": [
+      "Docker",
+      "Nginx",
+      "Kubernetes",
+      "Apache"
+    ]
+  },
+  {
+    "id": "WW-009",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "ladder",
+    "title": "Run to Fun",
+    "prompt": "Transform RUN into FUN in two rungs.",
+    "startWord": "RUN",
+    "targetWord": "FUN",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "RUN",
+      "SUN",
+      "FUN"
+    ],
+    "hints": [
+      "Think of the star in our solar system.",
+      "RUN -> SUN -> FUN."
+    ],
+    "explanation": "RUN -> SUN -> FUN."
+  },
+  {
+    "id": "WW-010",
+    "gameId": "word-weave",
+    "difficulty": "easy",
+    "type": "category",
+    "title": "Web Frontend Trio",
+    "prompt": "Select the core frontend web technologies.",
+    "categories": [
+      {
+        "name": "Web Frontend Standards",
+        "items": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "DOM"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "HTML",
+      "Redis",
+      "CSS",
+      "PostgreSQL",
+      "DOM",
+      "JavaScript",
+      "MongoDB",
+      "MySQL"
+    ],
+    "hints": [
+      "The standards powering modern browser execution.",
+      "Structure, styling, scripting, and binary modules."
+    ],
+    "explanation": "HTML, CSS, JavaScript, and WebAssembly run natively inside web browsers.",
+    "decoys": [
+      "PostgreSQL",
+      "Redis",
+      "MySQL",
+      "MongoDB"
+    ]
+  },
+  {
+    "id": "WW-011",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "ladder",
+    "title": "Code to Mode",
+    "prompt": "Transform CODE into MODE in two rungs.",
+    "startWord": "CODE",
+    "targetWord": "MODE",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "CODE",
+      "NODE",
+      "MODE"
+    ],
+    "hints": [
+      "Think of a graph or linked list vertex.",
+      "CODE -> NODE -> MODE."
+    ],
+    "explanation": "CODE -> NODE (C to N) -> MODE (N to M)."
+  },
+  {
+    "id": "WW-012",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "category",
+    "title": "Network Protocols",
+    "prompt": "Select the 4 communication network protocols.",
+    "categories": [
+      {
+        "name": "Network Protocols",
+        "items": [
+          "HTTP",
+          "DNS",
+          "TCP",
+          "UDP"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "DNS",
+      "TCP",
+      "HTTP",
+      "PNG",
+      "WAV",
+      "UDP",
+      "MP3",
+      "JPEG"
+    ],
+    "hints": [
+      "Protocols used on the Internet to transfer files, resolve names, and secure shell.",
+      "Hypertext, secure shell, domain names, file transfer."
+    ],
+    "explanation": "HTTP, SSH, DNS, and FTP govern network communication layers.",
+    "decoys": [
+      "PNG",
+      "JPEG",
+      "MP3",
+      "WAV"
+    ]
+  },
+  {
+    "id": "WW-013",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "ladder",
+    "title": "Byte to Gate",
+    "prompt": "Transform BYTE to GATE in three rungs.",
+    "startWord": "BYTE",
+    "targetWord": "GATE",
+    "optimalSteps": 3,
+    "canonicalSolution": [
+      "BYTE",
+      "BITE",
+      "LATE",
+      "GATE"
+    ],
+    "hints": [
+      "First change Y to I, then B to L.",
+      "BYTE -> BITE -> LATE -> GATE."
+    ],
+    "explanation": "BYTE -> BITE -> LATE -> GATE."
+  },
+  {
+    "id": "WW-014",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "category",
+    "title": "Linear Data Structures",
+    "prompt": "Identify the 4 linear data structures.",
+    "categories": [
+      {
+        "name": "Linear Data Structures",
+        "items": [
+          "Array",
+          "Stack",
+          "Queue",
+          "LinkedList"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Stack",
+      "Array",
+      "Trie",
+      "BinaryTree",
+      "LinkedList",
+      "Graph",
+      "Heap",
+      "Queue"
+    ],
+    "hints": [
+      "Elements arranged sequentially.",
+      "Push, pop, enqueue, dequeue, indices."
+    ],
+    "explanation": "Array, LinkedList, Stack, and Queue arrange elements in sequential order.",
+    "decoys": [
+      "BinaryTree",
+      "Graph",
+      "Heap",
+      "Trie"
+    ]
+  },
+  {
+    "id": "WW-015",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "ladder",
+    "title": "Data to Date",
+    "prompt": "Transform DATA into RATE in two rungs.",
+    "startWord": "DATA",
+    "targetWord": "RATE",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "DATA",
+      "DATE",
+      "RATE"
+    ],
+    "hints": [
+      "Change the last A to E first.",
+      "DATA -> DATE -> RATE."
+    ],
+    "explanation": "DATA -> DATE -> RATE."
+  },
+  {
+    "id": "WW-016",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "category",
+    "title": "Database Management",
+    "prompt": "Select the 4 database management systems.",
+    "categories": [
+      {
+        "name": "Database Engines",
+        "items": [
+          "PostgreSQL",
+          "MongoDB",
+          "MySQL",
+          "Redis"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "React",
+      "PostgreSQL",
+      "Angular",
+      "Svelte",
+      "Vue",
+      "MySQL",
+      "MongoDB",
+      "Redis"
+    ],
+    "hints": [
+      "Systems used to store and query persistent data.",
+      "Relational elephants, document stores, in-memory caches."
+    ],
+    "explanation": "PostgreSQL, MongoDB, Redis, and SQLite are database systems.",
+    "decoys": [
+      "React",
+      "Angular",
+      "Vue",
+      "Svelte"
+    ]
+  },
+  {
+    "id": "WW-017",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "ladder",
+    "title": "Disk to Risk",
+    "prompt": "Transform DISK into RISK in one rung.",
+    "startWord": "DISK",
+    "targetWord": "RISK",
+    "optimalSteps": 1,
+    "canonicalSolution": [
+      "DISK",
+      "RISK"
+    ],
+    "hints": [
+      "Only one letter needs to change.",
+      "Change D to R."
+    ],
+    "explanation": "DISK -> RISK (replace D with R)."
+  },
+  {
+    "id": "WW-018",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "category",
+    "title": "Git Version Control",
+    "prompt": "Select the 4 standard Git commands.",
+    "categories": [
+      {
+        "name": "Git Version Control",
+        "items": [
+          "Commit",
+          "Rebase",
+          "Merge",
+          "Checkout"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Rebase",
+      "Commit",
+      "Checkout",
+      "Merge",
+      "Deploy",
+      "Format",
+      "Compile",
+      "Benchmark"
+    ],
+    "hints": [
+      "Commands used to save revisions, switch branches, and join trees.",
+      "Recording commits and branching operations."
+    ],
+    "explanation": "Commit, Checkout, Rebase, and Merge are foundational Git commands.",
+    "decoys": [
+      "Compile",
+      "Deploy",
+      "Format",
+      "Benchmark"
+    ]
+  },
+  {
+    "id": "WW-019",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "ladder",
+    "title": "Loop to Tool",
+    "prompt": "Transform LOOP into TOLL in three rungs.",
+    "startWord": "LOOP",
+    "targetWord": "TOLL",
+    "optimalSteps": 3,
+    "canonicalSolution": [
+      "LOOP",
+      "POOL",
+      "TOOL",
+      "TOLL"
+    ],
+    "hints": [
+      "Rearrange or transform letters: LOOP -> POOL -> TOOL -> TOLL.",
+      "Swimming place then carpenter instrument."
+    ],
+    "explanation": "LOOP -> POOL -> TOOL -> TOLL."
+  },
+  {
+    "id": "WW-020",
+    "gameId": "word-weave",
+    "difficulty": "medium",
+    "type": "category",
+    "title": "Cloud Providers",
+    "prompt": "Select the 4 major cloud hyperscalers / platforms.",
+    "categories": [
+      {
+        "name": "Cloud Infrastructure",
+        "items": [
+          "AWS",
+          "Azure",
+          "GoogleCloud",
+          "DigitalOcean"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Azure",
+      "Blender",
+      "AWS",
+      "GoogleCloud",
+      "Photoshop",
+      "DigitalOcean",
+      "Canva",
+      "Figma"
+    ],
+    "hints": [
+      "Infrastructure providers hosting modern cloud applications.",
+      "Amazon, Microsoft, Google, edge CDN."
+    ],
+    "explanation": "AWS, Azure, Google Cloud, and Cloudflare are prominent cloud computing providers.",
+    "decoys": [
+      "Figma",
+      "Canva",
+      "Photoshop",
+      "Blender"
+    ]
+  },
+  {
+    "id": "WW-021",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "ladder",
+    "title": "Stack to Track",
+    "prompt": "Transform STACK into TRACK in three rungs.",
+    "startWord": "STACK",
+    "targetWord": "TRACK",
+    "optimalSteps": 3,
+    "canonicalSolution": [
+      "STACK",
+      "STALK",
+      "STARK",
+      "TRACK"
+    ],
+    "hints": [
+      "Think of plants (stalk), then cold barrenness (stark).",
+      "STACK -> STALK -> STARK -> TRACK."
+    ],
+    "explanation": "STACK -> STALK -> STARK -> TRACK."
+  },
+  {
+    "id": "WW-022",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "category",
+    "title": "Cryptographic Primitives",
+    "prompt": "Select the 4 cryptographic algorithms or hash functions.",
+    "categories": [
+      {
+        "name": "Cryptographic Primitives",
+        "items": [
+          "SHA256",
+          "AES",
+          "RSA",
+          "ECC"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "SHA256",
+      "RSA",
+      "REST",
+      "AES",
+      "SOAP",
+      "gRPC",
+      "ECC",
+      "GraphQL"
+    ],
+    "hints": [
+      "Symmetric encryption, asymmetric keys, elliptic curves, cryptographic hashes.",
+      "Rijndael, Rivest-Shamir-Adleman, secure hash algorithm."
+    ],
+    "explanation": "AES-256, RSA, SHA-256, and ECDSA are cryptographic algorithms.",
+    "decoys": [
+      "REST",
+      "GraphQL",
+      "SOAP",
+      "gRPC"
+    ]
+  },
+  {
+    "id": "WW-023",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "ladder",
+    "title": "Parse to Purse",
+    "prompt": "Transform PARSE into PURSE in one rung.",
+    "startWord": "PARSE",
+    "targetWord": "PURSE",
+    "optimalSteps": 1,
+    "canonicalSolution": [
+      "PARSE",
+      "PURSE"
+    ],
+    "hints": [
+      "Change the vowel A.",
+      "Change A to U."
+    ],
+    "explanation": "PARSE -> PURSE (change A to U)."
+  },
+  {
+    "id": "WW-024",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "category",
+    "title": "Sorting Algorithms",
+    "prompt": "Select the 4 comparison sorting algorithms.",
+    "categories": [
+      {
+        "name": "Sorting Algorithms",
+        "items": [
+          "QuickSort",
+          "MergeSort",
+          "BubbleSort",
+          "HeapSort"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "BinarySearch",
+      "QuickSort",
+      "MergeSort",
+      "Kruskal",
+      "BubbleSort",
+      "AStar",
+      "HeapSort",
+      "Dijkstra"
+    ],
+    "hints": [
+      "Algorithms that sort items with O(n log n) average complexity.",
+      "Divide and conquer, binary heaps, hybrid Python sorter."
+    ],
+    "explanation": "Quicksort, Mergesort, Heapsort, and Timsort are standard sorting algorithms.",
+    "decoys": [
+      "BinarySearch",
+      "Dijkstra",
+      "AStar",
+      "Kruskal"
+    ]
+  },
+  {
+    "id": "WW-025",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "ladder",
+    "title": "Graph to Crash",
+    "prompt": "Transform GRAPH into CRASH in four rungs.",
+    "startWord": "GRAPH",
+    "targetWord": "CRASH",
+    "optimalSteps": 4,
+    "canonicalSolution": [
+      "GRAPH",
+      "GRASP",
+      "CRASP",
+      "CRASH"
+    ],
+    "hints": [
+      "First seize with hands (grasp), then crash.",
+      "GRAPH -> GRASP -> CRASH."
+    ],
+    "explanation": "GRAPH -> GRASP -> CRASH."
+  },
+  {
+    "id": "WW-026",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "category",
+    "title": "Design Patterns (Gang of Four)",
+    "prompt": "Select the 4 classic software design patterns.",
+    "categories": [
+      {
+        "name": "Design Patterns",
+        "items": [
+          "Singleton",
+          "Factory",
+          "Observer",
+          "Strategy"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Strategy",
+      "Singleton",
+      "Scrum",
+      "Kanban",
+      "Factory",
+      "Observer",
+      "Waterfall",
+      "Agile"
+    ],
+    "hints": [
+      "Creational, behavioral, and structural architectural patterns.",
+      "One instance, publish-subscribe, object instantiation."
+    ],
+    "explanation": "Singleton, Observer, Factory, and Decorator are canonical GoF design patterns.",
+    "decoys": [
+      "Waterfall",
+      "Agile",
+      "Scrum",
+      "Kanban"
+    ]
+  },
+  {
+    "id": "WW-027",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "ladder",
+    "title": "Fiber to Cyber",
+    "prompt": "Transform FIBER into CYBER in three rungs.",
+    "startWord": "FIBER",
+    "targetWord": "CYBER",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "FIBER",
+      "CABER",
+      "CYBER"
+    ],
+    "hints": [
+      "Change the first two letters sequentially.",
+      "FIBER -> CABER -> CYBER."
+    ],
+    "explanation": "FIBER -> CABER -> CYBER."
+  },
+  {
+    "id": "WW-028",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "category",
+    "title": "Compiler Pipeline Stages",
+    "prompt": "Select the 4 sequential stages of a compiler pipeline.",
+    "categories": [
+      {
+        "name": "Compiler Pipeline Stages",
+        "items": [
+          "Lexer",
+          "Parser",
+          "Optimizer",
+          "CodeGenerator"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "Firewall",
+      "Gateway",
+      "Optimizer",
+      "Router",
+      "LoadBalancer",
+      "Parser",
+      "Lexer",
+      "CodeGenerator"
+    ],
+    "hints": [
+      "From source tokens to AST to target machine code.",
+      "Tokenization, grammar trees, type checks, emitting binary."
+    ],
+    "explanation": "Lexing, Parsing, Semantic Analysis, and Code Generation form the compiler pipeline.",
+    "decoys": [
+      "Router",
+      "LoadBalancer",
+      "Firewall",
+      "Gateway"
+    ]
+  },
+  {
+    "id": "WW-029",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "ladder",
+    "title": "Cache to Catch",
+    "prompt": "Transform CACHE into CATCH in two rungs.",
+    "startWord": "CACHE",
+    "targetWord": "CATCH",
+    "optimalSteps": 2,
+    "canonicalSolution": [
+      "CACHE",
+      "CATCH"
+    ],
+    "hints": [
+      "Substitute the middle letters.",
+      "CACHE -> CATCH."
+    ],
+    "explanation": "CACHE -> CATCH."
+  },
+  {
+    "id": "WW-030",
+    "gameId": "word-weave",
+    "difficulty": "hard",
+    "type": "category",
+    "title": "Cybersecurity Attack Vectors",
+    "prompt": "Select the 4 common cyberattack vectors.",
+    "categories": [
+      {
+        "name": "Cybersecurity Attack Vectors",
+        "items": [
+          "Phishing",
+          "SQLInjection",
+          "XSS",
+          "BufferOverflow"
+        ]
+      }
+    ],
+    "allShuffledItems": [
+      "SQLInjection",
+      "TokenAuth",
+      "XSS",
+      "Encryption",
+      "Hashing",
+      "Firewall",
+      "BufferOverflow",
+      "Phishing"
+    ],
+    "hints": [
+      "Exploitations compromising application data, memory, or user credentials.",
+      "Malicious queries, injected scripts, memory corruption, social engineering."
+    ],
+    "explanation": "SQLi, XSS, Buffer Overflow, and Phishing are major cybersecurity threats.",
+    "decoys": [
+      "Encryption",
+      "Hashing",
+      "Firewall",
+      "TokenAuth"
+    ]
+  }
+]

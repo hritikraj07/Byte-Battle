@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #05050D;
+  --bg-2: #0D0D22;
+  --bg-elevated: #101023;
+  --fg: #E8E8FF;
+  --muted: #8A8AB8;
+  --line: #24244A;
+  --pink: #FF2E97;
+  --cyan: #00F0FF;
+  --yellow: #FFE45E;
+  --purple: #A855F7;
+  --pixel: var(--font-pixel), "Press Start 2P", ui-monospace, monospace;
+  --sans: var(--font-sans), "Space Grotesk", system-ui, -apple-system, sans-serif;
+
+  /* Backward compatibility */
+  --background: #05050D;
+  --surface: #0D0D22;
+  --foreground: #E8E8FF;
+  --secondary: #8A8AB8;
+  --lime: #00F0FF;
+  --coral: #FF2E97;
+  --border: #24244A;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  color: var(--fg);
+  background: radial-gradient(1200px 600px at 50% -10%, rgb(255 46 151 / 0.18), transparent 60%),
+              radial-gradient(900px 500px at 100% 100%, rgb(0 240 255 / 0.1), transparent 60%),
+              var(--bg);
+  font-family: var(--sans);
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+}
+
+/* Subtle retro arcade CRT scanlines overlay (pointer-events: none, non-blocking) */
+.scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+/* Marquee retro perspective neon grid floor */
+.arcade-perspective-grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55%;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--bg), transparent 80%),
+              repeating-linear-gradient(to right, rgb(255 46 151 / 0.35) 0 1px, transparent 1px 60px),
+              repeating-linear-gradient(to bottom, rgb(255 46 151 / 0.35) 0 1px, transparent 1px 30px);
+  transform: perspective(300px) rotateX(55deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(to top, black, transparent);
+}
+
+/* Retro Arcade Eyebrow Blink */
+.arcade-eyebrow {
+  font-family: var(--pixel);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  animation: arcade-blink 1.2s steps(1) infinite;
+}
+
+@keyframes arcade-blink {
+  50% { opacity: 0.25; }
+}
+
+/* Hard-edge 3D pixel heading text-shadows with cyan & hot-pink glow */
+.arcade-title-cyan {
+  font-family: var(--pixel);
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgb(0 240 255 / 0.8),
+               0 0 32px rgb(0 240 255 / 0.4),
+               4px 4px 0 var(--pink);
+}
+
+.arcade-title-pink {
+  font-family: var(--pixel);
+  color: var(--pink);
+  text-shadow: 0 0 8px rgb(255 46 151 / 0.8),
+               0 0 32px rgb(255 46 151 / 0.4),
+               4px 4px 0 var(--cyan);
+}
+
+/* Prominent Glowing Cyan Install Button */
+.arcade-install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: 1px solid var(--cyan);
+  border-radius: 999px;
+  background: rgba(0, 240, 255, 0.08);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 0 20px -6px var(--cyan);
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+
+.arcade-install-btn:hover,
+.arcade-install-btn:focus-visible {
+  background: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 28px -4px var(--cyan);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.arcade-install-btn .badge-offline {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* Category Filter Pills */
+.arcade-filter-pill {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.arcade-filter-pill:hover {
+  border-color: var(--cyan);
+  color: var(--fg);
+}
+
+.arcade-filter-pill[aria-pressed="true"],
+.arcade-filter-pill.active {
+  color: #05050D;
+  background: var(--cyan);
+  border-color: var(--cyan);
+  font-weight: 700;
+  box-shadow: 0 0 16px -4px var(--cyan);
+}
+
+/* Arcade Cabinet Cards */
+.arcade-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-2);
+  overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.arcade-card:hover,
+.arcade-card:focus-within {
+  transform: translateY(-4px);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 1px var(--cyan), 0 12px 40px -8px rgba(0, 240, 255, 0.45);
+}
+
+.arcade-card-art {
+  aspect-ratio: 16 / 9;
+  background: radial-gradient(circle at 50% 120%, rgba(0, 240, 255, 0.35), transparent 70%),
+              repeating-linear-gradient(90deg, rgba(0, 240, 255, 0.12) 0 2px, transparent 2px 24px),
+              #08081A;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05050D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #24244A;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00F0FF;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .arcade-eyebrow {
+    animation: none;
+  }
+  .arcade-card,
+  .arcade-install-btn {
+    transition: none;
+    transform: none !important;
+  }
+}

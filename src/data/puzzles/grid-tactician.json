@@ -1,0 +1,1738 @@
+[
+  {
+    "id": "GT-001",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Dual Rail Data Center",
+    "prompt": "Place Servers (S) and Firewalls (F) into the 4x4 matrix so that each row and column contains exactly 2 Servers and 2 Firewalls.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        null,
+        null
+      ],
+      [
+        "F",
+        "S",
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        "S",
+        "F"
+      ],
+      [
+        null,
+        null,
+        "F",
+        "S"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Exactly 2 Servers (S) per row and column.",
+      "Exactly 2 Firewalls (F) per row and column."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Rows and columns alternate between S and F.",
+      "Row 1 finishes with S, then F."
+    ],
+    "explanation": "Alternating S and F pattern satisfies the 2-S and 2-F balance across all rows and columns."
+  },
+  {
+    "id": "GT-002",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Symmetric Firewall Perimeter",
+    "prompt": "Fill the 4x4 grid with S and F such that Firewalls frame the outer corners and Servers balance the center.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "F",
+        null,
+        null,
+        "F"
+      ],
+      [
+        null,
+        "S",
+        "S",
+        null
+      ],
+      [
+        null,
+        "S",
+        "S",
+        null
+      ],
+      [
+        "F",
+        null,
+        null,
+        "F"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ],
+      [
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      [
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ]
+    ],
+    "constraints": [
+      "Four corners must be Firewalls (F).",
+      "All other 12 cells must be Servers (S)."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Only the four corners are Firewalls.",
+      "Place Servers in all empty spaces."
+    ],
+    "explanation": "Corners hold Firewalls; all remaining interior and edge positions hold Servers."
+  },
+  {
+    "id": "GT-003",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Checkerboard Subnet",
+    "prompt": "Complete the 4x4 checkerboard where no two adjacent horizontal or vertical cells share the same component.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        null,
+        "S",
+        null
+      ],
+      [
+        null,
+        "S",
+        null,
+        "S"
+      ],
+      [
+        "S",
+        null,
+        "S",
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "No two orthogonal neighbors may have the same component."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Every empty cell between two Servers must be a Firewall.",
+      "Row 4 starts with F."
+    ],
+    "explanation": "Classic alternating checkerboard topology."
+  },
+  {
+    "id": "GT-004",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Diagonal Bus Trunk",
+    "prompt": "Place Servers along the main diagonal; fill all remaining cells with Firewalls.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        "S",
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        "S",
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Main diagonal (top-left to bottom-right) contains Servers.",
+      "All other cells contain Firewalls."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Cell [4,4] completes the diagonal with S.",
+      "Fill all other cells with F."
+    ],
+    "explanation": "The identity matrix topology with Servers on diagonal."
+  },
+  {
+    "id": "GT-005",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Cross Cluster",
+    "prompt": "Form a plus-cross of Servers in columns 2 and 3; place Firewalls in outer columns 1 and 4.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        null,
+        null,
+        "F"
+      ],
+      [
+        "F",
+        null,
+        null,
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "S",
+        "F"
+      ]
+    ],
+    "constraints": [
+      "Outer columns are Firewalls.",
+      "Inner columns are Servers."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Fill the central columns with Servers.",
+      "All central cells are S."
+    ],
+    "explanation": "Inner server backbone shielded by outer firewall perimeter."
+  },
+  {
+    "id": "GT-006",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Stripe Pipeline",
+    "prompt": "Alternate horizontal stripes of Servers and Firewalls across the 4 rows.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      [
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      [
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "F"
+      ]
+    ],
+    "constraints": [
+      "Rows 1 and 3 are all Servers.",
+      "Rows 2 and 4 are all Firewalls."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Row 2 is entirely Firewalls.",
+      "Row 4 is entirely Firewalls."
+    ],
+    "explanation": "Horizontal striped infrastructure layers."
+  },
+  {
+    "id": "GT-007",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Four Quadrants",
+    "prompt": "Group components so Quadrant 1 & 4 are Servers, while Quadrant 2 & 3 are Firewalls.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "S",
+        "F",
+        "F"
+      ],
+      [
+        "S",
+        null,
+        "F",
+        null
+      ],
+      [
+        "F",
+        "F",
+        "S",
+        "S"
+      ],
+      [
+        "F",
+        null,
+        "S",
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "S",
+        "F",
+        "F"
+      ],
+      [
+        "S",
+        "S",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "S",
+        "S"
+      ],
+      [
+        "F",
+        "F",
+        "S",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Each 2x2 quadrant contains four identical components."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Top-left 2x2 is S.",
+      "Bottom-right 2x2 is S."
+    ],
+    "explanation": "2x2 block partitioned data layout."
+  },
+  {
+    "id": "GT-008",
+    "gameId": "grid-tactician",
+    "difficulty": "easy",
+    "title": "Inverted Diagonal",
+    "prompt": "Place Firewalls along the anti-diagonal; fill all other positions with Servers.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        null,
+        null,
+        null,
+        "F"
+      ],
+      [
+        null,
+        null,
+        "F",
+        null
+      ],
+      [
+        null,
+        "F",
+        null,
+        null
+      ],
+      [
+        "F",
+        null,
+        null,
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "S",
+        "S",
+        "F"
+      ],
+      [
+        "S",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "S"
+      ],
+      [
+        "F",
+        "S",
+        "S",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Anti-diagonal contains Firewalls.",
+      "Remaining 12 cells are Servers."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Only the anti-diagonal cells are F.",
+      "Place S in all empty cells."
+    ],
+    "explanation": "Anti-diagonal firewall security fence."
+  },
+  {
+    "id": "GT-009",
+    "gameId": "grid-tactician",
+    "difficulty": "medium",
+    "title": "Latin Square Routing",
+    "prompt": "Arrange S, F, R, and T (Terminal) so that each symbol appears exactly once per row and column.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        "R",
+        "T"
+      ],
+      [
+        "F",
+        "R",
+        "T",
+        null
+      ],
+      [
+        "R",
+        "T",
+        "S",
+        null
+      ],
+      [
+        "T",
+        "S",
+        null,
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "R",
+        "T"
+      ],
+      [
+        "F",
+        "R",
+        "T",
+        "S"
+      ],
+      [
+        "R",
+        "T",
+        "S",
+        "F"
+      ],
+      [
+        "T",
+        "S",
+        "F",
+        "R"
+      ]
+    ],
+    "constraints": [
+      "Each row contains exactly one S, F, R, and T.",
+      "Each column contains exactly one S, F, R, and T."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      },
+      {
+        "symbol": "T",
+        "label": "Terminal"
+      }
+    ],
+    "hints": [
+      "Row 2 ends with S.",
+      "Row 3 ends with F."
+    ],
+    "explanation": "Cyclic Latin square permutation."
+  },
+  {
+    "id": "GT-010",
+    "gameId": "grid-tactician",
+    "difficulty": "medium",
+    "title": "Central Router Ring",
+    "prompt": "Enclose four central Routers (R) inside an outer boundary of alternating Servers and Firewalls.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "R",
+        "S"
+      ],
+      [
+        "S",
+        null,
+        null,
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "R",
+        "S"
+      ],
+      [
+        "S",
+        "R",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "The 2x2 center must be Routers (R).",
+      "Outer perimeter alternates between S and F."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Place R in both empty center cells.",
+      "Row 3 cells 2 and 3 are R."
+    ],
+    "explanation": "Center high-throughput core routing hub."
+  },
+  {
+    "id": "GT-011",
+    "gameId": "grid-tactician",
+    "difficulty": "medium",
+    "title": "Tri-Mesh Backbone",
+    "prompt": "Complete the tri-mesh network ensuring no row has more than 2 Servers.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "R",
+        "S",
+        "F"
+      ],
+      [
+        "R",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        null
+      ],
+      [
+        "F",
+        "S",
+        null,
+        "S"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "R",
+        "S",
+        "F"
+      ],
+      [
+        "R",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "R"
+      ],
+      [
+        "F",
+        "S",
+        "R",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Exactly 2 Servers per row.",
+      "Row 3 ends with R; Row 4 has R at index 3."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Row 3 column 4 is R.",
+      "Row 4 column 3 is R."
+    ],
+    "explanation": "Balanced multi-tier mesh distribution."
+  },
+  {
+    "id": "GT-012",
+    "gameId": "grid-tactician",
+    "difficulty": "medium",
+    "title": "Shielded Routers",
+    "prompt": "Ensure every Router (R) is orthogonally surrounded by Firewalls (F).",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "F",
+        "S"
+      ],
+      [
+        "S",
+        "F",
+        "R",
+        null
+      ],
+      [
+        "F",
+        "S",
+        null,
+        "S"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "F",
+        "S"
+      ],
+      [
+        "S",
+        "F",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Every Router must touch Firewalls north, south, east, and west."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Row 3 column 4 must be F to protect Router.",
+      "Row 4 column 3 must be F."
+    ],
+    "explanation": "Orthogonal firewall encapsulation."
+  },
+  {
+    "id": "GT-013",
+    "gameId": "grid-tactician",
+    "difficulty": "medium",
+    "title": "Column Load Balancing",
+    "prompt": "Distribute 4 Servers, 4 Firewalls, and 8 Routers so each column has 1 S, 1 F, and 2 R.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        "R",
+        "R"
+      ],
+      [
+        "R",
+        "S",
+        "F",
+        "R"
+      ],
+      [
+        "R",
+        "R",
+        "S",
+        null
+      ],
+      [
+        "F",
+        "R",
+        null,
+        "S"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "R",
+        "R"
+      ],
+      [
+        "R",
+        "S",
+        "F",
+        "R"
+      ],
+      [
+        "R",
+        "R",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "R",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Each column contains exactly one S and one F."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Column 4 needs a Firewall.",
+      "Row 3 ends with F."
+    ],
+    "explanation": "Balanced load matrix distribution."
+  },
+  {
+    "id": "GT-014",
+    "gameId": "grid-tactician",
+    "difficulty": "medium",
+    "title": "Perimeter Firewall Loop",
+    "prompt": "Surround the internal 2x2 grid with Firewalls; place 2 Servers and 2 Routers in center.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "F",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        null,
+        null,
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "F"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "F",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "S",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "S",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "F"
+      ]
+    ],
+    "constraints": [
+      "All outer perimeter cells must be Firewalls (F).",
+      "Inner 2x2 contains two S and two R."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Row 3 contains R at col 2 and S at col 3.",
+      "Invert the row 2 order."
+    ],
+    "explanation": "Hardened boundary defense zone."
+  },
+  {
+    "id": "GT-015",
+    "gameId": "grid-tactician",
+    "difficulty": "medium",
+    "title": "Diagonal Router Channel",
+    "prompt": "Run Routers diagonally from bottom-left to top-right with balanced S and F on sides.",
+    "gridSize": 4,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        "S",
+        "R"
+      ],
+      [
+        "F",
+        "S",
+        "R",
+        "F"
+      ],
+      [
+        "S",
+        "R",
+        "F",
+        null
+      ],
+      [
+        "R",
+        "F",
+        null,
+        "S"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "S",
+        "R"
+      ],
+      [
+        "F",
+        "S",
+        "R",
+        "F"
+      ],
+      [
+        "S",
+        "R",
+        "F",
+        "S"
+      ],
+      [
+        "R",
+        "F",
+        "S",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "Anti-diagonal is filled with Routers (R).",
+      "Remaining cells are balanced."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Row 3 column 4 is S.",
+      "Row 4 column 3 is S."
+    ],
+    "explanation": "High speed optical bypass bus."
+  },
+  {
+    "id": "GT-016",
+    "gameId": "grid-tactician",
+    "difficulty": "hard",
+    "title": "5x5 Latin Cluster",
+    "prompt": "Place S, F, R, T (Terminal), and G (Gateway) across a 5x5 grid with no duplicates per row or column.",
+    "gridSize": 5,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        "R",
+        "T",
+        "G"
+      ],
+      [
+        "F",
+        "R",
+        "T",
+        "G",
+        null
+      ],
+      [
+        "R",
+        "T",
+        "G",
+        "S",
+        null
+      ],
+      [
+        "T",
+        "G",
+        "S",
+        "F",
+        null
+      ],
+      [
+        "G",
+        "S",
+        "F",
+        null,
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "R",
+        "T",
+        "G"
+      ],
+      [
+        "F",
+        "R",
+        "T",
+        "G",
+        "S"
+      ],
+      [
+        "R",
+        "T",
+        "G",
+        "S",
+        "F"
+      ],
+      [
+        "T",
+        "G",
+        "S",
+        "F",
+        "R"
+      ],
+      [
+        "G",
+        "S",
+        "F",
+        "R",
+        "T"
+      ]
+    ],
+    "constraints": [
+      "No symbol may repeat in any row.",
+      "No symbol may repeat in any column."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      },
+      {
+        "symbol": "T",
+        "label": "Terminal"
+      },
+      {
+        "symbol": "G",
+        "label": "Gateway"
+      }
+    ],
+    "hints": [
+      "Row 2 ends with S.",
+      "Row 3 ends with F, Row 4 ends with R, Row 5 ends with T."
+    ],
+    "explanation": "5-element cyclic shift Latin square."
+  },
+  {
+    "id": "GT-017",
+    "gameId": "grid-tactician",
+    "difficulty": "hard",
+    "title": "5x5 Concentric Rings",
+    "prompt": "Outer ring of Firewalls, middle ring of Routers, and central Server core in a 5x5 grid.",
+    "gridSize": 5,
+    "initialGrid": [
+      [
+        "F",
+        "F",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "R",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        null,
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "R",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "F",
+        "F"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "F",
+        "F",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "R",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "S",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "R",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "F",
+        "F"
+      ]
+    ],
+    "constraints": [
+      "Outer ring: Firewalls (F).",
+      "Middle ring: Routers (R).",
+      "Center cell: Server (S)."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Place Server in the exact center cell [3,3].",
+      "Center is S."
+    ],
+    "explanation": "Concentric defense-in-depth layout."
+  },
+  {
+    "id": "GT-018",
+    "gameId": "grid-tactician",
+    "difficulty": "hard",
+    "title": "5x5 Checkerboard Array",
+    "prompt": "Fill the 5x5 grid with alternating Servers (S) and Firewalls (F) starting with S at [1,1].",
+    "gridSize": 5,
+    "initialGrid": [
+      [
+        "S",
+        "F",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "F",
+        null,
+        null,
+        null,
+        "F"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "F",
+        "S"
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "F",
+        "S"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "S",
+        "F"
+      ],
+      [
+        "S",
+        "F",
+        "S",
+        "F",
+        "S"
+      ]
+    ],
+    "constraints": [
+      "No orthogonal neighbors may be identical.",
+      "Row 4 completes the pattern."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "Row 4 alternates: F, S, F, S, F.",
+      "Center of row 4 is F."
+    ],
+    "explanation": "Odd dimension checkerboard distribution."
+  },
+  {
+    "id": "GT-019",
+    "gameId": "grid-tactician",
+    "difficulty": "hard",
+    "title": "5-Queens Non-Attacking Servers",
+    "prompt": "Place exactly 5 Servers on the 5x5 grid so that no two Servers share a row, column, or diagonal.",
+    "gridSize": 5,
+    "initialGrid": [
+      [
+        "S",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        "S",
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        "S"
+      ],
+      [
+        null,
+        "S",
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "S",
+        "F",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "S",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "F",
+        "S"
+      ],
+      [
+        "F",
+        "S",
+        "F",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "F",
+        "S",
+        "F"
+      ]
+    ],
+    "constraints": [
+      "Exactly 5 Servers.",
+      "No two Servers share the same row, column, or diagonal.",
+      "Fill all other cells with Firewalls (F)."
+    ],
+    "palette": [
+      {
+        "symbol": "S",
+        "label": "Server"
+      },
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      }
+    ],
+    "hints": [
+      "The 5th Server goes in row 5 column 4.",
+      "Cell [5,4] is S, all others are F."
+    ],
+    "explanation": "Mathematical solution to the 5-Queens non-interference problem."
+  },
+  {
+    "id": "GT-020",
+    "gameId": "grid-tactician",
+    "difficulty": "hard",
+    "title": "5x5 X-Network Cross",
+    "prompt": "Create an X cross of Routers along both diagonals with Firewalls in all other cells.",
+    "gridSize": 5,
+    "initialGrid": [
+      [
+        "R",
+        "F",
+        "F",
+        "F",
+        "R"
+      ],
+      [
+        "F",
+        "R",
+        "F",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "R",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        null,
+        "F",
+        null,
+        "F"
+      ],
+      [
+        null,
+        "F",
+        "F",
+        "F",
+        null
+      ]
+    ],
+    "canonicalSolution": [
+      [
+        "R",
+        "F",
+        "F",
+        "F",
+        "R"
+      ],
+      [
+        "F",
+        "R",
+        "F",
+        "R",
+        "F"
+      ],
+      [
+        "F",
+        "F",
+        "R",
+        "F",
+        "F"
+      ],
+      [
+        "F",
+        "R",
+        "F",
+        "R",
+        "F"
+      ],
+      [
+        "R",
+        "F",
+        "F",
+        "F",
+        "R"
+      ]
+    ],
+    "constraints": [
+      "Both main diagonals must be Routers (R).",
+      "All other cells must be Firewalls (F)."
+    ],
+    "palette": [
+      {
+        "symbol": "F",
+        "label": "Firewall"
+      },
+      {
+        "symbol": "R",
+        "label": "Router"
+      }
+    ],
+    "hints": [
+      "Row 4 contains R at index 2 and index 4.",
+      "Row 5 contains R at index 1 and index 5."
+    ],
+    "explanation": "Symmetric dual-diagonal cross router backbone."
+  }
+]

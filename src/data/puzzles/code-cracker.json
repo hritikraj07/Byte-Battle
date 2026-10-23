@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "CC-001",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Vault Lock Alpha",
+    "prompt": "Deduce the 3-digit secret passcode using the clue logs.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "426",
+    "clues": [
+      {
+        "guess": "123",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit is correct and in the right position."
+      },
+      {
+        "guess": "456",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits are correct and in the right position."
+      },
+      {
+        "guess": "612",
+        "bulls": 0,
+        "cows": 2,
+        "description": "Two digits are correct but in the wrong position."
+      }
+    ],
+    "hints": [
+      "The digit 2 is in the middle position.",
+      "The code starts with 4."
+    ],
+    "explanation": "From clues: 4 is in position 1, 2 is in position 2, and 6 is in position 3 -> 426."
+  },
+  {
+    "id": "CC-002",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Cipher Key Bravo",
+    "prompt": "Break the 3-digit access hash.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "315",
+    "clues": [
+      {
+        "guess": "382",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct and well-placed."
+      },
+      {
+        "guess": "135",
+        "bulls": 1,
+        "cows": 2,
+        "description": "All digits correct, two in wrong places."
+      },
+      {
+        "guess": "416",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct and well-placed."
+      }
+    ],
+    "hints": [
+      "The digits are 3, 1, and 5.",
+      "3 is the first digit."
+    ],
+    "explanation": "From clues: 3 is 1st, 1 is 2nd, 5 is 3rd -> 315."
+  },
+  {
+    "id": "CC-003",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Subroutine Pin",
+    "prompt": "Determine the 3-digit system pin.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "241",
+    "clues": [
+      {
+        "guess": "205",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "421",
+        "bulls": 1,
+        "cows": 2,
+        "description": "All digits correct, two misplaced."
+      },
+      {
+        "guess": "749",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      }
+    ],
+    "hints": [
+      "The middle digit is 4.",
+      "The code starts with 2."
+    ],
+    "explanation": "From clues: 2 is 1st, 4 is 2nd, 1 is 3rd -> 241."
+  },
+  {
+    "id": "CC-004",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Kernel Password",
+    "prompt": "Decode the 3-digit kernel pin.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "562",
+    "clues": [
+      {
+        "guess": "519",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct and well placed."
+      },
+      {
+        "guess": "256",
+        "bulls": 0,
+        "cows": 3,
+        "description": "Three digits correct but all misplaced."
+      },
+      {
+        "guess": "863",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct and well placed."
+      }
+    ],
+    "hints": [
+      "The code begins with 5.",
+      "6 is in the middle."
+    ],
+    "explanation": "From clues: 5 is 1st, 6 is 2nd, 2 is 3rd -> 562."
+  },
+  {
+    "id": "CC-005",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Firewall Bypass",
+    "prompt": "Deduce the 3-digit firewall pin.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "153",
+    "clues": [
+      {
+        "guess": "148",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "513",
+        "bulls": 1,
+        "cows": 2,
+        "description": "Three digits correct, two misplaced."
+      },
+      {
+        "guess": "257",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      }
+    ],
+    "hints": [
+      "The last digit is 3.",
+      "5 is the middle digit."
+    ],
+    "explanation": "1 in position 1, 5 in position 2, 3 in position 3 -> 153."
+  },
+  {
+    "id": "CC-006",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Node Address",
+    "prompt": "Find the 3-digit node address.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "634",
+    "clues": [
+      {
+        "guess": "601",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "463",
+        "bulls": 0,
+        "cows": 3,
+        "description": "Three digits correct, all misplaced."
+      },
+      {
+        "guess": "932",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      }
+    ],
+    "hints": [
+      "The code starts with 6.",
+      "3 is in the middle."
+    ],
+    "explanation": "6 is 1st, 3 is 2nd, 4 is 3rd -> 634."
+  },
+  {
+    "id": "CC-007",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Sensor Beacon",
+    "prompt": "Solve the 3-digit beacon identifier.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "265",
+    "clues": [
+      {
+        "guess": "281",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "652",
+        "bulls": 0,
+        "cows": 3,
+        "description": "Three digits correct, all misplaced."
+      },
+      {
+        "guess": "460",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      }
+    ],
+    "hints": [
+      "The code begins with 2.",
+      "6 is the middle digit."
+    ],
+    "explanation": "2 is 1st, 6 is 2nd, 5 is 3rd -> 265."
+  },
+  {
+    "id": "CC-008",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Router Hash",
+    "prompt": "Determine the 3-digit router code.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "342",
+    "clues": [
+      {
+        "guess": "391",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "234",
+        "bulls": 0,
+        "cows": 3,
+        "description": "Three digits correct, all misplaced."
+      },
+      {
+        "guess": "748",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      }
+    ],
+    "hints": [
+      "The code starts with 3.",
+      "4 is in the middle."
+    ],
+    "explanation": "3 is 1st, 4 is 2nd, 2 is 3rd -> 342."
+  },
+  {
+    "id": "CC-009",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "Console Token",
+    "prompt": "Crack the 3-digit console token.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "524",
+    "clues": [
+      {
+        "guess": "571",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "452",
+        "bulls": 0,
+        "cows": 3,
+        "description": "Three digits correct, all misplaced."
+      },
+      {
+        "guess": "829",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      }
+    ],
+    "hints": [
+      "The code starts with 5.",
+      "2 is in the middle."
+    ],
+    "explanation": "5 is 1st, 2 is 2nd, 4 is 3rd -> 524."
+  },
+  {
+    "id": "CC-010",
+    "gameId": "code-cracker",
+    "difficulty": "easy",
+    "title": "RAM Sector Key",
+    "prompt": "Solve the 3-digit memory key.",
+    "codeLength": 3,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "canonicalSolution": "164",
+    "clues": [
+      {
+        "guess": "102",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "416",
+        "bulls": 0,
+        "cows": 3,
+        "description": "Three digits correct, all misplaced."
+      },
+      {
+        "guess": "768",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      }
+    ],
+    "hints": [
+      "The code begins with 1.",
+      "6 is in the middle."
+    ],
+    "explanation": "1 is 1st, 6 is 2nd, 4 is 3rd -> 164."
+  },
+  {
+    "id": "CC-011",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Data Highway Pass",
+    "prompt": "Decode the 4-digit communication code.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "2841",
+    "clues": [
+      {
+        "guess": "2390",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "1482",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but all in wrong positions."
+      },
+      {
+        "guess": "7845",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right positions."
+      }
+    ],
+    "hints": [
+      "2 is the first digit.",
+      "8 and 4 are in positions 2 and 3."
+    ],
+    "explanation": "2 is 1st, 8 is 2nd, 4 is 3rd, 1 is 4th -> 2841."
+  },
+  {
+    "id": "CC-012",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Gateway Sequence",
+    "prompt": "Crack the 4-digit gateway code.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "3715",
+    "clues": [
+      {
+        "guess": "3029",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "5173",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "4718",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right positions."
+      }
+    ],
+    "hints": [
+      "3 is in position 1.",
+      "7 and 1 are in positions 2 and 3."
+    ],
+    "explanation": "3 is 1st, 7 is 2nd, 1 is 3rd, 5 is 4th -> 3715."
+  },
+  {
+    "id": "CC-013",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Quantum Hash",
+    "prompt": "Deduce the 4-digit quantum encryption key.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "5264",
+    "clues": [
+      {
+        "guess": "5190",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "4625",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "8263",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "The first digit is 5.",
+      "6 is in position 3."
+    ],
+    "explanation": "5 is 1st, 2 is 2nd, 6 is 3rd, 4 is 4th -> 5264."
+  },
+  {
+    "id": "CC-014",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Server Pin Beta",
+    "prompt": "Find the 4-digit server access pin.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "6183",
+    "clues": [
+      {
+        "guess": "6092",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "3816",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "4185",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "The code begins with 6.",
+      "1 and 8 are in the middle."
+    ],
+    "explanation": "6 is 1st, 1 is 2nd, 8 is 3rd, 3 is 4th -> 6183."
+  },
+  {
+    "id": "CC-015",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Encryption Token",
+    "prompt": "Decode the 4-digit session token.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "1742",
+    "clues": [
+      {
+        "guess": "1098",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "2471",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "5743",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "The first digit is 1.",
+      "7 and 4 are in the middle."
+    ],
+    "explanation": "1 is 1st, 7 is 2nd, 4 is 3rd, 2 is 4th -> 1742."
+  },
+  {
+    "id": "CC-016",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Database Guard",
+    "prompt": "Crack the 4-digit database guard key.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "4351",
+    "clues": [
+      {
+        "guess": "4098",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "1534",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "6357",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "The code begins with 4.",
+      "3 and 5 are in the middle."
+    ],
+    "explanation": "4 is 1st, 3 is 2nd, 5 is 3rd, 1 is 4th -> 4351."
+  },
+  {
+    "id": "CC-017",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Packet Header Passcode",
+    "prompt": "Find the 4-digit packet header code.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "7261",
+    "clues": [
+      {
+        "guess": "7098",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "1627",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "4265",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "The first digit is 7.",
+      "2 and 6 are in the middle."
+    ],
+    "explanation": "7 is 1st, 2 is 2nd, 6 is 3rd, 1 is 4th -> 7261."
+  },
+  {
+    "id": "CC-018",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Bus Arbiter Key",
+    "prompt": "Deduce the 4-digit bus arbiter key.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "8416",
+    "clues": [
+      {
+        "guess": "8092",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "6148",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "5417",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "8 is the first digit.",
+      "4 and 1 are in positions 2 and 3."
+    ],
+    "explanation": "8 is 1st, 4 is 2nd, 1 is 3rd, 6 is 4th -> 8416."
+  },
+  {
+    "id": "CC-019",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Virtual Circuit PIN",
+    "prompt": "Crack the 4-digit virtual circuit pin.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "3528",
+    "clues": [
+      {
+        "guess": "3091",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "8253",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "4527",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "3 is the first digit.",
+      "5 and 2 are in positions 2 and 3."
+    ],
+    "explanation": "3 is 1st, 5 is 2nd, 2 is 3rd, 8 is 4th -> 3528."
+  },
+  {
+    "id": "CC-020",
+    "gameId": "code-cracker",
+    "difficulty": "medium",
+    "title": "Stack Pointer Lock",
+    "prompt": "Determine the 4-digit stack pointer lock.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "canonicalSolution": "6741",
+    "clues": [
+      {
+        "guess": "6098",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "1476",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All digits correct but misplaced."
+      },
+      {
+        "guess": "2745",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      }
+    ],
+    "hints": [
+      "6 is in position 1.",
+      "7 and 4 are in positions 2 and 3."
+    ],
+    "explanation": "6 is 1st, 7 is 2nd, 4 is 3rd, 1 is 4th -> 6741."
+  },
+  {
+    "id": "CC-021",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Root Privilege Code",
+    "prompt": "Crack the 4-digit root password using multi-constraint clues.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "9147",
+    "clues": [
+      {
+        "guess": "9285",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct and well-placed."
+      },
+      {
+        "guess": "7419",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but all in wrong positions."
+      },
+      {
+        "guess": "6140",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right positions."
+      },
+      {
+        "guess": "3802",
+        "bulls": 0,
+        "cows": 0,
+        "description": "No digits in this guess exist in the code."
+      }
+    ],
+    "hints": [
+      "9 is the first digit.",
+      "1 and 4 occupy positions 2 and 3."
+    ],
+    "explanation": "9 is 1st, 1 is 2nd, 4 is 3rd, 7 is 4th -> 9147."
+  },
+  {
+    "id": "CC-022",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Hypervisor Key",
+    "prompt": "Deduce the 4-digit hypervisor unlock code.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "8305",
+    "clues": [
+      {
+        "guess": "8761",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "5038",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "2309",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "4716",
+        "bulls": 0,
+        "cows": 0,
+        "description": "No digits exist in the code."
+      }
+    ],
+    "hints": [
+      "8 is the first digit.",
+      "3 and 0 are in positions 2 and 3."
+    ],
+    "explanation": "8 is 1st, 3 is 2nd, 0 is 3rd, 5 is 4th -> 8305."
+  },
+  {
+    "id": "CC-023",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Mainframe Master",
+    "prompt": "Decode the 4-digit mainframe master sequence.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "4692",
+    "clues": [
+      {
+        "guess": "4185",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "2964",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "7690",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "3185",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "4 is the first digit.",
+      "6 and 9 are in positions 2 and 3."
+    ],
+    "explanation": "4 is 1st, 6 is 2nd, 9 is 3rd, 2 is 4th -> 4692."
+  },
+  {
+    "id": "CC-024",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Zero Day Vault",
+    "prompt": "Break the 4-digit zero day quarantine code.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "5083",
+    "clues": [
+      {
+        "guess": "5271",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "3805",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "9084",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "7216",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "5 is the first digit.",
+      "0 and 8 are in the middle."
+    ],
+    "explanation": "5 is 1st, 0 is 2nd, 8 is 3rd, 3 is 4th -> 5083."
+  },
+  {
+    "id": "CC-025",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Kernel Entropy Seed",
+    "prompt": "Deduce the 4-digit entropy seed.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "7359",
+    "clues": [
+      {
+        "guess": "7142",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "9537",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "8350",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "2146",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "7 is the first digit.",
+      "3 and 5 are in the middle."
+    ],
+    "explanation": "7 is 1st, 3 is 2nd, 5 is 3rd, 9 is 4th -> 7359."
+  },
+  {
+    "id": "CC-026",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Optical Switch PIN",
+    "prompt": "Deduce the 4-digit optical switch key.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "2916",
+    "clues": [
+      {
+        "guess": "2840",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "6192",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "7915",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "3840",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "2 is the first digit.",
+      "9 and 1 are in the middle."
+    ],
+    "explanation": "2 is 1st, 9 is 2nd, 1 is 3rd, 6 is 4th -> 2916."
+  },
+  {
+    "id": "CC-027",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Cipher Matrix Genesis",
+    "prompt": "Decode the 4-digit cipher genesis token.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "3847",
+    "clues": [
+      {
+        "guess": "3029",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "7483",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "5841",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "0269",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "3 is the first digit.",
+      "8 and 4 are in the middle."
+    ],
+    "explanation": "3 is 1st, 8 is 2nd, 4 is 3rd, 7 is 4th -> 3847."
+  },
+  {
+    "id": "CC-028",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Shadow Protocol Core",
+    "prompt": "Crack the 4-digit shadow protocol key.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "6204",
+    "clues": [
+      {
+        "guess": "6791",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "4026",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "8205",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "7915",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "6 is the first digit.",
+      "2 and 0 are in the middle."
+    ],
+    "explanation": "6 is 1st, 2 is 2nd, 0 is 3rd, 4 is 4th -> 6204."
+  },
+  {
+    "id": "CC-029",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Quantum Gate Lock",
+    "prompt": "Solve the 4-digit quantum gate lock.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "1570",
+    "clues": [
+      {
+        "guess": "1692",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "0751",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "3578",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "6928",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "1 is the first digit.",
+      "5 and 7 are in the middle."
+    ],
+    "explanation": "1 is 1st, 5 is 2nd, 7 is 3rd, 0 is 4th -> 1570."
+  },
+  {
+    "id": "CC-030",
+    "gameId": "code-cracker",
+    "difficulty": "hard",
+    "title": "Universal Terminal Master",
+    "prompt": "Break the 4-digit universal terminal master code.",
+    "codeLength": 4,
+    "allowedDigits": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "canonicalSolution": "4839",
+    "clues": [
+      {
+        "guess": "4170",
+        "bulls": 1,
+        "cows": 0,
+        "description": "One digit correct in right place."
+      },
+      {
+        "guess": "9384",
+        "bulls": 0,
+        "cows": 4,
+        "description": "All four digits correct but misplaced."
+      },
+      {
+        "guess": "2836",
+        "bulls": 2,
+        "cows": 0,
+        "description": "Two digits correct in right place."
+      },
+      {
+        "guess": "1706",
+        "bulls": 0,
+        "cows": 0,
+        "description": "None of these digits exist."
+      }
+    ],
+    "hints": [
+      "4 is the first digit.",
+      "8 and 3 are in the middle."
+    ],
+    "explanation": "4 is 1st, 8 is 2nd, 3 is 3rd, 9 is 4th -> 4839."
+  }
+]
