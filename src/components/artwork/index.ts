@@ -9,3 +9,4 @@ export { StackSprintArtwork } from './StackSprintArtwork';
 export { NumberBlitzArtwork } from './NumberBlitzArtwork';
 export { MazeRunnerArtwork } from './MazeRunnerArtwork';
 export { PixelInvadersArtwork } from './PixelInvadersArtwork';
+export { Game2048Artwork } from './Game2048Artwork';

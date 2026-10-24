@@ -496,7 +496,7 @@ export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
       const p = engineRef.current.player;
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') p.movingLeft = true;
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') p.movingRight = true;
-      if (e.code === 'Space') {
+      if (e.code === 'Space' || e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
         e.preventDefault();
         firePlayerLaser();
       }
@@ -514,6 +514,26 @@ export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, [firePlayerLaser]);
+
+  // Pointer / Mouse Movement & Firing on Canvas
+  const handleCanvasPointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (gameState !== 'playing') return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clientX = e.clientX - rect.left;
+    const p = engineRef.current.player;
+    const w = engineRef.current.width || window.innerWidth;
+    p.x = Math.max(p.width / 2, Math.min(w - p.width / 2, clientX));
+  };
+
+  const handleCanvasPointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (gameState !== 'playing') return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clientX = e.clientX - rect.left;
+    const p = engineRef.current.player;
+    const w = engineRef.current.width || window.innerWidth;
+    p.x = Math.max(p.width / 2, Math.min(w - p.width / 2, clientX));
+    firePlayerLaser();
+  };
 
   const handleExitGame = () => {
     if (engineRef.current.animId) cancelAnimationFrame(engineRef.current.animId);
@@ -592,7 +612,12 @@ export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
 
       {/* FULL-VIEWPORT CANVAS PLAYFIELD */}
       <div className="flex-1 w-full h-full relative">
-        <canvas ref={canvasRef} className="w-full h-full block" />
+        <canvas
+          ref={canvasRef}
+          onPointerMove={handleCanvasPointerMove}
+          onPointerDown={handleCanvasPointerDown}
+          className="w-full h-full block cursor-crosshair touch-none"
+        />
 
         {/* Start Overlay */}
         {gameState === 'menu' && (

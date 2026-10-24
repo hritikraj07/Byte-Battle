@@ -10,6 +10,7 @@ export type GameId =
   | 'number-blitz'
   | 'maze-runner'
   | 'pixel-invaders'
+  | 'game-2048'
   // Legacy identifiers retained for data compatibility
   | 'code-cracker'
   | 'grid-tactician'

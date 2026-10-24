@@ -1,4 +1,4 @@
-const CACHE_NAME = 'byte-battle-v1.0.0';
+const CACHE_NAME = 'afterhours-v1.0.0';
 const STATIC_ASSETS = [
   '/',
   '/manifest.webmanifest',

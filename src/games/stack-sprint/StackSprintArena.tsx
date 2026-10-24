@@ -88,8 +88,8 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
     loadBest();
   }, [participantId]);
 
-  // Difficulty settings
-  const baseSpeed = difficulty === 'hard' ? 5.5 : difficulty === 'medium' ? 4.2 : 3.2;
+  // Difficulty settings - significantly increased speeds
+  const baseSpeed = difficulty === 'hard' ? 10.5 : difficulty === 'medium' ? 7.8 : 5.6;
   const initialWidth = difficulty === 'hard' ? 160 : difficulty === 'medium' ? 200 : 240;
   const tolerance = difficulty === 'hard' ? 3 : difficulty === 'medium' ? 5 : 8; // Pixels considered "Perfect!"
 
@@ -254,9 +254,11 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
       e.targetCameraY += current.height;
     }
 
-    // Spawn next block
+    // Spawn next block with dynamic arcade acceleration
     const nextColorIdx = e.placedBlocks.length % BLOCK_COLORS.length;
-    const nextSpeed = Math.min(baseSpeed + newHeight * 0.12, 10.5);
+    const accelRate = difficulty === 'hard' ? 0.35 : difficulty === 'medium' ? 0.28 : 0.22;
+    const maxSpeedCap = difficulty === 'hard' ? 20.0 : difficulty === 'medium' ? 16.5 : 13.0;
+    const nextSpeed = Math.min(baseSpeed + newHeight * accelRate, maxSpeedCap);
 
     e.currentBlock = {
       x: Math.random() < 0.5 ? -newWidth : e.width,

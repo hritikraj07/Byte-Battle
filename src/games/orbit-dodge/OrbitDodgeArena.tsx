@@ -223,16 +223,20 @@ export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
       if (e.keys.up) moveY -= 1;
       if (e.keys.down) moveY += 1;
 
-      // Touch drag / pointer input
+      // Touch / pointer tracking (smooth follow without requiring click-and-hold or stopping near cursor)
       if (e.touchTarget) {
         const dx = e.touchTarget.x - e.player.x;
         const dy = e.touchTarget.y - e.player.y;
         const dist = Math.hypot(dx, dy);
-        if (dist > 8) {
-          moveX = dx / dist;
-          moveY = dy / dist;
-        } else {
-          e.touchTarget = null;
+        if (dist > 2) {
+          const maxStep = e.player.speed * step;
+          if (dist <= maxStep) {
+            e.player.x = e.touchTarget.x;
+            e.player.y = e.touchTarget.y;
+          } else {
+            moveX = dx / dist;
+            moveY = dy / dist;
+          }
         }
       }
 
@@ -475,7 +479,7 @@ export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (gameState !== 'playing' || !engineRef.current.touchTarget) return;
+    if (gameState !== 'playing') return;
     const rect = e.currentTarget.getBoundingClientRect();
     engineRef.current.touchTarget = {
       x: e.clientX - rect.left,
@@ -484,7 +488,7 @@ export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
   };
 
   const handlePointerUp = () => {
-    engineRef.current.touchTarget = null;
+    // Keep target or let keyboard resume
   };
 
   const handleExitGame = () => {

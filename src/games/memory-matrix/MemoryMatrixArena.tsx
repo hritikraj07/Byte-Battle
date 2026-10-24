@@ -65,17 +65,17 @@ export const MemoryMatrixArena: React.FC<MemoryMatrixArenaProps> = ({
     let memorizeTime = 1400;
 
     if (difficulty === 'easy') {
-      size = lvl <= 2 ? 3 : 4;
-      tileCount = Math.min(3 + Math.floor(lvl / 2), size * size - 2);
+      size = 4; // Easy starts strictly at 4x4
+      tileCount = Math.min(4 + Math.floor(lvl * 0.6), 10);
       memorizeTime = 1600;
     } else if (difficulty === 'hard') {
-      size = lvl <= 2 ? 4 : 5;
-      tileCount = Math.min(5 + lvl, size * size - 3);
+      size = 6; // Hard has 6x6 grid (36 boxes)
+      tileCount = Math.min(8 + lvl, 22);
       memorizeTime = 1000;
     } else {
-      // medium
-      size = lvl <= 3 ? 4 : 5;
-      tileCount = Math.min(4 + Math.floor(lvl * 0.8), size * size - 3);
+      // medium has 5x5 grid (25 boxes)
+      size = 5;
+      tileCount = Math.min(6 + Math.floor(lvl * 0.8), 16);
       memorizeTime = 1300;
     }
 
@@ -337,7 +337,13 @@ export const MemoryMatrixArena: React.FC<MemoryMatrixArenaProps> = ({
                     type="button"
                     onClick={() => handleCellClick(idx)}
                     disabled={gameState !== 'recall' || isSelectedCorrect}
-                    className={`w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl border transition-all flex items-center justify-center ${
+                    className={`${
+                      gridSize >= 6
+                        ? 'w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-xl'
+                        : gridSize >= 5
+                        ? 'w-12 h-12 sm:w-14 sm:h-14 md:w-18 md:h-18 rounded-xl'
+                        : 'w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl'
+                    } border transition-all flex items-center justify-center ${
                       isMemorizeLit
                         ? 'bg-cyan-500 border-cyan-300 shadow-[0_0_16px_rgba(6,182,212,0.8)] scale-105'
                         : isSelectedCorrect
@@ -348,7 +354,7 @@ export const MemoryMatrixArena: React.FC<MemoryMatrixArenaProps> = ({
                     }`}
                   >
                     {isSelectedCorrect && (
-                      <CheckCircle2 className="w-6 h-6 text-slate-950 font-black animate-scaleIn" />
+                      <CheckCircle2 className={`${gridSize >= 6 ? 'w-4 h-4' : 'w-6 h-6'} text-slate-950 font-black animate-scaleIn`} />
                     )}
                   </button>
                 );

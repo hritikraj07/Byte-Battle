@@ -388,7 +388,7 @@ export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
                   : 'bg-neo-surface border-neo-border'
               }`}
             >
-              <span className="text-5xl sm:text-6xl font-black font-mono tracking-widest text-white drop-shadow-md">
+              <span className="text-2xl sm:text-3xl md:text-4xl font-black font-mono tracking-wider text-white drop-shadow-md whitespace-nowrap block">
                 {currentQuestion.prompt}
               </span>
             </div>
@@ -402,11 +402,8 @@ export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
                   onClick={() => handleSelectChoice(choice)}
                   className="p-5 rounded-2xl bg-neo-surface hover:bg-neo-cardHover border-2 border-neo-border hover:border-neo-lime text-center transition-all hover:scale-102 active:scale-95 shadow-arcade-card cursor-pointer"
                 >
-                  <span className="text-2xl sm:text-3xl font-mono font-black text-white block mb-1">
+                  <span className="text-2xl sm:text-3xl font-mono font-black text-white block">
                     {choice}
-                  </span>
-                  <span className="text-[10px] text-neo-secondary font-mono">
-                    Key: {i + 1}
                   </span>
                 </button>
               ))}

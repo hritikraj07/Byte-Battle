@@ -4,8 +4,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'BYTE BATTLE',
-  description: 'A futuristic gamified tech puzzle arena for school students and personal practice. Works 100% offline.',
+  title: 'AFTERHOURS — A place for the unexpected.',
+  description: 'A place for the unexpected. Explore digital worlds, imagine the future, experiment with AI, and discover experiences beyond the ordinary.',
   manifest: '/manifest.webmanifest',
   icons: {
     icon: '/favicon.ico',
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#00F0FF',
+  themeColor: '#090A0F',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,

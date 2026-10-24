@@ -790,7 +790,7 @@ export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
                 <span className="text-2xl font-black text-white">{distanceDisplay}m</span>
               </div>
               <div className="p-3.5 rounded-2xl bg-neo-surface border border-neo-border">
-                <span className="text-neo-secondary block text-[10px] uppercase">Personal Best</span>
+                <span className="text-neo-secondary block text-[10px] uppercase">High Score</span>
                 <span className="text-2xl font-black text-neo-purple">
                   {Math.max(score, personalBest)}
                 </span>

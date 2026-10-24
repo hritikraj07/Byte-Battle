@@ -11,6 +11,7 @@ import {
   Calculator,
   Navigation,
   Crosshair,
+  Boxes,
 } from 'lucide-react';
 import { GameId } from '@/types/puzzle';
 import {
@@ -25,6 +26,7 @@ import {
   NumberBlitzArtwork,
   MazeRunnerArtwork,
   PixelInvadersArtwork,
+  Game2048Artwork,
 } from '@/components/artwork';
 
 export type ArcadeCategory =
@@ -272,6 +274,25 @@ export const ACTIVE_GAMES: GameDefinition[] = [
     categories: ['shooter', 'arcade', 'classic', 'action'],
     controls: 'Arrows + Space / Touch',
     supportsDifficulty: true,
+  },
+  {
+    id: 'game-2048',
+    routeId: 'game-2048',
+    title: '2048 Neo',
+    tagline: 'Cybernetic Tile Synthesis',
+    desc: 'Slide and combine numbered data tiles across a 4x4 neon matrix to synthesize the 2048 power core and reach endless scores.',
+    icon: Boxes,
+    artwork: Game2048Artwork,
+    accentColor: '#FF8B3D',
+    accent: '#FFE45E',
+    borderClass: 'border-[#FF8B3D]/40 hover:border-[#FFE45E]',
+    bgGrad: 'from-[#FF8B3D]/25 to-transparent',
+    textClass: 'text-[#FFE45E]',
+    badge: 'Classic Puzzle',
+    type: 'puzzle',
+    categories: ['puzzle', 'classic', 'endless'],
+    controls: 'Swipe / Arrows / WASD',
+    supportsDifficulty: false,
   },
 ];
 

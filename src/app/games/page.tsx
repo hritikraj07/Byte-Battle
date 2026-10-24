@@ -227,11 +227,11 @@ export default function GamesHubPage() {
                   </div>
                 </div>
 
-                {/* Footer: Personal Best + Leaderboard + Play Trigger */}
+                {/* Footer: High Score + Leaderboard + Play Trigger */}
                 <div className="px-5 pb-5 pt-3 border-t border-[#24244A] flex items-center justify-between">
                   <div>
                     <span className="text-[9px] font-sans text-[#8A8AB8] block uppercase">
-                      Personal Best
+                      High Score
                     </span>
                     <span className="text-xs sm:text-sm font-pixel font-bold text-[#FFE45E]">
                       {pb > 0 ? `${pb.toLocaleString()} PTS` : '—'}

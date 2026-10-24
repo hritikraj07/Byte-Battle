@@ -1,36 +1,35 @@
 <div align="center">
 
-  <h1>BYTE BATTLE</h1>
-  <p><strong>Enter the arcade. Master the challenge. Beat your best.</strong></p>
+  <h1>AFTERHOURS</h1>
+  <p><strong>A place for the unexpected. Explore beyond the ordinary.</strong></p>
 
   <p>
-    BYTE BATTLE is a neon-inspired browser arcade featuring interactive mini-games, puzzle challenges, reflex tests, and retro-style gameplay. Choose a challenge, set your difficulty, and chase your personal best.
+    AFTERHOURS is an immersive, multi-experience digital platform combining speculative futures, local AI laboratories, frontier intelligence radar, cyber identity synthesis, temporal time capsules, generative visual worlds, and a championship retro neon arcade.
   </p>
 
   <p>
-    <a href="https://github.com/hritikraj07/BYTE-BATTLE/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-00F0FF.svg?style=flat-square" alt="License: MIT" /></a>
+    <a href="https://github.com/hritikraj07/AFTERHOURS/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-A78BFA.svg?style=flat-square" alt="License: MIT" /></a>
     <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-14-black.svg?style=flat-square&logo=next.js" alt="Next.js 14" /></a>
     <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.x-blue.svg?style=flat-square&logo=typescript" alt="TypeScript 5" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-CSS-38B2AC.svg?style=flat-square&logo=tailwind-css" alt="Tailwind CSS" /></a>
     <a href="https://dexie.com/"><img src="https://img.shields.io/badge/Storage-IndexedDB%20(Dexie)-purple.svg?style=flat-square" alt="Dexie.js IndexedDB" /></a>
     <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Tests-Vitest-green.svg?style=flat-square&logo=vitest" alt="Vitest Passed" /></a>
-    <a href="#pwa-and-offline-architecture"><img src="https://img.shields.io/badge/PWA-100%25%20Offline-FF2E97.svg?style=flat-square" alt="Offline Ready" /></a>
+    <a href="#pwa-and-offline-architecture"><img src="https://img.shields.io/badge/PWA-100%25%20Offline-00F0FF.svg?style=flat-square" alt="Offline Ready" /></a>
   </p>
 
   <p>
-    <strong>Built by <a href="https://github.com/hritikraj07">Hritik Raj</a></strong>
+    <strong>Built by <a href="https://github.com/hritikraj07" target="_blank" rel="noopener noreferrer">Hritik Raj</a></strong>
   </p>
 
   <p>
     <a href="#quick-start">Quick Start</a> •
-    <a href="#features">Features</a> •
-    <a href="#game-catalog">Game Catalog</a> •
-    <a href="#category-filtering--gameplay-flow">Gameplay Flow</a> •
+    <a href="#platform-experiences">Platform Experiences</a> •
+    <a href="#arcade-catalog">Arcade Catalog</a> •
     <a href="#technology-stack">Technology Stack</a> •
     <a href="#project-structure">Project Structure</a> •
     <a href="#pwa-and-offline-architecture">PWA & Offline</a> •
     <a href="#contributing">Contributing</a> •
-    <a href="#license">License</a>
+    <a href="#license--credits">License & Credits</a>
   </p>
 
 </div>
@@ -39,12 +38,12 @@
 
 ## Quick Start
 
-Run BYTE BATTLE locally in three simple steps:
+Run AFTERHOURS locally in three simple steps:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/hritikraj07/BYTE-BATTLE.git
-cd BYTE-BATTLE
+git clone https://github.com/hritikraj07/AFTERHOURS.git
+cd AFTERHOURS
 ```
 
 ### 2. Install Dependencies
@@ -57,12 +56,15 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to experience the arcade.
+Open [http://localhost:3000](http://localhost:3000) in your browser to experience the platform.
 
 ### Additional Build Commands
 ```bash
 # Run unit and integration tests (Vitest)
 npm test
+
+# Type-check TypeScript without emitting output
+npx tsc --noEmit
 
 # Build the production bundle
 npm run build
@@ -73,129 +75,136 @@ npm start
 
 ---
 
-## Features
+## Platform Experiences
 
-- **Retro-Arcade Visual Atmosphere:** Authentic CRT horizontal scanlines overlay, 3D perspective floor grid, and glowing cyan and hot-pink pixel typography with physical drop-shadow offsets.
-- **11 Interactive Mini-Games:** Spanning logic deduction, linguistic clustering, spatial agility, 60 FPS rhythm platforming, mental arithmetic, and arcade space defense.
-- **Random Game Selector:** Quick-launch button selecting a random eligible arcade game with pre-run nickname confirmation and difficulty customization.
-- **Scoped Run Setup:** Confirm your player handle and pick game-specific difficulty tiers before every session with distinct color accents:
-  - **Easy:** `#3B82F6` (Electric Blue)
-  - **Medium:** `#22C55E` (Arcade Green)
-  - **Hard:** `#EF4444` (Laser Red)
-- **100% Offline-First Architecture:** Complete client-side functionality using browser-native IndexedDB (`Dexie.js`) and Service Worker asset caching.
-- **Progressive Web App (PWA):** Installable on desktop and mobile browsers via a glowing cyan install button with cross-platform prompt handling.
-- **Per-Game Leaderboards:** Isolated personal best scores and top run history stored locally without account requirements.
-- **Category Filter Pills:** Rapidly filter games across `All`, `2-Player`, `Action`, `Arcade`, `Classic`, `Endless`, `Puzzle`, and `Shooter`.
-- **Fixed Viewport Arena Layout:** Active gameplay locks to a full-height `100dvh` stage with disabled page scrolling and responsive HUD controls.
-- **Sound Control Center:** Fine-tune master volume, sound effects, and music channels with instant persistence.
+AFTERHOURS connects multiple distinct digital worlds under one cohesive, dark editorial umbrella:
+
+1. **AFTERHOURS Command Center (`/`):** Central dark-editorial portal hub (`#090A0F`) with celestial navigation, feature discovery cards, curated exploration tracks, and direct access to every laboratory.
+2. **Arcade Arena (`/games`):** The complete 12-game retro neon arcade. Fully offline-ready with persistent IndexedDB high scores, category filters, and keyboard shortcuts.
+3. **Future Lab (`/future`):**
+   - *Life in 2036:* Interactive forecasts across seven societal vectors (Smart Habitats, Skyways, Neural Learning, Decentralized Labor, Synthetic Realities, Companion AI, Digital Society).
+   - *Future Simulator:* Deterministic scenario simulation engine balancing Biosphere, Stability, Tech Velocity, and Human Flourishing.
+4. **AI Studio (`/ai-studio`):**
+   - *Prompt Transformer:* Deterministic client-side semantic prompt expansion supporting 5 cinematic and analytical modes.
+   - *Concept Weaver:* Cross-domain dialectic synthesis combining contrasting concepts into creative blueprints.
+   - *Cognitive Spectrum:* Real-time syntactic density, emotional valence, and readability telemetry.
+5. **Tomorrow Radar (`/discover`):**
+   - Frontier technology intelligence scanning Quantum Computing, Clean Energy, Bipedal Robotics, Neuromorphic AI, and Digital Provenance.
+   - Technology Readiness Level (TRL 1–9) indicator meters, search filtering, and brief bookmarking.
+6. **Digital Identity Lab (`/identity`):**
+   - Cybernetic ID badge generator with live tilt preview, customizable callsigns, holographic foil shaders, and avatar glyphs.
+   - One-click local storage persistence and JSON credential export.
+7. **Time Capsule (`/time-capsule`):**
+   - Temporal vault for future predictions, personal milestones, and letters.
+   - Countdown clocks, sealed encryption states, and local persistence.
+8. **Neonverse (`/neonverse`):**
+   - Fullscreen canvas visual environments: *The Synthwave Nebula*, *The Quantum Expanse* (n-body interactive gravity), and *The Chrono Spire*.
+   - Live velocity and particle density controls.
 
 ---
 
-## Game Catalog
+## Arcade Catalog
+
+The arcade subsystem (`/games` and `/play/[game]`) preserves the championship mini-games:
 
 | Game | Category | Description | Primary Controls |
 | :--- | :--- | :--- | :--- |
-| **Pattern Shift** | Puzzle | Decode corrupted register sequences: Fibonacci series, quadratic deltas, alternating logic, and visual rotations. Progressive hints available. | Mouse / Touch / Keys `1-4` |
-| **Word Weave** | Puzzle | Linguistic logic challenge. Transform words via semantic cluster solving and category matching. | Mouse / Touch / Keyboard |
-| **Pulse Jumper** | Arcade, Action | 60 FPS rhythm platformer running on HTML5 Canvas. Leap over spikes and gaps across 5 tuned difficulty tiers. | Spacebar / Arrow Up / Tap |
-| **Reflex Rush** | Action, Arcade | Test human reaction speed against randomized visual cues with millisecond accuracy telemetry. | Spacebar / Mouse Click / Touch |
-| **Memory Matrix** | Puzzle | Simon-says style grid pattern recall that scales in grid size and flash velocity. | Mouse / Touch |
-| **Color Clash** | Arcade, Action | Cognitive Stroop-effect challenge. Match color meanings against ink colors under time pressure. | Click / Keyboard Shortcuts |
-| **Orbit Dodge** | Action, Endless | Circular physics arena. Rotate your ship around a central gravity well to dodge radial debris. | Left/Right Arrows / Touch |
-| **Stack Sprint** | Arcade, Classic | Precision vertical block stacking. Align oscillating neon slabs to construct the highest tower. | Spacebar / Click / Tap |
-| **Number Blitz** | Puzzle, Arcade | Mental arithmetic time-attack. Rapidly compute target numbers using operators and number cards. | Numpad / Click / Touch |
-| **Maze Runner** | Puzzle, Classic | Procedural neon labyrinth. Navigate through the dark maze to reach the terminal beacon before energy expires. | Arrow Keys / WASD / Swipe |
-| **Pixel Invaders** | Shooter, Classic | Retro arcade space shooter. Defend your sector against descending extraterrestrial waves. | Left/Right Arrows / Space / Touch |
-
----
-
-## Category Filtering & Gameplay Flow
-
-### Category Filter Pills
-The catalog toolbar features real-time category filtering:
-- **All:** Displays the complete arcade lineup.
-- **2-Player:** Displays multiplayer titles (graceful empty state if none are currently active).
-- **Action:** High-energy reflex and obstacle navigation games.
-- **Arcade:** Fast-paced arcade score chasers.
-- **Classic:** Retro-inspired homages to iconic arcade mechanics.
-- **Endless:** Survival and stamina challenges.
-- **Puzzle:** Computational, linguistic, and memory reasoning arenas.
-- **Shooter:** Target acquisition and projectile combat games.
-
-### Pre-Run Setup Flow
-Before any game launches, a modal prompts the player to:
-1. Confirm or enter their arcade nickname (sanitized and remembered in local storage).
-2. Select the difficulty for that specific run:
-   - Standard 3-tier: **Easy** (`#3B82F6`), **Medium** (`#22C55E`), **Hard** (`#EF4444`).
-   - Extended 5-tier for Pulse Jumper: **Easy**, **Normal**, **Hard**, **Expert**, **Insane**.
-3. Launch directly into the dedicated viewport (`/play/[game]?diff=[difficulty]`).
+| **Pattern Shift** | Puzzle | Decode Grade 10–12 Board-level math/CS sequences with progressive hints & See Answer reveal drawer. | Mouse / Touch / Keys `1-4` |
+| **Word Weave** | Puzzle | Linguistic logic challenge. Transform words via semantic cluster solving. | Mouse / Touch / Keyboard |
+| **Pulse Jumper** | Arcade, Action | 60 FPS rhythm platformer running on HTML5 Canvas across 5 tuned difficulty tiers. | Spacebar / Arrow Up / Tap |
+| **PalmDrive Rally** | Action | Gesture-controlled racing with real-time computer vision and keyboard arrow controls. | Arrow Keys / Webcam |
+| **Memory Matrix** | Puzzle | Visual spatial pattern recall (Easy: 4×4, Medium: 5×5, Hard: 6×6). | Mouse / Touch |
+| **Color Clash** | Action, Arcade | Stroop-effect reflex challenge testing semantic and color incongruence. | Keys `1-4` / Mouse / Touch |
+| **Reflex Rush** | Action | Millisecond-precision reaction test measuring neural reaction speed. | Spacebar / Click / Tap |
+| **Stack Sprint** | Arcade | High-speed isometric block-stacking accuracy challenge. | Spacebar / Click / Tap |
+| **Orbit Dodge** | Arcade | Responsive celestial debris avoidance with mouse and touch tracking. | Pointer Movement |
+| **Number Blitz** | Puzzle | Fast-paced mental arithmetic under countdown pressure. | Mouse / Touch / Keys |
+| **Maze Runner** | Classic | Procedurally generated braided labyrinth navigation. | Arrow Keys / WASD / Swipe |
+| **Pixel Invaders** | Shooter | Retro arcade space shooter with laser barrages and enemy motherships. | Arrow Keys / Mouse / Click |
+| **2048 Neo** | Classic, Puzzle | 4×4 tile sliding puzzle. Merge matching values to reach the 2048 tile. | Arrow Keys / WASD / Swipe |
 
 ---
 
 ## Technology Stack
 
-- **Framework:** [Next.js 14](https://nextjs.org/) (App Router, Server Components & Client Arenas)
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router with thin route containers)
 - **Language:** [TypeScript 5](https://www.typescriptlang.org/) (Strict mode enabled)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) with custom neon tokens and keyframe animations
-- **Local Persistence:** [Dexie.js](https://dexie.com/) (IndexedDB wrapper for offline scores and history)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) with custom design tokens for each feature
+- **Architecture:** Feature-Sliced modular design (`src/features/*`)
+- **Local Persistence:** [Dexie.js](https://dexie.com/) (IndexedDB wrapper for arcade scores and offline vault)
 - **Testing:** [Vitest](https://vitest.dev/) (Unit and integration test runner)
-- **Audio & Visuals:** Web Audio API synth oscillators, HTML5 Canvas 2D, and [Lucide Icons](https://lucide.dev/)
-- **PWA & Offline:** Service Worker (`sw.js`) with cache-first static shell strategy and Web App Manifest
+- **Visuals & Icons:** HTML5 Canvas 2D, SVG component artwork, and [Lucide Icons](https://lucide.dev/)
+- **PWA & Offline:** Service Worker (`sw.js`) with cache-first strategy and Web App Manifest
 
 ---
 
 ## Project Structure
 
 ```
-BYTE BATTLE/
-├── public/                       # Static public assets & PWA configuration
+AFTERHOURS/
+├── public/                       # Static assets & PWA configuration
 │   ├── favicon.ico
-│   ├── manifest.webmanifest      # PWA Web App Manifest
-│   ├── sw.js                     # Service Worker offline caching strategy
-│   └── icons/                    # App icons (192x192, 512x512, maskable)
+│   ├── manifest.webmanifest      # PWA Web App Manifest (AFTERHOURS branding)
+│   ├── sw.js                     # Offline caching service worker (afterhours-v1.0.0)
+│   └── icons/                    # App launcher icons (192x192, 512x512, maskable)
 ├── src/
-│   ├── app/                      # Next.js App Router pages
-│   │   ├── layout.tsx            # Root layout, fonts, scanlines overlay, navbar & footer
-│   │   ├── page.tsx              # Home arcade: Hero, PWA install, Random Game, Catalog
-│   │   ├── globals.css           # Neon tokens, perspective grid, 3D text glow styles
-│   │   ├── games/                # Searchable arcade catalog hub
-│   │   ├── play/[game]/          # Fullscreen fixed gameplay viewport & HUD
-│   │   ├── leaderboard/          # High scores and rankings
-│   │   └── settings/             # Audio and display configuration
-│   ├── components/               # Reusable React components
-│   │   ├── artwork/              # Custom SVG pixel artwork for game cards
-│   │   ├── common/               # Install button, Setup modal, HUD, Logo
+│   ├── app/                      # Next.js App Router route containers
+│   │   ├── layout.tsx            # Global layout: AFTERHOURS metadata, fonts, Navbar & Footer
+│   │   ├── page.tsx              # AFTERHOURS command center / homepage
+│   │   ├── globals.css           # Global tokens, CRT scanlines, perspective grid
+│   │   ├── future/               # Future Lab route container
+│   │   ├── ai-studio/            # AI Studio route container
+│   │   ├── discover/             # Tomorrow Radar route container
+│   │   ├── identity/             # Digital Identity Lab route container
+│   │   ├── time-capsule/         # Time Capsule route container
+│   │   ├── neonverse/            # Neonverse canvas route container
+│   │   ├── games/                # Protected mini-games catalog hub
+│   │   ├── play/[game]/          # Fullscreen game arena container
+│   │   ├── leaderboard/          # Global tournament leaderboard
+│   │   ├── settings/             # Audio and system configuration
+│   │   └── host/                 # Host tournament controls & live projector display
+│   ├── features/                 # Modular feature-sliced domain implementations
+│   │   ├── future/               # Future Lab data, LifeIn2036, FutureSimulator
+│   │   ├── ai-studio/            # AI Studio data, PromptTransformer, ConceptWeaver, ToneAnalyzer
+│   │   ├── discover/             # Tomorrow Radar data, RadarCard, RadarFeed
+│   │   ├── identity/             # Digital Identity data, IdentityBadge, IdentityEditor
+│   │   ├── time-capsule/         # Time Capsule data, CapsuleCard, CreateCapsuleModal
+│   │   └── neonverse/            # Neonverse data, canvas rendering engine, WorldControls
+│   ├── components/               # Reusable shared UI components
+│   │   ├── artwork/              # Custom SVG game card artwork
+│   │   ├── common/               # AfterhoursLogo, ByteBattleLogo, GameHUD, Modals
 │   │   ├── layout/               # Navbar and Footer (Built by Hritik Raj)
 │   │   └── leaderboard/          # Per-game leaderboard modal
-│   ├── data/                     # Game catalogs and puzzle registries
-│   │   └── gamesList.ts          # Registry of active games, categories, and metadata
-│   ├── games/                    # Isolated mini-game engines and canvas renderers
-│   ├── hooks/                    # usePWA, useAudio, useTimer, useLeaderboard
-│   ├── services/                 # Dexie.js database schemas and score calculators
-│   └── types/                    # TypeScript interfaces for games, puzzles, and scores
+│   ├── data/                     # Game definitions and curated puzzle catalogs
+│   │   ├── gamesList.ts          # Registry of active games, categories, routes
+│   │   └── puzzles/              # Curated JSON puzzle catalogs (Pattern Shift, Word Weave, etc.)
+│   ├── games/                    # Protected mini-game engines and canvas arenas
+│   ├── hooks/                    # Reusable React hooks (usePWA, useAudio, useTimer, etc.)
+│   ├── services/                 # Persistence, sanitizer, scoring, and DB layers
+│   └── types/                    # Shared TypeScript interfaces
 ├── tests/                        # Vitest automated test suite
-│   ├── unit/                     # Logic, scoring, sanitization, and puzzle validators
-│   └── integration/              # IndexedDB persistence and leaderboards
-├── CONTRIBUTING.md               # Guide for open-source contributors
+│   ├── unit/                     # Logic, scoring, sanitizer, and puzzle tests
+│   ├── integration/              # IndexedDB persistence tests
+│   └── setup.ts                  # Test environment initialization (fake-indexeddb)
+├── AGENTS.md                     # Architecture and developer guidelines
+├── CONTRIBUTING.md               # Contributing guidelines
 ├── LICENSE                       # MIT License
-├── package.json                  # Dependencies and build scripts
-├── tailwind.config.ts            # Theme palette, retro fonts, and animations
-└── tsconfig.json                 # TypeScript strict compiler configuration
+├── package.json                  # Dependencies and scripts
+├── tailwind.config.ts            # Tailwind configuration
+├── tsconfig.json                 # TypeScript strict compiler configuration
+└── vitest.config.ts              # Vitest test runner configuration
 ```
 
 ---
 
 ## PWA and Offline Architecture
 
-BYTE BATTLE is built to run anywhere—even in air-gapped classrooms or offline laptops:
+AFTERHOURS is engineered for offline reliability:
 
-- **Zero Runtime CDNs:** Fonts (`Press Start 2P` and `Space Grotesk`) are bundled locally during the Next.js build.
-- **Service Worker Shell:** Automatically caches JavaScript bundles, stylesheets, icons, and assets on first visit.
-- **IndexedDB Storage:** All personal bests, nicknames, and gameplay records persist locally in browser storage.
-- **Installation Flow:**
-  - **Chromium / Android:** Native one-click installation prompt.
-  - **iOS Safari:** Interactive guide for adding to Home Screen.
-  - **Standalone Mode:** Automatically detects installed state and adjusts interface accordingly.
+- **Zero Runtime CDNs:** Local fonts and assets ensure seamless execution in offline and air-gapped environments.
+- **Service Worker Shell:** Automatically caches JavaScript bundles, stylesheets, icons, and static assets on first visit.
+- **IndexedDB Storage:** All personal bests, high scores, time capsule vaults, and digital identity personas persist locally in browser storage.
+- **Cross-Platform Install:** Full PWA support with desktop Chrome installation prompts and guided iOS Safari "Add to Home Screen" instructions.
 
 ---
 

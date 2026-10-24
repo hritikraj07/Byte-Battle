@@ -1,13 +1,13 @@
 {
-  "name": "byte-battle",
+  "name": "afterhours",
   "version": "1.0.0",
   "private": true,
-  "description": "An interactive gamified technology arena for school students",
+  "description": "AFTERHOURS — A place for the unexpected. Multi-experience digital platform.",
   "license": "MIT",
   "author": "Hritik Raj (https://github.com/hritikraj07)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hritikraj07/BYTE-BATTLE.git"
+    "url": "https://github.com/hritikraj07/AFTERHOURS.git"
   },
   "scripts": {
     "dev": "next dev",

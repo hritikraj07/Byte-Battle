@@ -1,14 +1,14 @@
 {
-  "name": "BYTE BATTLE: Retro Neon Arcade",
-  "short_name": "BYTE BATTLE",
-  "description": "An interactive, mobile-first neon arcade of browser games. Works 100% offline.",
+  "name": "AFTERHOURS: A Place for the Unexpected",
+  "short_name": "AFTERHOURS",
+  "description": "A digital destination where users can explore different worlds, simulations, creative tools, AI experiments, futuristic experiences, and mini-games.",
   "start_url": "/",
   "id": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#05050D",
-  "theme_color": "#00F0FF",
-  "categories": ["games", "arcade", "puzzle"],
+  "background_color": "#090A0F",
+  "theme_color": "#A78BFA",
+  "categories": ["games", "entertainment", "education"],
   "icons": [
     {
       "src": "/icons/icon-192x192.png",

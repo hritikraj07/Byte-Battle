@@ -11,7 +11,7 @@ import { GameHUD } from '@/components/common/GameHUD';
 import { RoundResultsModal } from '@/components/common/RoundResultsModal';
 import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardModal';
 import { PlayerNameModal } from '@/components/common/PlayerNameModal';
-import { Lightbulb, ArrowRight, Zap, RefreshCw } from 'lucide-react';
+import { Lightbulb, ArrowRight, Zap, RefreshCw, Eye, CheckCircle2 } from 'lucide-react';
 
 interface PatternShiftArenaProps {
   difficulty?: Difficulty;
@@ -49,6 +49,7 @@ export const PatternShiftArena: React.FC<PatternShiftArenaProps> = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [personalBest, setPersonalBest] = useState(0);
@@ -82,6 +83,7 @@ export const PatternShiftArena: React.FC<PatternShiftArenaProps> = ({
     setSelectedOption(null);
     setHintsUsed(0);
     setFeedback(null);
+    setShowAnswer(false);
     setIsGameOver(false);
   }, [difficulty]);
 
@@ -412,17 +414,55 @@ export const PatternShiftArena: React.FC<PatternShiftArenaProps> = ({
           </div>
         )}
 
-        {/* Action Controls: Change Question & Submit */}
+        {/* Answer Reveal Drawer */}
+        {showAnswer && (
+          <div className="mb-6 p-5 rounded-2xl bg-[#00F0FF]/10 border border-[#00F0FF]/40 text-xs font-mono space-y-2.5 animate-fadeIn">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-[#00F0FF] font-bold text-sm">
+                <CheckCircle2 className="w-4 h-4 text-[#C8FF3D]" />
+                <span>CANONICAL SOLUTION:</span>
+                <span className="px-3 py-1 rounded-lg bg-[#C8FF3D] text-slate-950 font-black text-sm">
+                  {currentPuzzle.canonicalSolution}
+                </span>
+              </div>
+              <button
+                onClick={loadNewPuzzle}
+                className="px-3 py-1 rounded-lg bg-[#00F0FF] text-slate-950 font-bold hover:bg-[#38BDF8] transition-all"
+              >
+                NEXT PUZZLE →
+              </button>
+            </div>
+            <p className="text-slate-200 text-xs leading-relaxed border-t border-[#00F0FF]/20 pt-2">
+              <strong className="text-[#FFE45E]">Mathematical Logic:</strong> {currentPuzzle.explanation}
+            </p>
+          </div>
+        )}
+
+        {/* Action Controls: Change Question, See Answer & Submit */}
         <div className="flex items-center justify-between gap-3 pt-4 border-t border-neo-border flex-wrap">
-          <button
-            onClick={handleSkipQuestion}
-            disabled={feedback !== null}
-            className="flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-[#0D0D22] hover:bg-[#1C1C3A] border border-[#00F0FF]/40 text-[#00F0FF] font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer"
-            title="Unable to solve? Switch to a new question"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>CHANGE QUESTION</span>
-          </button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={handleSkipQuestion}
+              disabled={feedback !== null}
+              className="flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-[#0D0D22] hover:bg-[#1C1C3A] border border-[#00F0FF]/40 text-[#00F0FF] font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer"
+              title="Unable to solve? Switch to a new question"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>CHANGE QUESTION</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setShowAnswer((prev) => !prev);
+                playSound('click');
+              }}
+              className="flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-[#1A102A] hover:bg-[#281545] border border-[#FFE45E]/40 text-[#FFE45E] font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer"
+              title="Inspect canonical solution and step-by-step logic"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>{showAnswer ? 'HIDE ANSWER' : 'SEE ANSWER'}</span>
+            </button>
+          </div>
 
           <button
             onClick={handleSubmit}

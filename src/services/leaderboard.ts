@@ -15,6 +15,7 @@ export const ALL_GAMES: GameId[] = [
   'number-blitz',
   'maze-runner',
   'pixel-invaders',
+  'game-2048',
 ];
 
 const createEmptyGameRecords = <T>(defaultValue: T): Record<GameId, T> => ({
@@ -29,6 +30,7 @@ const createEmptyGameRecords = <T>(defaultValue: T): Record<GameId, T> => ({
   'number-blitz': defaultValue,
   'maze-runner': defaultValue,
   'pixel-invaders': defaultValue,
+  'game-2048': defaultValue,
   'code-cracker': defaultValue,
   'grid-tactician': defaultValue,
   'palmdrive-rally': defaultValue,
@@ -236,6 +238,9 @@ export function calculateGameLeaderboard(
 
   const entries: GameSpecificLeaderboardEntry[] = [];
   for (const [pId, pData] of Array.from(pGameMap.entries())) {
+    // Only show players who actually played this game
+    if (pData.attemptsCount === 0 && pData.bestScore === 0) continue;
+
     const participant = participantMap.get(pId) ?? {
       id: pId,
       eventId: '',

@@ -12,8 +12,8 @@ interface MazeRunnerArenaProps {
   onExit?: () => void;
 }
 
-// Depth-First Search Maze Generator
-function generateMaze(cols: number, rows: number): { grid: number[][]; start: [number, number]; exit: [number, number] } {
+// Advanced Braided Maze Generator with Multiple Complex Branching Routes
+function generateMaze(cols: number, rows: number, difficulty: string): { grid: number[][]; start: [number, number]; exit: [number, number] } {
   // Grid: 1 = wall, 0 = path
   const grid: number[][] = Array.from({ length: rows }, () => Array(cols).fill(1));
 
@@ -25,7 +25,7 @@ function generateMaze(cols: number, rows: number): { grid: number[][]; start: [n
       [0, 2],  // Down
       [-2, 0], // Left
     ];
-    // Shuffle directions
+    // Randomize branch order
     for (let i = directions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [directions[i], directions[j]] = [directions[j], directions[i]];
@@ -35,15 +35,45 @@ function generateMaze(cols: number, rows: number): { grid: number[][]; start: [n
       const nx = cx + dx;
       const ny = cy + dy;
       if (nx > 0 && nx < cols - 1 && ny > 0 && ny < rows - 1 && grid[ny][nx] === 1) {
-        grid[cy + dy / 2][cx + dx / 2] = 0; // Carve wall between
+        grid[cy + dy / 2][cx + dx / 2] = 0; // Carve path between
         carve(nx, ny);
       }
     }
   }
 
+  // Initial DFS exploration from top-left
   carve(1, 1);
-  const start: [number, number] = [1, 1];
-  const exit: [number, number] = [cols - 2, rows - 2];
+
+  // Braiding: Knock down selected walls to create multiple paths, crossroads, and alternate routes
+  const braidChance = difficulty === 'hard' ? 0.22 : difficulty === 'medium' ? 0.18 : 0.14;
+  for (let r = 2; r < rows - 2; r += 2) {
+    for (let c = 2; c < cols - 2; c += 2) {
+      if (grid[r][c] === 1 && Math.random() < braidChance) {
+        // Check if connecting two distinct open paths horizontally or vertically
+        const horizontalOpen = grid[r][c - 1] === 0 && grid[r][c + 1] === 0;
+        const verticalOpen = grid[r - 1][c] === 0 && grid[r + 1][c] === 0;
+        if (horizontalOpen || verticalOpen) {
+          grid[r][c] = 0;
+        }
+      }
+    }
+  }
+
+  // Dynamic randomized start and exit endpoints across diagonally opposite quadrants
+  const corners: [number, number][] = [
+    [1, 1],
+    [cols - 2, 1],
+    [1, rows - 2],
+    [cols - 2, rows - 2],
+  ];
+
+  // Pick random start corner
+  const startIdx = Math.floor(Math.random() * 4);
+  const exitIdx = 3 - startIdx; // diagonally opposite corner
+  const start = corners[startIdx];
+  const exit = corners[exitIdx];
+
+  grid[start[1]][start[0]] = 0;
   grid[exit[1]][exit[0]] = 0;
 
   return { grid, start, exit };
@@ -66,10 +96,10 @@ export const MazeRunnerArena: React.FC<MazeRunnerArenaProps> = ({
   const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
-  // Maze dimensions based on difficulty (must be odd numbers for DFS grid)
-  const cols = difficulty === 'hard' ? 21 : difficulty === 'medium' ? 15 : 11;
-  const rows = difficulty === 'hard' ? 21 : difficulty === 'medium' ? 15 : 11;
-  const timeLimit = difficulty === 'hard' ? 90 : difficulty === 'medium' ? 60 : 45;
+  // Maze dimensions based on difficulty (substantially expanded for true challenge)
+  const cols = difficulty === 'hard' ? 33 : difficulty === 'medium' ? 25 : 17;
+  const rows = difficulty === 'hard' ? 33 : difficulty === 'medium' ? 25 : 17;
+  const timeLimit = difficulty === 'hard' ? 120 : difficulty === 'medium' ? 90 : 60;
 
   const engineRef = useRef({
     grid: [] as number[][],
@@ -113,7 +143,7 @@ export const MazeRunnerArena: React.FC<MazeRunnerArenaProps> = ({
     const e = engineRef.current;
     if (e.timerInterval) clearInterval(e.timerInterval);
 
-    const { grid, start, exit } = generateMaze(cols, rows);
+    const { grid, start, exit } = generateMaze(cols, rows, difficulty);
     e.grid = grid;
     e.player = { x: start[0], y: start[1] };
     e.exit = { x: exit[0], y: exit[1] };

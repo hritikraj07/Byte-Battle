@@ -125,4 +125,25 @@ describe('Leaderboard Calculations & Best Score Policy Suite', () => {
     expect(leaderboard[0].participantId).toBe('p2');
     expect(leaderboard[1].participantId).toBe('p1');
   });
+
+  it('only includes participants who actually played the specific game in game leaderboard', () => {
+    const attempts: GameAttempt[] = [
+      {
+        id: 'a1', eventId: 'sess1', participantId: 'p1', nickname: 'CyberKnight',
+        gameId: 'pattern-shift', puzzleId: 'PS-001', difficulty: 'easy',
+        isCorrect: true, score: 800, basePoints: 500, timeRemainingSeconds: 60,
+        timeBonusPoints: 300, hintsUsed: 0, hintPenaltyPoints: 0, elapsedSeconds: 30,
+        totalRoundSeconds: 60, completedAt: '2026-10-23T10:15:00Z', isPractice: false,
+      },
+    ];
+
+    // Only p1 played pattern-shift; p2 and p3 never played
+    const psLeaderboard = calculateGameLeaderboard('pattern-shift', participants, attempts);
+    expect(psLeaderboard).toHaveLength(1);
+    expect(psLeaderboard[0].participantId).toBe('p1');
+
+    // Nobody played word-weave
+    const wwLeaderboard = calculateGameLeaderboard('word-weave', participants, attempts);
+    expect(wwLeaderboard).toHaveLength(0);
+  });
 });
