@@ -24,7 +24,7 @@ export default function FutureLabPage() {
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-widest uppercase bg-[#00F0FF]/15 text-[#00F0FF] border border-[#00F0FF]/30 font-bold">
                   TEMPORAL OBSERVATORY
                 </span>
-                <span className="text-xs text-[#94A3B8] font-mono">FUTURE LAB</span>
+                <span className="text-xs text-[#94A3B8] font-mono">FUTURE SELF</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mt-1">
                 FUTURE SELF VISUALIZER

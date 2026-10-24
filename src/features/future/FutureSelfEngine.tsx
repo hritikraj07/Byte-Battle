@@ -16,6 +16,9 @@ import {
   AlertCircle,
   FlipHorizontal,
   Loader2,
+  Sliders,
+  Image as ImageIcon,
+  Eye,
 } from 'lucide-react';
 import { FUTURE_HORIZONS } from './futurePresets';
 import { FutureHorizonId, FutureHorizonOption } from './futureTypes';
@@ -25,7 +28,8 @@ export const FutureSelfEngine: React.FC = () => {
   const [sourceImage, setSourceImage] = useState<string | null>(null);
   const [selectedHorizonId, setSelectedHorizonId] = useState<FutureHorizonId>('future-10');
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [, setIsProcessing] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<'transformed' | 'compare' | 'original'>('transformed');
   const [sliderPosition, setSliderPosition] = useState<number>(50);
 
   // Camera stream management
@@ -38,7 +42,6 @@ export const FutureSelfEngine: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const currentHorizon =
     FUTURE_HORIZONS.find((h) => h.id === selectedHorizonId) || FUTURE_HORIZONS[0];
@@ -80,19 +83,17 @@ export const FutureSelfEngine: React.FC = () => {
     setIsCameraLoading(true);
 
     try {
-      // Stop any existing stream
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((t) => t.stop());
         streamRef.current = null;
       }
 
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Webcam API is not supported in this browser environment. Please upload an image file.');
+        throw new Error('Webcam API is not available. Please upload an image file.');
       }
 
       let stream: MediaStream;
       try {
-        // Try with requested facing mode and resolution
         stream = await navigator.mediaDevices.getUserMedia({
           video: {
             facingMode: cameraFacing,
@@ -103,7 +104,6 @@ export const FutureSelfEngine: React.FC = () => {
         });
       } catch (e) {
         console.warn('Initial camera constraints failed, attempting fallback to basic video:', e);
-        // Fallback to basic video without restrictive constraints
         stream = await navigator.mediaDevices.getUserMedia({
           video: true,
           audio: false,
@@ -112,7 +112,6 @@ export const FutureSelfEngine: React.FC = () => {
 
       streamRef.current = stream;
 
-      // Attach stream immediately to video
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.onloadedmetadata = () => {
@@ -130,13 +129,13 @@ export const FutureSelfEngine: React.FC = () => {
 
       if (err?.name === 'NotAllowedError' || err?.name === 'PermissionDeniedError') {
         setCameraError(
-          'Camera permission was denied. Please allow camera permissions in your browser bar (look for the lock or camera icon), or upload a photo directly.'
+          'Camera permission was denied. Please allow camera permissions in your browser bar, or upload a photo directly.'
         );
       } else if (err?.name === 'NotFoundError' || err?.name === 'DevicesNotFoundError') {
-        setCameraError('No camera device was detected on your system. Please upload a photo instead.');
+        setCameraError('No camera detected on your system. Please upload a portrait photo instead.');
       } else {
         setCameraError(
-          err?.message || 'Camera is currently unavailable. Please upload a portrait photo to test the simulator.'
+          err?.message || 'Camera is currently unavailable. Please upload a portrait photo.'
         );
       }
     }
@@ -148,7 +147,6 @@ export const FutureSelfEngine: React.FC = () => {
     setCameraFacing(nextFacing);
     if (cameraActive) {
       stopCamera();
-      // Restart with new facing mode
       setTimeout(() => {
         setCameraFacing(nextFacing);
         startCamera();
@@ -208,304 +206,329 @@ export const FutureSelfEngine: React.FC = () => {
     reader.readAsDataURL(file);
   };
 
-  // Core Canvas Transformation Engine (Zero artificial delay)
+  // Core Canvas Transformation Engine (Zero artificial delay, bulletproof data URL loading)
   const renderFutureSelf = useCallback(
     (srcDataUrl: string, horizon: FutureHorizonOption) => {
       setIsProcessing(true);
 
       const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        const canvas = canvasRef.current || document.createElement('canvas');
-        const size = 800;
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-          setIsProcessing(false);
-          return;
-        }
+      // Do NOT set crossOrigin on data: or blob: URIs to prevent browser security blocks
+      if (!srcDataUrl.startsWith('data:') && !srcDataUrl.startsWith('blob:')) {
+        img.crossOrigin = 'anonymous';
+      }
 
-        // Draw source image scaled to square crop
-        const imgAspect = img.width / img.height;
-        let sx = 0,
-          sy = 0,
-          sw = img.width,
-          sh = img.height;
-        if (imgAspect > 1) {
-          sw = img.height;
-          sx = (img.width - sw) / 2;
-        } else {
-          sh = img.width;
-          sy = (img.height - sh) / 2;
-        }
+      const executeTransformation = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const size = 800;
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d', { willReadFrequently: true });
+          if (!ctx) {
+            setGeneratedImage(srcDataUrl);
+            setIsProcessing(false);
+            return;
+          }
 
-        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
+          // Draw source image scaled and centered to square crop
+          const imgAspect = img.width / img.height;
+          let sx = 0,
+            sy = 0,
+            sw = img.width,
+            sh = img.height;
+          if (imgAspect > 1) {
+            sw = img.height;
+            sx = (img.width - sw) / 2;
+          } else {
+            sh = img.width;
+            sy = (img.height - sh) / 2;
+          }
 
-        // Horizon-specific pixel manipulation & tinting
-        const imageData = ctx.getImageData(0, 0, size, size);
-        const data = imageData.data;
+          ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
 
-        for (let i = 0; i < data.length; i += 4) {
-          const r = data[i];
-          const g = data[i + 1];
-          const b = data[i + 2];
-          const avg = (r + g + b) / 3;
+          // Horizon-specific pixel manipulation & tinting
+          const imageData = ctx.getImageData(0, 0, size, size);
+          const data = imageData.data;
 
-          switch (horizon.id) {
-            case 'future-10': {
-              const contrast = 1.15;
-              data[i] = Math.min(255, Math.max(0, (r - 128) * contrast + 128 - 6));
-              data[i + 1] = Math.min(255, Math.max(0, (g - 128) * contrast + 128 + 2));
-              data[i + 2] = Math.min(255, Math.max(0, (b - 128) * contrast + 128 + 14));
-              break;
-            }
-            case 'future-25': {
-              const silverMix = avg * 0.35;
-              data[i] = Math.min(255, r * 0.75 + silverMix);
-              data[i + 1] = Math.min(255, g * 0.75 + silverMix + 4);
-              data[i + 2] = Math.min(255, b * 0.82 + silverMix + 18);
-              break;
-            }
-            case 'cybernetic': {
-              data[i] = Math.min(255, r * 0.65);
-              data[i + 1] = Math.min(255, g * 0.95 + 15);
-              data[i + 2] = Math.min(255, b * 1.15 + 35);
-              break;
-            }
-            case 'mars-pioneer': {
-              data[i] = Math.min(255, r * 1.25 + 30);
-              data[i + 1] = Math.min(255, g * 0.92 + 10);
-              data[i + 2] = Math.min(255, b * 0.7 - 10);
-              break;
-            }
-            case 'elysium': {
-              data[i] = Math.min(255, r * 1.15 + 28);
-              data[i + 1] = Math.min(255, g * 0.8);
-              data[i + 2] = Math.min(255, b * 1.25 + 35);
-              break;
-            }
-            case 'grand-elder': {
-              const warmSilver = avg * 0.45;
-              data[i] = Math.min(255, r * 0.68 + warmSilver + 22);
-              data[i + 1] = Math.min(255, g * 0.68 + warmSilver + 14);
-              data[i + 2] = Math.min(255, b * 0.68 + warmSilver);
-              break;
+          for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            const avg = (r + g + b) / 3;
+
+            switch (horizon.id) {
+              case 'future-10': {
+                const contrast = 1.15;
+                data[i] = Math.min(255, Math.max(0, (r - 128) * contrast + 128 - 6));
+                data[i + 1] = Math.min(255, Math.max(0, (g - 128) * contrast + 128 + 2));
+                data[i + 2] = Math.min(255, Math.max(0, (b - 128) * contrast + 128 + 14));
+                break;
+              }
+              case 'future-25': {
+                const silverMix = avg * 0.35;
+                data[i] = Math.min(255, r * 0.75 + silverMix);
+                data[i + 1] = Math.min(255, g * 0.75 + silverMix + 4);
+                data[i + 2] = Math.min(255, b * 0.82 + silverMix + 18);
+                break;
+              }
+              case 'cybernetic': {
+                data[i] = Math.min(255, r * 0.65);
+                data[i + 1] = Math.min(255, g * 0.95 + 15);
+                data[i + 2] = Math.min(255, b * 1.15 + 35);
+                break;
+              }
+              case 'mars-pioneer': {
+                data[i] = Math.min(255, r * 1.25 + 30);
+                data[i + 1] = Math.min(255, g * 0.92 + 10);
+                data[i + 2] = Math.min(255, b * 0.7 - 10);
+                break;
+              }
+              case 'elysium': {
+                data[i] = Math.min(255, r * 1.15 + 28);
+                data[i + 1] = Math.min(255, g * 0.8);
+                data[i + 2] = Math.min(255, b * 1.25 + 35);
+                break;
+              }
+              case 'grand-elder': {
+                const warmSilver = avg * 0.45;
+                data[i] = Math.min(255, r * 0.68 + warmSilver + 22);
+                data[i + 1] = Math.min(255, g * 0.68 + warmSilver + 14);
+                data[i + 2] = Math.min(255, b * 0.68 + warmSilver);
+                break;
+              }
             }
           }
-        }
-        ctx.putImageData(imageData, 0, 0);
+          ctx.putImageData(imageData, 0, 0);
 
-        // Layered Procedural Effects & Horizon Overlays
-        ctx.save();
+          // Layered Procedural Effects & Horizon Overlays
+          ctx.save();
 
-        if (horizon.id === 'future-10') {
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.arc(size / 2, size * 0.42, size * 0.28, 0, Math.PI * 2);
-          ctx.stroke();
-
-          ctx.strokeStyle = 'rgba(20, 25, 45, 0.25)';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.moveTo(size * 0.35, size * 0.39);
-          ctx.lineTo(size * 0.31, size * 0.38);
-          ctx.moveTo(size * 0.65, size * 0.39);
-          ctx.lineTo(size * 0.69, size * 0.38);
-          ctx.stroke();
-        }
-
-        if (horizon.id === 'future-25') {
-          const grad = ctx.createRadialGradient(
-            size / 2,
-            size * 0.3,
-            size * 0.2,
-            size / 2,
-            size * 0.3,
-            size * 0.5
-          );
-          grad.addColorStop(0, 'rgba(255, 255, 255, 0)');
-          grad.addColorStop(0.7, 'rgba(226, 232, 240, 0.2)');
-          grad.addColorStop(1, 'rgba(167, 139, 250, 0.35)');
-          ctx.fillStyle = grad;
-          ctx.fillRect(0, 0, size, size);
-
-          ctx.strokeStyle = 'rgba(30, 20, 50, 0.35)';
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.moveTo(size * 0.42, size * 0.32);
-          ctx.lineTo(size * 0.58, size * 0.32);
-          ctx.moveTo(size * 0.38, size * 0.52);
-          ctx.lineTo(size * 0.41, size * 0.58);
-          ctx.moveTo(size * 0.62, size * 0.52);
-          ctx.lineTo(size * 0.59, size * 0.58);
-          ctx.stroke();
-        }
-
-        if (horizon.id === 'cybernetic') {
-          const eyeX = size * 0.61;
-          const eyeY = size * 0.42;
-
-          ctx.shadowColor = '#00F0FF';
-          ctx.shadowBlur = 24;
-          ctx.strokeStyle = '#00F0FF';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.arc(eyeX, eyeY, 32, 0, Math.PI * 2);
-          ctx.stroke();
-
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.arc(eyeX, eyeY, 48, -0.4, 3.5);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.moveTo(eyeX - 58, eyeY);
-          ctx.lineTo(eyeX - 38, eyeY);
-          ctx.moveTo(eyeX + 38, eyeY);
-          ctx.lineTo(eyeX + 58, eyeY);
-          ctx.moveTo(eyeX, eyeY - 58);
-          ctx.lineTo(eyeX, eyeY - 38);
-          ctx.moveTo(eyeX, eyeY + 38);
-          ctx.lineTo(eyeX, eyeY + 58);
-          ctx.stroke();
-
-          ctx.shadowBlur = 12;
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.moveTo(eyeX + 48, eyeY - 20);
-          ctx.lineTo(eyeX + 85, eyeY - 45);
-          ctx.lineTo(eyeX + 130, eyeY - 45);
-          ctx.lineTo(eyeX + 155, eyeY - 80);
-
-          ctx.moveTo(eyeX + 48, eyeY + 15);
-          ctx.lineTo(eyeX + 90, eyeY + 35);
-          ctx.lineTo(eyeX + 140, eyeY + 35);
-          ctx.stroke();
-
-          ctx.fillStyle = '#00F0FF';
-          ctx.beginPath();
-          ctx.arc(eyeX + 130, eyeY - 45, 4, 0, Math.PI * 2);
-          ctx.arc(eyeX + 140, eyeY + 35, 4, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = '#00F0FF';
-          ctx.font = 'bold 11px monospace';
-          ctx.fillText('NEURAL-LINK [V7.4.2] ACTIVE', eyeX - 60, eyeY + 70);
-          ctx.fillText('OCULAR DIOPTER: +2.85 GHz', eyeX - 60, eyeY + 84);
-        }
-
-        if (horizon.id === 'mars-pioneer') {
-          const helmGrad = ctx.createLinearGradient(0, 0, size, size);
-          helmGrad.addColorStop(0, 'rgba(251, 146, 60, 0.2)');
-          helmGrad.addColorStop(0.5, 'rgba(180, 83, 9, 0.05)');
-          helmGrad.addColorStop(1, 'rgba(239, 68, 68, 0.25)');
-          ctx.fillStyle = helmGrad;
-          ctx.fillRect(0, 0, size, size);
-
-          ctx.strokeStyle = 'rgba(254, 215, 170, 0.35)';
-          ctx.lineWidth = 6;
-          ctx.beginPath();
-          ctx.arc(size / 2, size * 0.45, size * 0.44, Math.PI * 0.85, Math.PI * 1.45);
-          ctx.stroke();
-
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-          ctx.fillRect(size * 0.05, size * 0.05, 230, 48);
-          ctx.strokeStyle = '#FB923C';
-          ctx.lineWidth = 1.5;
-          ctx.strokeRect(size * 0.05, size * 0.05, 230, 48);
-          ctx.fillStyle = '#FB923C';
-          ctx.font = 'bold 11px monospace';
-          ctx.fillText('VALLES MARINERIS // HAB-04', size * 0.07, size * 0.08);
-          ctx.fillStyle = '#FED7AA';
-          ctx.font = '10px monospace';
-          ctx.fillText('O2 MIX: 98.4% | RAD-LVL: NOMINAL', size * 0.07, size * 0.098);
-        }
-
-        if (horizon.id === 'elysium') {
-          ctx.strokeStyle = 'rgba(236, 72, 153, 0.3)';
-          ctx.lineWidth = 1;
-          for (let y = 0; y < size; y += 16) {
+          if (horizon.id === 'future-10') {
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(size, y);
+            ctx.arc(size / 2, size * 0.42, size * 0.28, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Subtle smile/wisdom accents
+            ctx.strokeStyle = 'rgba(20, 25, 45, 0.35)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(size * 0.35, size * 0.39);
+            ctx.lineTo(size * 0.31, size * 0.38);
+            ctx.moveTo(size * 0.65, size * 0.39);
+            ctx.lineTo(size * 0.69, size * 0.38);
             ctx.stroke();
           }
 
-          ctx.fillStyle = '#EC4899';
-          ctx.shadowColor = '#F472B6';
-          ctx.shadowBlur = 10;
-          for (let p = 0; p < 24; p++) {
-            const px = (p * 79 + 31) % size;
-            const py = (p * 97 + 53) % size;
+          if (horizon.id === 'future-25') {
+            const grad = ctx.createRadialGradient(
+              size / 2,
+              size * 0.3,
+              size * 0.2,
+              size / 2,
+              size * 0.3,
+              size * 0.5
+            );
+            grad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+            grad.addColorStop(0.7, 'rgba(226, 232, 240, 0.25)');
+            grad.addColorStop(1, 'rgba(167, 139, 250, 0.4)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, size, size);
+
+            ctx.strokeStyle = 'rgba(30, 20, 50, 0.4)';
+            ctx.lineWidth = 2.5;
             ctx.beginPath();
-            ctx.arc(px, py, (p % 3) + 1.5, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.moveTo(size * 0.42, size * 0.32);
+            ctx.lineTo(size * 0.58, size * 0.32);
+            ctx.moveTo(size * 0.38, size * 0.52);
+            ctx.lineTo(size * 0.41, size * 0.58);
+            ctx.moveTo(size * 0.62, size * 0.52);
+            ctx.lineTo(size * 0.59, size * 0.58);
+            ctx.stroke();
           }
-        }
 
-        if (horizon.id === 'grand-elder') {
-          const elderGrad = ctx.createRadialGradient(
-            size / 2,
-            size / 2,
-            size * 0.25,
-            size / 2,
-            size / 2,
-            size * 0.6
-          );
-          elderGrad.addColorStop(0, 'rgba(251, 191, 36, 0.04)');
-          elderGrad.addColorStop(0.7, 'rgba(180, 83, 9, 0.12)');
-          elderGrad.addColorStop(1, 'rgba(15, 23, 42, 0.7)');
-          ctx.fillStyle = elderGrad;
-          ctx.fillRect(0, 0, size, size);
+          if (horizon.id === 'cybernetic') {
+            const eyeX = size * 0.61;
+            const eyeY = size * 0.42;
 
-          ctx.strokeStyle = 'rgba(74, 30, 5, 0.4)';
+            ctx.shadowColor = '#00F0FF';
+            ctx.shadowBlur = 24;
+            ctx.strokeStyle = '#00F0FF';
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            ctx.arc(eyeX, eyeY, 34, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(eyeX, eyeY, 52, -0.4, 3.5);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(eyeX - 62, eyeY);
+            ctx.lineTo(eyeX - 40, eyeY);
+            ctx.moveTo(eyeX + 40, eyeY);
+            ctx.lineTo(eyeX + 62, eyeY);
+            ctx.moveTo(eyeX, eyeY - 62);
+            ctx.lineTo(eyeX, eyeY - 40);
+            ctx.moveTo(eyeX, eyeY + 40);
+            ctx.lineTo(eyeX, eyeY + 62);
+            ctx.stroke();
+
+            ctx.shadowBlur = 14;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(eyeX + 50, eyeY - 20);
+            ctx.lineTo(eyeX + 90, eyeY - 45);
+            ctx.lineTo(eyeX + 135, eyeY - 45);
+            ctx.lineTo(eyeX + 160, eyeY - 80);
+
+            ctx.moveTo(eyeX + 50, eyeY + 15);
+            ctx.lineTo(eyeX + 95, eyeY + 35);
+            ctx.lineTo(eyeX + 145, eyeY + 35);
+            ctx.stroke();
+
+            ctx.fillStyle = '#00F0FF';
+            ctx.beginPath();
+            ctx.arc(eyeX + 135, eyeY - 45, 4.5, 0, Math.PI * 2);
+            ctx.arc(eyeX + 145, eyeY + 35, 4.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#00F0FF';
+            ctx.font = 'bold 12px monospace';
+            ctx.fillText('NEURAL-LINK [V7.4] ACTIVE', eyeX - 60, eyeY + 74);
+            ctx.fillText('OCULAR DIOPTER: +2.85 GHz', eyeX - 60, eyeY + 90);
+          }
+
+          if (horizon.id === 'mars-pioneer') {
+            const helmGrad = ctx.createLinearGradient(0, 0, size, size);
+            helmGrad.addColorStop(0, 'rgba(251, 146, 60, 0.25)');
+            helmGrad.addColorStop(0.5, 'rgba(180, 83, 9, 0.08)');
+            helmGrad.addColorStop(1, 'rgba(239, 68, 68, 0.3)');
+            ctx.fillStyle = helmGrad;
+            ctx.fillRect(0, 0, size, size);
+
+            ctx.strokeStyle = 'rgba(254, 215, 170, 0.45)';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.arc(size / 2, size * 0.45, size * 0.44, Math.PI * 0.85, Math.PI * 1.45);
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+            ctx.fillRect(size * 0.05, size * 0.05, 250, 52);
+            ctx.strokeStyle = '#FB923C';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(size * 0.05, size * 0.05, 250, 52);
+            ctx.fillStyle = '#FB923C';
+            ctx.font = 'bold 12px monospace';
+            ctx.fillText('VALLES MARINERIS // HAB-04', size * 0.07, size * 0.082);
+            ctx.fillStyle = '#FED7AA';
+            ctx.font = '11px monospace';
+            ctx.fillText('O2 MIX: 98.4% | RAD-LVL: NOMINAL', size * 0.07, size * 0.102);
+          }
+
+          if (horizon.id === 'elysium') {
+            ctx.strokeStyle = 'rgba(236, 72, 153, 0.35)';
+            ctx.lineWidth = 1;
+            for (let y = 0; y < size; y += 14) {
+              ctx.beginPath();
+              ctx.moveTo(0, y);
+              ctx.lineTo(size, y);
+              ctx.stroke();
+            }
+
+            ctx.fillStyle = '#EC4899';
+            ctx.shadowColor = '#F472B6';
+            ctx.shadowBlur = 12;
+            for (let p = 0; p < 28; p++) {
+              const px = (p * 79 + 31) % size;
+              const py = (p * 97 + 53) % size;
+              ctx.beginPath();
+              ctx.arc(px, py, (p % 3) + 1.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          if (horizon.id === 'grand-elder') {
+            const elderGrad = ctx.createRadialGradient(
+              size / 2,
+              size / 2,
+              size * 0.25,
+              size / 2,
+              size / 2,
+              size * 0.6
+            );
+            elderGrad.addColorStop(0, 'rgba(251, 191, 36, 0.06)');
+            elderGrad.addColorStop(0.7, 'rgba(180, 83, 9, 0.15)');
+            elderGrad.addColorStop(1, 'rgba(15, 23, 42, 0.75)');
+            ctx.fillStyle = elderGrad;
+            ctx.fillRect(0, 0, size, size);
+
+            ctx.strokeStyle = 'rgba(74, 30, 5, 0.45)';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(size * 0.32, size * 0.26);
+            ctx.lineTo(size * 0.68, size * 0.26);
+            ctx.moveTo(size * 0.36, size * 0.30);
+            ctx.lineTo(size * 0.64, size * 0.30);
+            ctx.stroke();
+          }
+
+          // Sleek Futuristic Bottom Telemetry Passcard Bar
+          const barH = 58;
+          ctx.fillStyle = 'rgba(9, 10, 15, 0.94)';
+          ctx.fillRect(0, size - barH, size, barH);
+          ctx.strokeStyle = horizon.accentColor;
           ctx.lineWidth = 2.5;
           ctx.beginPath();
-          ctx.moveTo(size * 0.32, size * 0.26);
-          ctx.lineTo(size * 0.68, size * 0.26);
-          ctx.moveTo(size * 0.36, size * 0.30);
-          ctx.lineTo(size * 0.64, size * 0.30);
+          ctx.moveTo(0, size - barH);
+          ctx.lineTo(size, size - barH);
           ctx.stroke();
+
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#FFFFFF';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText(`AFTERHOURS // TEMPORAL HORIZON: ${horizon.year}`, 20, size - 33);
+
+          ctx.fillStyle = horizon.accentColor;
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText(
+            `BIOMETRIC ID: AH-2036 • ${horizon.badge}`,
+            20,
+            size - 15
+          );
+
+          ctx.fillStyle = '#94A3B8';
+          ctx.font = '10px monospace';
+          ctx.fillText('VERIFIED TEMPORAL PROJECTION', size - 220, size - 24);
+
+          ctx.restore();
+
+          const resultUrl = canvas.toDataURL('image/png', 0.95);
+          setGeneratedImage(resultUrl);
+        } catch (err) {
+          console.error('Error during future self transformation:', err);
+          setGeneratedImage(srcDataUrl);
+        } finally {
+          setIsProcessing(false);
         }
+      };
 
-        // Sleek Futuristic Bottom Telemetry Passcard Bar
-        const barH = 54;
-        ctx.fillStyle = 'rgba(9, 10, 15, 0.92)';
-        ctx.fillRect(0, size - barH, size, barH);
-        ctx.strokeStyle = horizon.accentColor;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(0, size - barH);
-        ctx.lineTo(size, size - barH);
-        ctx.stroke();
-
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 13px sans-serif';
-        ctx.fillText(`AFTERHOURS // TEMPORAL HORIZON: ${horizon.year}`, 20, size - 30);
-
-        ctx.fillStyle = horizon.accentColor;
-        ctx.font = 'bold 11px monospace';
-        ctx.fillText(
-          `BIOMETRIC ID: AH-${Math.floor(Math.random() * 89999 + 10000)} • ${horizon.badge}`,
-          20,
-          size - 14
-        );
-
-        ctx.fillStyle = '#94A3B8';
-        ctx.font = '10px monospace';
-        ctx.fillText('VERIFIED TEMPORAL PROJECTION', size - 210, size - 22);
-
-        ctx.restore();
-
-        const resultUrl = canvas.toDataURL('image/png', 0.95);
-        setGeneratedImage(resultUrl);
+      img.onload = executeTransformation;
+      img.onerror = (e) => {
+        console.error('Failed to load image in transformation engine:', e);
+        setGeneratedImage(srcDataUrl);
         setIsProcessing(false);
       };
+
       img.src = srcDataUrl;
+
+      // Handle cases where img is already cached or synchronous
+      if (img.complete && img.naturalWidth > 0) {
+        executeTransformation();
+      }
     },
     []
   );
@@ -519,10 +542,11 @@ export const FutureSelfEngine: React.FC = () => {
 
   // Download high-res passcard
   const downloadResult = () => {
-    if (!generatedImage) return;
+    const targetImage = generatedImage || sourceImage;
+    if (!targetImage) return;
     const link = document.createElement('a');
     link.download = `afterhours-future-self-${currentHorizon.year}.png`;
-    link.href = generatedImage;
+    link.href = targetImage;
     link.click();
   };
 
@@ -546,9 +570,6 @@ export const FutureSelfEngine: React.FC = () => {
 
   return (
     <div className="w-full space-y-6">
-      {/* Hidden processing canvas */}
-      <canvas ref={canvasRef} className="hidden" />
-
       {/* Hidden file input */}
       <input
         ref={fileInputRef}
@@ -721,12 +742,22 @@ export const FutureSelfEngine: React.FC = () => {
           {/* Top Header Actions */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#0E1322] border border-[#1E293B] p-4 sm:p-5 rounded-2xl shadow-xl">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0066FF] to-[#00F0FF] flex items-center justify-center text-white shadow-md">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-md border"
+                style={{
+                  backgroundColor: `${currentHorizon.accentColor}25`,
+                  borderColor: `${currentHorizon.accentColor}60`,
+                  color: currentHorizon.accentColor,
+                }}
+              >
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] font-mono tracking-widest text-[#00F0FF] uppercase">
-                  SIMULATION ACTIVE
+                <span
+                  className="text-[10px] font-mono tracking-widest uppercase font-bold"
+                  style={{ color: currentHorizon.accentColor }}
+                >
+                  SIMULATING: {currentHorizon.badge}
                 </span>
                 <h2 className="text-base sm:text-lg font-bold text-white">
                   {currentHorizon.title}
@@ -755,22 +786,23 @@ export const FutureSelfEngine: React.FC = () => {
               </button>
               <button
                 onClick={downloadResult}
-                disabled={!generatedImage}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#00F0FF] to-[#0066FF] text-white text-xs font-bold shadow-md hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#00F0FF] to-[#0066FF] text-white text-xs font-bold shadow-md hover:brightness-110 active:scale-95 transition-all cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>Save Passcard</span>
+                <span>Download Passcard</span>
               </button>
             </div>
           </div>
 
-          {/* Temporal Horizon Selector Options */}
+          {/* Temporal Horizon Selector Options - Interactive Options */}
           <div>
             <div className="flex items-center justify-between mb-2.5 px-1">
               <h3 className="text-xs font-bold tracking-wide uppercase text-[#94A3B8] font-mono">
-                Select Horizon ({FUTURE_HORIZONS.length} Options)
+                Select Your Future Horizon ({FUTURE_HORIZONS.length} Possibilities)
               </h3>
-              <span className="text-xs text-[#38BDF8]">Instant Render</span>
+              <span className="text-xs font-mono text-[#00F0FF]">
+                {isProcessing ? 'Synthesizing...' : 'Live Instant Render'}
+              </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
@@ -779,10 +811,12 @@ export const FutureSelfEngine: React.FC = () => {
                 return (
                   <button
                     key={h.id}
-                    onClick={() => setSelectedHorizonId(h.id)}
-                    className={`p-3 rounded-2xl border text-left transition-all relative flex flex-col justify-between group active:scale-95 cursor-pointer ${
+                    onClick={() => {
+                      setSelectedHorizonId(h.id);
+                    }}
+                    className={`p-3.5 rounded-2xl border text-left transition-all relative flex flex-col justify-between group active:scale-95 cursor-pointer ${
                       isSelected
-                        ? 'bg-[#131D38] border-[#00F0FF] shadow-[0_0_20px_rgba(0,240,255,0.25)] ring-1 ring-[#00F0FF]'
+                        ? 'bg-[#131D38] border-[#00F0FF] shadow-[0_0_20px_rgba(0,240,255,0.3)] ring-2 ring-[#00F0FF]'
                         : 'bg-[#0E1322] border-[#1E293B] hover:border-[#38BDF8]/60 hover:bg-[#12192E]'
                     }`}
                   >
@@ -823,98 +857,176 @@ export const FutureSelfEngine: React.FC = () => {
             </div>
           </div>
 
-          {/* Interactive Split Comparison Viewport & Telemetry HUD */}
+          {/* Interactive Visualizer Viewport & Telemetry HUD */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Split Comparison Viewport (7 cols) */}
+            {/* Main Visualizer Viewport (7 cols) */}
             <div className="lg:col-span-7 bg-[#0E1322] border border-[#1E293B] rounded-3xl p-5 shadow-2xl relative">
-              <div className="flex items-center justify-between mb-3 text-xs">
-                <span className="font-mono text-slate-400">
-                  DRAG SLIDER TO COMPARE
-                </span>
-                <div className="flex items-center gap-2 font-mono">
-                  <span className="text-[#38BDF8]">ORIGINAL (0%)</span>
-                  <span className="text-slate-600">|</span>
+              {/* View Mode Switcher Pills */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
+                <div className="flex items-center gap-1 p-1 rounded-xl bg-[#090D18] border border-[#1E293B]">
+                  <button
+                    onClick={() => setViewMode('transformed')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                      viewMode === 'transformed'
+                        ? 'bg-[#0066FF] text-white shadow-sm'
+                        : 'text-[#94A3B8] hover:text-white'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Future Self</span>
+                  </button>
+                  <button
+                    onClick={() => setViewMode('compare')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                      viewMode === 'compare'
+                        ? 'bg-[#A855F7] text-white shadow-sm'
+                        : 'text-[#94A3B8] hover:text-white'
+                    }`}
+                  >
+                    <Sliders className="w-3.5 h-3.5" />
+                    <span>Split Slider</span>
+                  </button>
+                  <button
+                    onClick={() => setViewMode('original')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                      viewMode === 'original'
+                        ? 'bg-[#1E293B] text-white shadow-sm'
+                        : 'text-[#94A3B8] hover:text-white'
+                    }`}
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Original</span>
+                  </button>
+                </div>
+
+                <div className="text-xs font-mono">
                   <span style={{ color: currentHorizon.accentColor }}>
-                    FUTURE ({currentHorizon.year})
+                    TARGET: {currentHorizon.year} ({currentHorizon.badge})
                   </span>
                 </div>
               </div>
 
-              {/* Slider Viewport Container */}
+              {/* Image Viewport Container */}
               <div className="relative aspect-square w-full max-w-lg mx-auto rounded-2xl overflow-hidden border-2 border-[#1E293B] select-none bg-black">
-                {/* Transformed Future Self (Base Layer) */}
-                {generatedImage && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={generatedImage}
-                    alt={`Future Self ${currentHorizon.year}`}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
+                {/* 1. Full Transformed Mode */}
+                {viewMode === 'transformed' && (
+                  <div className="w-full h-full relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={generatedImage || sourceImage}
+                      alt={`Future Self ${currentHorizon.year}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <div
+                      className="absolute top-3 right-3 px-2.5 py-1 rounded-lg backdrop-blur-md border text-[11px] font-mono font-bold shadow-lg"
+                      style={{
+                        backgroundColor: 'rgba(9,10,15,0.85)',
+                        borderColor: currentHorizon.accentColor,
+                        color: currentHorizon.accentColor,
+                      }}
+                    >
+                      {currentHorizon.title.toUpperCase()}
+                    </div>
+                  </div>
                 )}
 
-                {/* Original Photo (Clipped Overlay Layer) */}
-                <div
-                  className="absolute inset-0 overflow-hidden"
-                  style={{ width: `${sliderPosition}%` }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={sourceImage}
-                    alt="Original Photo"
-                    className="absolute inset-0 w-full h-full object-cover max-w-none"
-                    style={{ width: '100%', height: '100%' }}
+                {/* 2. Original Mode */}
+                {viewMode === 'original' && (
+                  <div className="w-full h-full relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={sourceImage}
+                      alt="Original Photo"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md border border-white/20 text-[11px] font-mono text-white font-bold shadow-lg">
+                      ORIGINAL CAPTURE
+                    </div>
+                  </div>
+                )}
+
+                {/* 3. Split Compare Mode (Pixel-accurate clipPath slider) */}
+                {viewMode === 'compare' && (
+                  <div className="w-full h-full relative">
+                    {/* Transformed Future Self (Base Layer) */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={generatedImage || sourceImage}
+                      alt={`Future Self ${currentHorizon.year}`}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+
+                    {/* Original Photo (Clipped cleanly via CSS clipPath without squishing) */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={sourceImage}
+                      alt="Original Photo"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={{
+                        clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
+                      }}
+                    />
+
+                    {/* Original Badge */}
+                    <div className="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-white/20 text-[10px] font-mono text-white">
+                      ORIGINAL
+                    </div>
+
+                    {/* Transformed Badge */}
+                    <div
+                      className="absolute top-3 right-3 px-2 py-0.5 rounded backdrop-blur-sm border text-[10px] font-mono font-bold"
+                      style={{
+                        backgroundColor: 'rgba(9,10,15,0.85)',
+                        borderColor: currentHorizon.accentColor,
+                        color: currentHorizon.accentColor,
+                      }}
+                    >
+                      {currentHorizon.title.toUpperCase()}
+                    </div>
+
+                    {/* Vertical Dividing Line & Handle */}
+                    <div
+                      className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)] cursor-ew-resize z-10"
+                      style={{ left: `${sliderPosition}%` }}
+                    >
+                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-2xl font-bold text-xs pointer-events-none">
+                        ⇄
+                      </div>
+                    </div>
+
+                    {/* Transparent Slider Input overlay */}
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={sliderPosition}
+                      onChange={(e) => setSliderPosition(Number(e.target.value))}
+                      className="absolute inset-0 opacity-0 cursor-ew-resize z-20 w-full h-full"
+                      title="Drag left/right to compare"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Slider Track (when in compare mode) */}
+              {viewMode === 'compare' && (
+                <div className="mt-3 flex items-center gap-3">
+                  <span className="text-[11px] font-mono text-slate-400">
+                    SLIDE TO COMPARE:
+                  </span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={sliderPosition}
+                    onChange={(e) => setSliderPosition(Number(e.target.value))}
+                    className="flex-1 accent-[#00F0FF] cursor-pointer"
                   />
-                  <div className="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-sm border border-white/20 text-[10px] font-mono text-white">
-                    ORIGINAL
-                  </div>
+                  <span className="text-xs font-mono font-bold text-white w-10 text-right">
+                    {sliderPosition}%
+                  </span>
                 </div>
-
-                <div
-                  className="absolute top-3 right-3 px-2 py-0.5 rounded backdrop-blur-sm border text-[10px] font-mono font-bold"
-                  style={{
-                    backgroundColor: 'rgba(9,10,15,0.75)',
-                    borderColor: currentHorizon.accentColor,
-                    color: currentHorizon.accentColor,
-                  }}
-                >
-                  {currentHorizon.title.toUpperCase()}
-                </div>
-
-                {/* Vertical Divider Line with Grab Handle */}
-                <div
-                  className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)] cursor-ew-resize z-10"
-                  style={{ left: `${sliderPosition}%` }}
-                >
-                  <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-2xl font-bold text-xs pointer-events-none">
-                    ⇄
-                  </div>
-                </div>
-
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={sliderPosition}
-                  onChange={(e) => setSliderPosition(Number(e.target.value))}
-                  className="absolute inset-0 opacity-0 cursor-ew-resize z-20 w-full h-full"
-                  title="Drag left/right to compare"
-                />
-              </div>
-
-              {/* Slider Track */}
-              <div className="mt-3 flex items-center gap-3">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={sliderPosition}
-                  onChange={(e) => setSliderPosition(Number(e.target.value))}
-                  className="flex-1 accent-[#00F0FF] cursor-pointer"
-                />
-                <span className="text-xs font-mono font-bold text-white w-10 text-right">
-                  {sliderPosition}%
-                </span>
-              </div>
+              )}
             </div>
 
             {/* Horizon Dossier (5 cols) */}
@@ -968,7 +1080,7 @@ export const FutureSelfEngine: React.FC = () => {
 
               <div className="pt-2 border-t border-[#1E293B] flex items-center justify-between">
                 <span className="text-[11px] text-slate-400">
-                  Keep your generated image:
+                  Save your generated projection:
                 </span>
                 <button
                   onClick={downloadResult}

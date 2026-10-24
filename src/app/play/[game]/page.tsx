@@ -1,7 +1,8 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
+import { Info } from 'lucide-react';
 import { PatternShiftArena } from '@/games/pattern-shift/PatternShiftArena';
 import { WordWeaveArena } from '@/games/word-weave/WordWeaveArena';
 import { PulseJumperArena } from '@/games/pulse-jumper/PulseJumperArena';
@@ -14,11 +15,14 @@ import { NumberBlitzArena } from '@/games/number-blitz/NumberBlitzArena';
 import { MazeRunnerArena } from '@/games/maze-runner/MazeRunnerArena';
 import { PixelInvadersArena } from '@/games/pixel-invaders/PixelInvadersArena';
 import { Game2048Arena } from '@/games/game-2048/Game2048Arena';
+import { HowToPlayModal } from '@/components/common/HowToPlayModal';
 
 function GamePlayContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   const gameId = (params?.game as string) || 'pattern-shift';
   const difficulty = searchParams.get('diff') || 'easy';
@@ -75,7 +79,26 @@ function GamePlayContent() {
   return (
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden select-none bg-[#05050D] z-50 flex flex-col justify-center items-center relative">
       <div className="scanlines" aria-hidden="true" />
+
+      {/* Floating Universal How-to-Play Info Button */}
+      <button
+        onClick={() => setShowHowToPlay(true)}
+        className="fixed top-3.5 right-4 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0E1322]/90 hover:bg-[#1E293B] border border-[#00F0FF]/50 text-[#00F0FF] hover:text-white text-xs font-mono font-bold shadow-[0_0_14px_rgba(0,240,255,0.3)] transition-all cursor-pointer backdrop-blur-md"
+        title="View game instructions, controls and scoring rules"
+      >
+        <Info className="w-3.5 h-3.5" />
+        <span className="hidden sm:inline">HOW TO PLAY</span>
+        <span className="sm:hidden">INFO</span>
+      </button>
+
       {renderGame()}
+
+      {/* Universal Instructions Modal */}
+      <HowToPlayModal
+        isOpen={showHowToPlay}
+        gameId={gameId}
+        onClose={() => setShowHowToPlay(false)}
+      />
     </div>
   );
 }

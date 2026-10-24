@@ -8,6 +8,7 @@ import {
   Play,
   Search,
   Dices,
+  Info,
 } from 'lucide-react';
 import { GameId } from '@/types/puzzle';
 import { db } from '@/services/db';
@@ -19,6 +20,7 @@ import {
 } from '@/data/gamesList';
 import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardModal';
 import { GameSetupModal } from '@/components/common/GameSetupModal';
+import { HowToPlayModal } from '@/components/common/HowToPlayModal';
 import { useArcadeShortcuts } from '@/hooks/useArcadeShortcuts';
 
 export default function GamesHubPage() {
@@ -27,6 +29,7 @@ export default function GamesHubPage() {
   const [personalBests, setPersonalBests] = useState<Record<string, number>>({});
   const [selectedLeaderboardGame, setSelectedLeaderboardGame] = useState<GameId | null>(null);
   const [selectedLeaderboardTitle, setSelectedLeaderboardTitle] = useState('');
+  const [selectedInfoGame, setSelectedInfoGame] = useState<string | null>(null);
 
   // Universal Name & Difficulty Setup Modal State
   const [setupGame, setSetupGame] = useState<GameDefinition | null>(null);
@@ -242,11 +245,20 @@ export default function GamesHubPage() {
 
                   <div className="flex items-center gap-2">
                     <button
+                      onClick={() => setSelectedInfoGame(game.routeId || game.id)}
+                      className="p-2.5 rounded-xl bg-[#05050D] hover:bg-[#141432] border border-[#24244A] text-[#8A8AB8] hover:text-[#00F0FF] transition-colors cursor-pointer"
+                      title={`How to play ${game.title}`}
+                      aria-label={`How to play ${game.title}`}
+                    >
+                      <Info className="w-3.5 h-3.5 text-[#00F0FF]" />
+                    </button>
+
+                    <button
                       onClick={() => {
                         setSelectedLeaderboardGame(game.id);
                         setSelectedLeaderboardTitle(game.title);
                       }}
-                      className="p-2.5 rounded-xl bg-[#05050D] hover:bg-[#141432] border border-[#24244A] text-[#8A8AB8] hover:text-[#FFE45E] transition-colors"
+                      className="p-2.5 rounded-xl bg-[#05050D] hover:bg-[#141432] border border-[#24244A] text-[#8A8AB8] hover:text-[#FFE45E] transition-colors cursor-pointer"
                       title={`View ${game.title} Leaderboard`}
                       aria-label={`Open ${game.title} Leaderboard`}
                     >
@@ -300,6 +312,13 @@ export default function GamesHubPage() {
           currentParticipantId="practice-user"
         />
       )}
+
+      {/* Dedicated How-To-Play Guide Modal for all games */}
+      <HowToPlayModal
+        isOpen={Boolean(selectedInfoGame)}
+        gameId={selectedInfoGame || ''}
+        onClose={() => setSelectedInfoGame(null)}
+      />
     </div>
   );
 }

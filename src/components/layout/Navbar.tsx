@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { href: '/', label: 'Home', icon: Home },
-    { href: '/future', label: 'Future Lab', icon: Sparkles },
+    { href: '/future', label: 'Future Self', icon: Sparkles },
     { href: '/games', label: 'Games', icon: Gamepad2 },
     { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
   ];

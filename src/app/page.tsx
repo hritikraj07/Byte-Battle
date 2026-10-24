@@ -65,13 +65,13 @@ export default function AfterhoursHomePage() {
 
         {/* Primary Action Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-10">
-          {/* Future Lab (Spotlight) */}
+          {/* Future Self (Spotlight) */}
           <Link
             href="/future"
             className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#0066FF] to-[#00F0FF] text-white font-bold text-xs sm:text-sm shadow-[0_0_24px_rgba(0,102,255,0.4)] hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
           >
             <Camera className="w-4 h-4" />
-            <span>Launch Future Lab</span>
+            <span>Launch Future Self</span>
             <ArrowRight className="w-4 h-4 ml-0.5" />
           </Link>
 
@@ -139,7 +139,7 @@ export default function AfterhoursHomePage() {
             <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/30 text-xs font-mono font-bold">
                 <Sparkles className="w-3.5 h-3.5" />
-                FLAGSHIP EXPERIENCE • FUTURE LAB
+                FLAGSHIP EXPERIENCE • FUTURE SELF
               </div>
 
               <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
