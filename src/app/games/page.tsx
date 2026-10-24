@@ -102,7 +102,9 @@ export default function GamesHubPage() {
   }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="w-full max-w-[1720px] mx-auto px-3 sm:px-5 lg:px-6 py-8 animate-fadeIn text-[#E8E8FF]">
+    <div className="w-full max-w-[1720px] mx-auto px-3 sm:px-5 lg:px-6 py-8 animate-fadeIn text-[#E8E8FF] relative">
+      {/* Authentic retro arcade CRT scanlines overlay scoped strictly to arcade */}
+      <div className="scanlines" aria-hidden="true" />
       {/* Universal Name & Difficulty Setup Modal */}
       {setupGame && (
         <GameSetupModal

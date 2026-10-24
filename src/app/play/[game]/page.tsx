@@ -74,6 +74,7 @@ function GamePlayContent() {
 
   return (
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden select-none bg-[#05050D] z-50 flex flex-col justify-center items-center relative">
+      <div className="scanlines" aria-hidden="true" />
       {renderGame()}
     </div>
   );

@@ -269,7 +269,7 @@ export const WordWeaveArena: React.FC<WordWeaveArenaProps> = ({
       setTimeout(() => {
         setIsGameOver(true);
         if (onFinish) onFinish(breakdown.score);
-      }, 1000);
+      }, 120);
     }
   };
 

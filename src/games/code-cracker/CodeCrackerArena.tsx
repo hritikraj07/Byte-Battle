@@ -226,7 +226,7 @@ export const CodeCrackerArena: React.FC<CodeCrackerArenaProps> = ({
       setTimeout(() => {
         setIsGameOver(true);
         if (onFinish) onFinish(breakdown.score);
-      }, 900);
+      }, 120);
     } else {
       playSound('wrong');
       setCurrentGuess('');

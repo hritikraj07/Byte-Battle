@@ -232,16 +232,16 @@ export const PatternShiftArena: React.FC<PatternShiftArenaProps> = ({
       setTimeout(() => {
         setIsGameOver(true);
         if (onFinish) onFinish(breakdown.score);
-      }, 900);
+      }, 120);
     } else {
       playSound('wrong');
       setFeedback('wrong');
       addPenalty(5);
 
-      // Selected wrong option: automatically change the question after brief feedback!
+      // Selected wrong option: automatically change the question immediately!
       setTimeout(() => {
         loadNewPuzzle();
-      }, 750);
+      }, 120);
     }
   };
 

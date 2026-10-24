@@ -1,3 +1,3 @@
-export * from './futureData';
-export { LifeIn2036 } from './LifeIn2036';
-export { FutureSimulator } from './FutureSimulator';
+export * from './futureTypes';
+export * from './futurePresets';
+export { FutureSelfEngine } from './FutureSelfEngine';
