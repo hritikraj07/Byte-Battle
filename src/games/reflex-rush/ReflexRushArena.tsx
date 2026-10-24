@@ -8,6 +8,7 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface ReflexRushArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -15,6 +16,7 @@ type RoundState = 'idle' | 'waiting' | 'ready' | 'early' | 'clicked' | 'complete
 
 export const ReflexRushArena: React.FC<ReflexRushArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const { playSound } = useAudio();
@@ -30,21 +32,17 @@ export const ReflexRushArena: React.FC<ReflexRushArenaProps> = ({
   const startTimeRef = useRef<number>(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Active player info from storage
-  const [playerName, setPlayerName] = useState('Player');
+  // Active player info from prop or session
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'ReflexPro';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'ReflexPro' : 'ReflexPro');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -157,6 +155,18 @@ export const ReflexRushArena: React.FC<ReflexRushArenaProps> = ({
     }
   };
 
+  // Keyboard Spacebar Reaction Trigger
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.key === ' ') {
+        e.preventDefault();
+        handleInteraction();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleInteraction]);
+
   const handleRestart = () => {
     setRoundTimes([]);
     setCurrentRound(1);
@@ -239,10 +249,10 @@ export const ReflexRushArena: React.FC<ReflexRushArenaProps> = ({
         </div>
       </header>
 
-      {/* MAIN INTERACTIVE CLICK ARENA */}
+      {/* MAIN INTERACTIVE CLICK ARENA with instantaneous pointerdown */}
       <main
-        onClick={handleInteraction}
-        className={`flex-1 w-full flex flex-col items-center justify-center p-6 cursor-pointer transition-colors duration-150 ${
+        onPointerDown={handleInteraction}
+        className={`flex-1 w-full flex flex-col items-center justify-center p-6 cursor-pointer select-none touch-none transition-colors duration-150 ${
           roundState === 'waiting'
             ? 'bg-[#B91C1C]' // Bold Red: Hold on!
             : roundState === 'ready'

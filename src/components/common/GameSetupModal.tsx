@@ -112,8 +112,8 @@ export const GameSetupModal: React.FC<GameSetupModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      const saved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) || '' : '';
-      setNickname(saved);
+      // Must ask for a new name every time — no previous name preference
+      setNickname('');
       setSelectedDifficulty(initialDifficulty || (isPulseJumper ? 'normal' : 'easy'));
       setError(null);
     }
@@ -126,7 +126,7 @@ export const GameSetupModal: React.FC<GameSetupModalProps> = ({
     const trimmed = nickname.trim();
 
     if (!trimmed) {
-      setError('Please enter a player nickname to start.');
+      setError('Please enter your nickname to start.');
       return;
     }
 
@@ -148,9 +148,7 @@ export const GameSetupModal: React.FC<GameSetupModalProps> = ({
 
     const sanitized = result.sanitized;
 
-    // Persist as last-used convenience for prefilling next time
     if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, sanitized);
       sessionStorage.setItem('bytebattle_active_player', sanitized);
     }
 

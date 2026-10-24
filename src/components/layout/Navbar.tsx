@@ -28,7 +28,7 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-transparent transition-colors">
+    <header className="sticky top-0 z-40 w-full bg-[#080816]/95 backdrop-blur-xl border-b border-[#24244A] shadow-[0_4px_30px_rgba(0,0,0,0.85)] transition-all">
       <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo - Preserved Exactly with original proportions */}
         <Link

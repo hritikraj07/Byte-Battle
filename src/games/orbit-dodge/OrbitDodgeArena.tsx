@@ -8,6 +8,7 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface OrbitDodgeArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -29,6 +30,7 @@ interface Shard {
 
 export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -41,7 +43,7 @@ export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
   const [personalBest, setPersonalBest] = useState(0);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
 
-  const [playerName, setPlayerName] = useState('Player');
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   // Player & Engine Mutable State
@@ -71,16 +73,12 @@ export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'OrbitPilot';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'OrbitPilot' : 'OrbitPilot');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -181,6 +179,13 @@ export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
     setSurvivalSeconds(0);
     setGameState('playing');
   }, [initialHazardCount]);
+
+  // Direct game launch when nickname prop is supplied
+  useEffect(() => {
+    if (initialNickname && gameState === 'menu') {
+      startGame();
+    }
+  }, [initialNickname, gameState, startGame]);
 
   // Main game loop
   useEffect(() => {
@@ -605,9 +610,9 @@ export const OrbitDodgeArena: React.FC<OrbitDodgeArenaProps> = ({
                 </button>
                 <button
                   onClick={handleExitGame}
-                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider"
+                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider cursor-pointer"
                 >
-                  EXIT
+                  BACK TO GAMES
                 </button>
               </div>
             </div>

@@ -62,16 +62,18 @@ export const PatternShiftArena: React.FC<PatternShiftArenaProps> = ({
     accuracy: 0,
   });
 
-  // Check if player name confirmed
+  // Check if player name confirmed - direct launch if nickname provided
   useEffect(() => {
-    if (!confirmedNickname) {
-      const remembered = typeof window !== 'undefined' ? localStorage.getItem('bytebattle_remembered_nickname') || '' : '';
-      if (remembered) {
-        setConfirmedNickname(remembered);
-      }
+    if (initialNickname) {
+      setConfirmedNickname(initialNickname);
+      getOrCreateParticipant(eventId || 'practice-session', initialNickname)
+        .then((p) => setActiveParticipantId(p.id))
+        .catch(() => setActiveParticipantId(`p-${Date.now()}`));
+      setNameModalOpen(false);
+    } else if (!confirmedNickname) {
       setNameModalOpen(true);
     }
-  }, [confirmedNickname]);
+  }, [initialNickname, eventId]);
 
   // Pick a fresh non-repeating puzzle
   const loadNewPuzzle = useCallback(() => {
@@ -172,61 +174,73 @@ export const PatternShiftArena: React.FC<PatternShiftArenaProps> = ({
     setSelectedOption(option);
   };
 
+  const handleSkipQuestion = () => {
+    playSound('click');
+    addPenalty(3);
+    loadNewPuzzle();
+  };
+
   const handleSubmit = () => {
     if (!selectedOption || !currentPuzzle || isGameOver) return;
-    pause();
 
     const isCorrect = selectedOption.trim() === currentPuzzle.canonicalSolution.trim();
 
-    const breakdown = calculateScore({
-      difficulty: currentPuzzle.difficulty,
-      isCorrect,
-      timeRemainingSeconds: secondsLeft,
-      totalRoundSeconds: roundDurationSeconds,
-      hintsUsed,
-    });
-
-    setScoreBreakdown(breakdown);
-
     if (isCorrect) {
+      pause();
       playSound('correct');
       setFeedback('correct');
+
+      const breakdown = calculateScore({
+        difficulty: currentPuzzle.difficulty,
+        isCorrect: true,
+        timeRemainingSeconds: secondsLeft,
+        totalRoundSeconds: roundDurationSeconds,
+        hintsUsed,
+      });
+
+      setScoreBreakdown(breakdown);
       if (breakdown.score > personalBest) {
         setPersonalBest(breakdown.score);
       }
+
+      const pId = activeParticipantId || `p-${Date.now()}`;
+      const pName = confirmedNickname || 'Player';
+
+      saveGameAttempt({
+        id: `att-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        eventId,
+        participantId: pId,
+        nickname: pName,
+        gameId: 'pattern-shift',
+        puzzleId: currentPuzzle.id,
+        difficulty: currentPuzzle.difficulty,
+        isCorrect: true,
+        score: breakdown.score,
+        basePoints: breakdown.basePoints,
+        timeRemainingSeconds: secondsLeft,
+        timeBonusPoints: breakdown.timeBonusPoints,
+        hintsUsed,
+        hintPenaltyPoints: breakdown.hintPenaltyPoints,
+        elapsedSeconds: breakdown.elapsedSeconds,
+        totalRoundSeconds: roundDurationSeconds,
+        completedAt: new Date().toISOString(),
+        isPractice: !isEventMode,
+      }).catch(console.error);
+
+      setTimeout(() => {
+        setIsGameOver(true);
+        if (onFinish) onFinish(breakdown.score);
+      }, 900);
     } else {
       playSound('wrong');
       setFeedback('wrong');
+      addPenalty(5);
+
+      // Selected wrong option: automatically change the question after brief feedback!
+      setTimeout(() => {
+        loadNewPuzzle();
+      }, 750);
     }
-
-    const pId = activeParticipantId || `p-${Date.now()}`;
-    const pName = confirmedNickname || 'Player';
-
-    saveGameAttempt({
-      id: `att-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-      eventId,
-      participantId: pId,
-      nickname: pName,
-      gameId: 'pattern-shift',
-      puzzleId: currentPuzzle.id,
-      difficulty: currentPuzzle.difficulty,
-      isCorrect,
-      score: breakdown.score,
-      basePoints: breakdown.basePoints,
-      timeRemainingSeconds: secondsLeft,
-      timeBonusPoints: breakdown.timeBonusPoints,
-      hintsUsed,
-      hintPenaltyPoints: breakdown.hintPenaltyPoints,
-      elapsedSeconds: breakdown.elapsedSeconds,
-      totalRoundSeconds: roundDurationSeconds,
-      completedAt: new Date().toISOString(),
-      isPractice: !isEventMode,
-    }).catch(console.error);
-
-    setTimeout(() => {
-      setIsGameOver(true);
-      if (onFinish) onFinish(breakdown.score);
-    }, 900);
   };
 
   const handlePlayAgain = () => {
@@ -398,11 +412,17 @@ export const PatternShiftArena: React.FC<PatternShiftArenaProps> = ({
           </div>
         )}
 
-        {/* Submit Action */}
-        <div className="flex items-center justify-between gap-4 pt-4 border-t border-neo-border">
-          <span className="text-xs font-mono text-neo-secondary hidden sm:inline">
-            Press <strong className="text-white">Enter</strong> or [1-4] to submit
-          </span>
+        {/* Action Controls: Change Question & Submit */}
+        <div className="flex items-center justify-between gap-3 pt-4 border-t border-neo-border flex-wrap">
+          <button
+            onClick={handleSkipQuestion}
+            disabled={feedback !== null}
+            className="flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-[#0D0D22] hover:bg-[#1C1C3A] border border-[#00F0FF]/40 text-[#00F0FF] font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer"
+            title="Unable to solve? Switch to a new question"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>CHANGE QUESTION</span>
+          </button>
 
           <button
             onClick={handleSubmit}

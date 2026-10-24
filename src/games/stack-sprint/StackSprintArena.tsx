@@ -8,6 +8,7 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface StackSprintArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -25,6 +26,7 @@ const BLOCK_COLORS = [
 
 export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -38,7 +40,7 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
   const [personalBest, setPersonalBest] = useState(0);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
 
-  const [playerName, setPlayerName] = useState('Player');
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   const engineRef = useRef({
@@ -63,16 +65,12 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'StackMaster';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'StackMaster' : 'StackMaster');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -270,6 +268,29 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
       color: BLOCK_COLORS[nextColorIdx],
     };
   }, [baseSpeed, combo, difficulty, gameState, participantId, personalBest, playerName, playSound, tolerance]);
+
+  // Spacebar and ArrowDown controls for dropping block
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.key === ' ' || e.code === 'ArrowDown') {
+        e.preventDefault();
+        if (gameState === 'menu') {
+          startNewGame();
+        } else if (gameState === 'playing') {
+          handleDrop();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [gameState, handleDrop, startNewGame]);
+
+  // Direct game launch if nickname prop is provided
+  useEffect(() => {
+    if (initialNickname && gameState === 'menu') {
+      startNewGame();
+    }
+  }, [initialNickname, gameState, startNewGame]);
 
   // Main rendering & animation loop
   useEffect(() => {
@@ -472,14 +493,15 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
       </header>
 
       {/* CANVAS TOUCH INTERACTIVE PLAYFIELD */}
-      <div className="flex-1 w-full h-full relative" onClick={handleDrop}>
-        <canvas ref={canvasRef} className="w-full h-full block cursor-pointer" />
+      <div className="flex-1 w-full h-full relative touch-none" onPointerDown={handleDrop}>
+        <canvas ref={canvasRef} className="w-full h-full block cursor-pointer select-none" />
 
         {/* Start Menu Overlay */}
         {gameState === 'menu' && (
           <div
             className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fadeIn z-30"
             onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
           >
             <div className="max-w-md bg-neo-surface border border-neo-border p-8 rounded-3xl shadow-arcade-card">
               <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-neo-lime/10 border border-neo-lime/30 flex items-center justify-center text-neo-lime shadow-md">
@@ -493,7 +515,7 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
               </p>
               <button
                 onClick={startNewGame}
-                className="w-full py-3.5 px-6 rounded-2xl bg-neo-lime text-slate-950 font-black font-mono text-xs tracking-wider uppercase hover:bg-lime-300 transition-all shadow-neo-lime flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-6 rounded-2xl bg-neo-lime text-slate-950 font-black font-mono text-xs tracking-wider uppercase hover:bg-lime-300 transition-all shadow-neo-lime flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Play className="w-4 h-4 fill-current" />
                 <span>BUILD TOWER</span>
@@ -507,6 +529,7 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
           <div
             className="absolute inset-0 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-fadeIn z-30"
             onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
           >
             <div className="max-w-md bg-neo-surface border border-neo-border p-8 rounded-3xl shadow-arcade-card">
               <h2 className="text-3xl font-black font-mono text-neo-coral mb-2 uppercase">
@@ -521,16 +544,16 @@ export const StackSprintArena: React.FC<StackSprintArenaProps> = ({
               <div className="flex gap-3 justify-center">
                 <button
                   onClick={startNewGame}
-                  className="px-6 py-3 rounded-xl bg-neo-lime text-slate-950 font-bold font-mono text-xs tracking-wider shadow-neo-lime flex items-center gap-2"
+                  className="px-6 py-3 rounded-xl bg-neo-lime text-slate-950 font-bold font-mono text-xs tracking-wider shadow-neo-lime flex items-center gap-2 cursor-pointer"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>PLAY AGAIN</span>
                 </button>
                 <button
                   onClick={handleExitGame}
-                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider"
+                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider cursor-pointer"
                 >
-                  EXIT
+                  BACK TO GAMES
                 </button>
               </div>
             </div>

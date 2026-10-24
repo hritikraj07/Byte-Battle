@@ -8,11 +8,13 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface MemoryMatrixArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
 export const MemoryMatrixArena: React.FC<MemoryMatrixArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const { playSound } = useAudio();
@@ -29,20 +31,16 @@ export const MemoryMatrixArena: React.FC<MemoryMatrixArenaProps> = ({
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [personalBest, setPersonalBest] = useState(0);
 
-  const [playerName, setPlayerName] = useState('Player');
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'MemoryChamp';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'MemoryChamp' : 'MemoryChamp');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -109,12 +107,19 @@ export const MemoryMatrixArena: React.FC<MemoryMatrixArenaProps> = ({
     }, config.memorizeTime);
   }, [getRoundConfig]);
 
-  const handleStartGame = () => {
+  const handleStartGame = useCallback(() => {
     setLevel(1);
     setScore(0);
     setLives(3);
     generateLevel(1);
-  };
+  }, [generateLevel]);
+
+  // Direct launch when nickname is passed
+  useEffect(() => {
+    if (initialNickname && gameState === 'intro') {
+      handleStartGame();
+    }
+  }, [initialNickname, gameState, handleStartGame]);
 
   const handleCellClick = (idx: number) => {
     if (gameState !== 'recall') return;
@@ -288,9 +293,9 @@ export const MemoryMatrixArena: React.FC<MemoryMatrixArenaProps> = ({
               </button>
               <button
                 onClick={onExit}
-                className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider"
+                className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider cursor-pointer"
               >
-                EXIT
+                BACK TO GAMES
               </button>
             </div>
           </div>

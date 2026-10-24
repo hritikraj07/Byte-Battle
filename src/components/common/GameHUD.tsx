@@ -130,11 +130,12 @@ export const GameHUD: React.FC<GameHUDProps> = ({
 
           <button
             onClick={onExit}
-            className="p-2.5 rounded-xl bg-[#05050D] hover:bg-[#FF2E97]/20 border border-[#24244A] text-[#8A8AB8] hover:text-[#FF2E97] hover:border-[#FF2E97]/40 transition-all"
-            title="Exit Arena"
-            aria-label="Exit Game Arena"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#05050D] hover:bg-[#FF2E97]/20 border border-[#24244A] text-[#FF2E97] hover:border-[#FF2E97]/70 transition-all font-mono font-bold text-xs cursor-pointer"
+            title="Quit Game Arena"
+            aria-label="Quit Game Arena"
           >
             <XCircle className="w-4 h-4" />
+            <span>QUIT</span>
           </button>
         </div>
       </div>

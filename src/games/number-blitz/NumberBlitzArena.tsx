@@ -8,6 +8,7 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface NumberBlitzArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -19,6 +20,7 @@ interface MathQuestion {
 
 export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const { playSound } = useAudio();
@@ -36,22 +38,18 @@ export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [personalBest, setPersonalBest] = useState(0);
 
-  const [playerName, setPlayerName] = useState('Player');
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'MathWhiz';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'MathWhiz' : 'MathWhiz');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -199,7 +197,7 @@ export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
     };
   }, [gameState, score, totalSolved, finishGame]);
 
-  const handleStart = () => {
+  const handleStart = useCallback(() => {
     setScore(0);
     setStreak(0);
     setHighestStreak(0);
@@ -207,6 +205,19 @@ export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
     setTimeLeft(60);
     setCurrentQuestion(generateQuestion());
     setGameState('playing');
+  }, [generateQuestion]);
+
+  // Direct game launch if nickname prop provided
+  useEffect(() => {
+    if (initialNickname && gameState === 'intro') {
+      handleStart();
+    }
+  }, [initialNickname, gameState, handleStart]);
+
+  const handleSkipQuestion = () => {
+    playSound('click');
+    setStreak(0);
+    setCurrentQuestion(generateQuestion());
   };
 
   const handleSelectChoice = (val: number) => {
@@ -383,13 +394,13 @@ export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
             </div>
 
             {/* 4 Answer Choice Buttons */}
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-2 gap-4 w-full mb-4">
               {currentQuestion.choices.map((choice, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => handleSelectChoice(choice)}
-                  className="p-5 rounded-2xl bg-neo-surface hover:bg-neo-cardHover border-2 border-neo-border hover:border-neo-lime text-center transition-all hover:scale-102 active:scale-95 shadow-arcade-card"
+                  className="p-5 rounded-2xl bg-neo-surface hover:bg-neo-cardHover border-2 border-neo-border hover:border-neo-lime text-center transition-all hover:scale-102 active:scale-95 shadow-arcade-card cursor-pointer"
                 >
                   <span className="text-2xl sm:text-3xl font-mono font-black text-white block mb-1">
                     {choice}
@@ -400,6 +411,15 @@ export const NumberBlitzArena: React.FC<NumberBlitzArenaProps> = ({
                 </button>
               ))}
             </div>
+
+            {/* Change Question Button */}
+            <button
+              type="button"
+              onClick={handleSkipQuestion}
+              className="px-5 py-2.5 rounded-full bg-[#0D0D22] hover:bg-[#1C1C3A] border border-[#00F0FF]/40 text-[#00F0FF] font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
+            >
+              <span>CHANGE QUESTION</span>
+            </button>
           </div>
         )}
       </main>

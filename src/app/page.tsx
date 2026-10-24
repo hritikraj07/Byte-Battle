@@ -79,7 +79,7 @@ export default function HomePage() {
 
   const handleConfirmSetup = (nickname: string, difficulty: string) => {
     if (!setupGame) return;
-    const targetRoute = `/play/${setupGame.routeId}?diff=${difficulty}`;
+    const targetRoute = `/play/${setupGame.routeId}?diff=${difficulty}&player=${encodeURIComponent(nickname)}`;
     setSetupGame(null);
     router.push(targetRoute);
   };

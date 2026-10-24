@@ -76,17 +76,18 @@ export const WordWeaveArena: React.FC<WordWeaveArenaProps> = ({
     accuracy: 0,
   });
 
-  // Check if player name has been confirmed
+  // Check if player name has been confirmed - direct launch if nickname provided
   useEffect(() => {
-    if (!confirmedNickname) {
-      const remembered = typeof window !== 'undefined' ? localStorage.getItem('bytebattle_remembered_nickname') || '' : '';
-      if (remembered) {
-        setConfirmedNickname(remembered);
-      }
-      // Always require confirmation before new game session
+    if (initialNickname) {
+      setConfirmedNickname(initialNickname);
+      getOrCreateParticipant(eventId || 'practice-session', initialNickname)
+        .then((p) => setActiveParticipantId(p.id))
+        .catch(() => setActiveParticipantId(`p-${Date.now()}`));
+      setNameModalOpen(false);
+    } else if (!confirmedNickname) {
       setNameModalOpen(true);
     }
-  }, [confirmedNickname]);
+  }, [initialNickname, eventId]);
 
   // Pick non-repeating puzzle
   const loadNewPuzzle = useCallback(() => {
@@ -349,6 +350,12 @@ export const WordWeaveArena: React.FC<WordWeaveArenaProps> = ({
     }
   };
 
+  const handleSkipQuestion = () => {
+    playSound('click');
+    addPenalty(3);
+    loadNewPuzzle();
+  };
+
   const handleNextPuzzle = () => {
     loadNewPuzzle();
     reset(roundDurationSeconds);
@@ -497,6 +504,15 @@ export const WordWeaveArena: React.FC<WordWeaveArenaProps> = ({
               >
                 SUBMIT STEP
               </button>
+              <button
+                type="button"
+                onClick={handleSkipQuestion}
+                className="px-4 py-3.5 rounded-2xl bg-[#0D0D22] hover:bg-[#1C1C3A] border border-[#00F0FF]/40 text-[#00F0FF] font-mono font-bold text-xs tracking-wider transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
+                title="Unable to solve? Switch to a new word puzzle"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>CHANGE</span>
+              </button>
             </form>
           </div>
         )}
@@ -555,14 +571,25 @@ export const WordWeaveArena: React.FC<WordWeaveArenaProps> = ({
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
-                <div className="w-full flex items-center justify-between gap-3">
-                  <button
-                    onClick={() => setSelectedItems([])}
-                    disabled={selectedItems.length === 0 || isCategorySolved}
-                    className="text-xs font-mono text-neo-secondary hover:text-white disabled:opacity-30 transition-colors"
-                  >
-                    Clear selection
-                  </button>
+                <div className="w-full flex items-center justify-between gap-3 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleSkipQuestion}
+                      className="px-4 py-2.5 rounded-2xl bg-[#0D0D22] hover:bg-[#1C1C3A] border border-[#00F0FF]/40 text-[#00F0FF] font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
+                      title="Switch to a new category puzzle"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      <span>CHANGE QUESTION</span>
+                    </button>
+                    <button
+                      onClick={() => setSelectedItems([])}
+                      disabled={selectedItems.length === 0 || isCategorySolved}
+                      className="text-xs font-mono text-neo-secondary hover:text-white disabled:opacity-30 transition-colors"
+                    >
+                      Clear selection
+                    </button>
+                  </div>
 
                   <button
                     onClick={handleVerifyCategoryGroup}

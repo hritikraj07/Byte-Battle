@@ -8,10 +8,12 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface ColorClashArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
-type ColorKey = 'RED' | 'GREEN' | 'BLUE' | 'YELLOW';
+type ColorKey = 'RED' | 'GREEN' | 'BLUE' | 'YELLOW' | 'PURPLE' | 'CYAN';
+type RuleType = 'MATCH_INK' | 'MATCH_WORD' | 'DONT_MATCH_INK' | 'DONT_MATCH_WORD';
 
 interface ColorDef {
   key: ColorKey;
@@ -27,10 +29,13 @@ const COLORS: ColorDef[] = [
   { key: 'GREEN', label: 'GREEN', hex: '#22C55E', bgClass: 'bg-emerald-500/20', borderClass: 'border-emerald-500', keyHint: '2 / G' },
   { key: 'BLUE', label: 'BLUE', hex: '#3B82F6', bgClass: 'bg-blue-500/20', borderClass: 'border-blue-500', keyHint: '3 / B' },
   { key: 'YELLOW', label: 'YELLOW', hex: '#EAB308', bgClass: 'bg-yellow-500/20', borderClass: 'border-yellow-500', keyHint: '4 / Y' },
+  { key: 'PURPLE', label: 'PURPLE', hex: '#A855F7', bgClass: 'bg-purple-500/20', borderClass: 'border-purple-500', keyHint: '5 / P' },
+  { key: 'CYAN', label: 'CYAN', hex: '#00F0FF', bgClass: 'bg-cyan-500/20', borderClass: 'border-cyan-500', keyHint: '6 / C' },
 ];
 
 export const ColorClashArena: React.FC<ColorClashArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const { playSound } = useAudio();
@@ -43,28 +48,25 @@ export const ColorClashArena: React.FC<ColorClashArenaProps> = ({
 
   // Current Card Display
   const [wordText, setWordText] = useState<ColorKey>('RED');
-  const [inkColor, setInkColor] = useState<ColorDef>(COLORS[1]); // e.g. green ink
-  const [rule, setRule] = useState<'MATCH_INK' | 'MATCH_WORD'>('MATCH_INK');
+  const [inkColor, setInkColor] = useState<ColorDef>(COLORS[1]);
+  const [rule, setRule] = useState<RuleType>('MATCH_INK');
+  const [displayedButtons, setDisplayedButtons] = useState<ColorDef[]>(COLORS);
 
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [personalBest, setPersonalBest] = useState(0);
 
-  const [playerName, setPlayerName] = useState('Player');
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'ColorMaster';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'ColorMaster' : 'ColorMaster');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -82,26 +84,47 @@ export const ColorClashArena: React.FC<ColorClashArenaProps> = ({
     loadBest();
   }, [participantId]);
 
-  // Generate next Stroop challenge card
+  // Generate next Stroop challenge card with high randomization
   const nextCard = useCallback(() => {
     const randomWordIdx = Math.floor(Math.random() * COLORS.length);
     let randomInkIdx = Math.floor(Math.random() * COLORS.length);
 
-    // High likelihood of conflict between word & ink
-    if (Math.random() < 0.75 && randomInkIdx === randomWordIdx) {
-      randomInkIdx = (randomInkIdx + 1) % COLORS.length;
+    // Conflict between word & ink
+    if (Math.random() < 0.85 && randomInkIdx === randomWordIdx) {
+      randomInkIdx = (randomInkIdx + 1 + Math.floor(Math.random() * (COLORS.length - 1))) % COLORS.length;
     }
 
     setWordText(COLORS[randomWordIdx].key);
     setInkColor(COLORS[randomInkIdx]);
 
-    // Rule alternation: on Easy, always MATCH_INK. On Medium/Hard, dynamically switch!
+    // Harder randomized rules based on difficulty
     if (difficulty === 'easy') {
-      setRule('MATCH_INK');
+      setRule(Math.random() < 0.6 ? 'MATCH_INK' : 'MATCH_WORD');
+    } else if (difficulty === 'medium') {
+      const pool: RuleType[] = ['MATCH_INK', 'MATCH_WORD', 'DONT_MATCH_INK'];
+      setRule(pool[Math.floor(Math.random() * pool.length)]);
     } else {
-      setRule(Math.random() < 0.5 ? 'MATCH_INK' : 'MATCH_WORD');
+      // Hard: full Stroop interference with negative rules
+      const pool: RuleType[] = ['MATCH_INK', 'MATCH_WORD', 'DONT_MATCH_INK', 'DONT_MATCH_WORD'];
+      setRule(pool[Math.floor(Math.random() * pool.length)]);
     }
+
+    // Always shuffle button layout so player can't rely on spatial habit!
+    const shuffled = [...COLORS].sort(() => Math.random() - 0.5);
+    setDisplayedButtons(shuffled);
   }, [difficulty]);
+
+  // Direct game launch if nickname is passed
+  useEffect(() => {
+    if (initialNickname && gameState === 'intro') {
+      setScore(0);
+      setStreak(0);
+      setHighestStreak(0);
+      setTimeLeft(30);
+      nextCard();
+      setGameState('playing');
+    }
+  }, [initialNickname, gameState, nextCard]);
 
   // End of Game
   const finishGame = useCallback((finalScore: number) => {
@@ -165,38 +188,51 @@ export const ColorClashArena: React.FC<ColorClashArenaProps> = ({
     setGameState('playing');
   };
 
-  const handleChoice = (color: ColorKey) => {
+  const handleChoice = useCallback((color: ColorKey) => {
     if (gameState !== 'playing') return;
 
-    const targetColorKey = rule === 'MATCH_INK' ? inkColor.key : wordText;
+    let isCorrect = false;
+    if (rule === 'MATCH_INK') {
+      isCorrect = color === inkColor.key;
+    } else if (rule === 'MATCH_WORD') {
+      isCorrect = color === wordText;
+    } else if (rule === 'DONT_MATCH_INK') {
+      isCorrect = color !== inkColor.key;
+    } else if (rule === 'DONT_MATCH_WORD') {
+      isCorrect = color !== wordText;
+    }
 
-    if (color === targetColorKey) {
-      // Correct!
+    if (isCorrect) {
       playSound('correct');
       const newStreak = streak + 1;
       setStreak(newStreak);
       if (newStreak > highestStreak) setHighestStreak(newStreak);
 
-      const multiplier = 1 + Math.min(newStreak * 0.2, 3);
-      const points = Math.round(100 * multiplier * (difficulty === 'hard' ? 1.5 : 1.0));
+      const multiplier = 1 + Math.min(newStreak * 0.25, 4);
+      const points = Math.round(100 * multiplier * (difficulty === 'hard' ? 2.0 : difficulty === 'medium' ? 1.5 : 1.0));
       setScore((prev) => prev + points);
     } else {
-      // Wrong!
       playSound('wrong');
       setStreak(0);
+      if (difficulty === 'hard') {
+        setScore((prev) => Math.max(0, prev - 50));
+      }
     }
 
     nextCard();
-  };
+  }, [gameState, rule, inkColor.key, wordText, streak, highestStreak, difficulty, playSound, nextCard]);
 
-  // Keyboard controls
+  // Keyboard controls for 1-6 and letter hotkeys
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (gameState !== 'playing') return;
-      if (e.key === '1' || e.key.toLowerCase() === 'r') handleChoice('RED');
-      if (e.key === '2' || e.key.toLowerCase() === 'g') handleChoice('GREEN');
-      if (e.key === '3' || e.key.toLowerCase() === 'b') handleChoice('BLUE');
-      if (e.key === '4' || e.key.toLowerCase() === 'y') handleChoice('YELLOW');
+      const key = e.key.toLowerCase();
+      if (key === '1' || key === 'r') handleChoice('RED');
+      else if (key === '2' || key === 'g') handleChoice('GREEN');
+      else if (key === '3' || key === 'b') handleChoice('BLUE');
+      else if (key === '4' || key === 'y') handleChoice('YELLOW');
+      else if (key === '5' || key === 'p') handleChoice('PURPLE');
+      else if (key === '6' || key === 'c') handleChoice('CYAN');
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -320,22 +356,32 @@ export const ColorClashArena: React.FC<ColorClashArenaProps> = ({
         ) : (
           <div className="flex flex-col items-center max-w-lg w-full animate-fadeIn">
             {/* Active Rule Pill */}
-            <div className="mb-6">
+            <div className="mb-5 text-center">
               <span
-                className={`px-5 py-2 rounded-full text-xs sm:text-sm font-mono font-black uppercase tracking-wider border shadow-sm ${
+                className={`inline-block px-5 py-2 rounded-full text-xs sm:text-sm font-mono font-black uppercase tracking-wider border shadow-sm ${
                   rule === 'MATCH_INK'
                     ? 'bg-pink-500/20 text-pink-300 border-pink-500/50'
-                    : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50'
+                    : rule === 'MATCH_WORD'
+                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50'
+                    : rule === 'DONT_MATCH_INK'
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
+                    : 'bg-red-500/20 text-red-300 border-red-500/50'
                 }`}
               >
-                {rule === 'MATCH_INK' ? '🎨 SELECT THE INK COLOR' : '🔤 SELECT THE WRITTEN WORD'}
+                {rule === 'MATCH_INK'
+                  ? '🎨 MATCH INK COLOR'
+                  : rule === 'MATCH_WORD'
+                  ? '🔤 MATCH WRITTEN WORD'
+                  : rule === 'DONT_MATCH_INK'
+                  ? '⚠️ AVOID INK COLOR! (Pick any other color)'
+                  : '🚫 AVOID WRITTEN WORD! (Pick any other color)'}
               </span>
             </div>
 
             {/* Central Stroop Word Card */}
-            <div className="w-full py-12 px-6 rounded-3xl bg-neo-surface border border-neo-border text-center shadow-arcade-card mb-8">
+            <div className="w-full py-10 px-6 rounded-3xl bg-neo-surface border border-neo-border text-center shadow-arcade-card mb-6">
               <span
-                className="text-5xl sm:text-7xl font-black font-mono tracking-widest uppercase select-none transition-transform"
+                className="text-5xl sm:text-6xl font-black font-mono tracking-widest uppercase select-none transition-transform"
                 style={{
                   color: inkColor.hex,
                   textShadow: `0 0 24px ${inkColor.hex}88`,
@@ -345,17 +391,17 @@ export const ColorClashArena: React.FC<ColorClashArenaProps> = ({
               </span>
             </div>
 
-            {/* 4 Interactive Color Buttons */}
-            <div className="grid grid-cols-2 gap-4 w-full">
-              {COLORS.map((c) => (
+            {/* 6 Interactive Color Buttons (Randomly Shuffled per card) */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full">
+              {displayedButtons.map((c) => (
                 <button
                   key={c.key}
                   type="button"
-                  onClick={() => handleChoice(c.key)}
+                  onPointerDown={() => handleChoice(c.key)}
                   style={{ borderColor: c.hex }}
-                  className="p-4 sm:p-5 rounded-2xl bg-neo-surface border-2 text-center transition-all hover:scale-102 active:scale-95 shadow-arcade-card"
+                  className="p-3.5 sm:p-4 rounded-2xl bg-neo-surface border-2 text-center transition-all hover:scale-102 active:scale-95 shadow-arcade-card cursor-pointer select-none touch-none"
                 >
-                  <span className="text-lg sm:text-xl font-mono font-black uppercase block mb-1" style={{ color: c.hex }}>
+                  <span className="text-base sm:text-lg font-mono font-black uppercase block mb-0.5" style={{ color: c.hex }}>
                     {c.label}
                   </span>
                   <span className="text-[10px] text-neo-secondary font-mono">

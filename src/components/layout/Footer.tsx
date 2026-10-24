@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-[#05050D] border-t border-[#24244A] py-6 px-4 sm:px-6 lg:px-8 text-xs text-[#8A8AB8] font-sans relative z-10">
-      <div className="w-full max-w-[1720px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <footer className="w-full bg-[#060610] border-t border-[#24244A] py-2 sm:py-2.5 px-4 sm:px-6 lg:px-8 text-xs text-[#8A8AB8] font-sans relative z-10">
+      <div className="w-full max-w-[1720px] mx-auto flex items-center justify-between gap-3">
         {/* Bottom-left aligned credit */}
-        <div className="flex items-center gap-3">
-          <p className="text-xs text-[#8A8AB8] m-0">
+        <div className="flex items-center gap-2.5">
+          <p className="text-[11px] sm:text-xs text-[#8A8AB8] m-0">
             Built by{' '}
             <a
               href="https://github.com/hritikraj07"
@@ -19,12 +19,12 @@ export const Footer: React.FC = () => {
             </a>
           </p>
           <span className="text-[#24244A]">•</span>
-          <span className="font-pixel text-[10px] text-[#00F0FF]/80 tracking-wider">BYTE BATTLE</span>
+          <span className="font-pixel text-[9px] sm:text-[10px] text-[#00F0FF]/80 tracking-wider">BYTE BATTLE</span>
         </div>
 
-        {/* Shortcuts Hint Bar requested by user */}
-        <div className="flex items-center gap-2 text-xs font-sans text-[#8A8AB8] self-start sm:self-auto">
-          <span className="px-3.5 py-1.5 rounded-full bg-[#0D0D22] border border-[#24244A] text-[#8A8AB8] flex items-center gap-1.5 flex-wrap">
+        {/* Shortcuts Hint Bar: strictly hidden on mobile devices (< sm breakpoint) since mobile has no physical keyboard */}
+        <div className="hidden sm:flex items-center gap-2 text-xs font-sans text-[#8A8AB8]">
+          <span className="px-3 py-0.5 rounded-full bg-[#0D0D22] border border-[#24244A] text-[#8A8AB8] flex items-center gap-1.5 flex-wrap">
             <span>Press</span>
             <kbd className="px-1.5 py-0.5 rounded bg-[#101023] border border-[#24244A] text-[#00F0FF] font-mono text-[10px] font-bold">/</kbd>
             <span>to search</span>

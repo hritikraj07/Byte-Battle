@@ -11,6 +11,7 @@ import { saveGameAttempt, db, getOrCreateParticipant } from '@/services/db';
 
 interface PalmDriveArenaProps {
   difficulty?: 'easy' | 'medium' | 'hard';
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -23,6 +24,7 @@ interface Collectible {
 
 export const PalmDriveArena: React.FC<PalmDriveArenaProps> = ({
   difficulty = 'easy',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -30,7 +32,7 @@ export const PalmDriveArena: React.FC<PalmDriveArenaProps> = ({
   const { playSound } = useAudio();
 
   // Player Name Confirmation State
-  const [confirmedNickname, setConfirmedNickname] = useState<string>('');
+  const [confirmedNickname, setConfirmedNickname] = useState<string>(initialNickname);
   const [activeParticipantId, setActiveParticipantId] = useState<string>('');
   const [nameModalOpen, setNameModalOpen] = useState(false);
 
@@ -89,16 +91,18 @@ export const PalmDriveArena: React.FC<PalmDriveArenaProps> = ({
     );
   }, []);
 
-  // Prompt for player name before gameplay begins
+  // Prompt for player name before gameplay begins only if not passed as prop
   useEffect(() => {
-    if (!confirmedNickname) {
-      const remembered = typeof window !== 'undefined' ? localStorage.getItem('bytebattle_remembered_nickname') || '' : '';
-      if (remembered) {
-        setConfirmedNickname(remembered);
-      }
+    if (initialNickname) {
+      setConfirmedNickname(initialNickname);
+      getOrCreateParticipant('practice-session', initialNickname)
+        .then((p) => setActiveParticipantId(p.id))
+        .catch(() => setActiveParticipantId(`p-${Date.now()}`));
+      setNameModalOpen(false);
+    } else if (!confirmedNickname) {
       setNameModalOpen(true);
     }
-  }, [confirmedNickname]);
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {

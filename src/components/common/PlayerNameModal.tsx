@@ -25,10 +25,14 @@ export const PlayerNameModal: React.FC<PlayerNameModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      const saved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) || '' : '';
-      setNickname(saved);
+      // Always ask for a new name for each game — zero previous name preference
+      setNickname('');
       setError(null);
-      setIsEditing(!saved); // If no saved nickname, open in edit mode directly
+      setIsEditing(true);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem('bytebattle_remembered_nickname');
+      }
     }
   }, [isOpen]);
 
@@ -61,9 +65,7 @@ export const PlayerNameModal: React.FC<PlayerNameModalProps> = ({
 
     const sanitized = result.sanitized;
 
-    // Persist as last-used convenience
     if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, sanitized);
       sessionStorage.setItem('bytebattle_active_player', sanitized);
     }
 

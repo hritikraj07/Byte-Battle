@@ -8,6 +8,7 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface PixelInvadersArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -31,6 +32,7 @@ interface Projectile {
 
 export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -44,7 +46,7 @@ export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
   const [personalBest, setPersonalBest] = useState(0);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
 
-  const [playerName, setPlayerName] = useState('Player');
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   const engineRef = useRef({
@@ -72,16 +74,12 @@ export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'SpaceAce';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'SpaceAce' : 'SpaceAce');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -182,6 +180,13 @@ export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
     spawnInvaderWave(1);
     setGameState('playing');
   }, [spawnInvaderWave]);
+
+  // Direct game launch if nickname prop provided
+  useEffect(() => {
+    if (initialNickname && gameState === 'menu') {
+      startGame();
+    }
+  }, [initialNickname, gameState, startGame]);
 
   // Shoot player laser
   const firePlayerLaser = useCallback(() => {
@@ -636,9 +641,9 @@ export const PixelInvadersArena: React.FC<PixelInvadersArenaProps> = ({
                 </button>
                 <button
                   onClick={handleExitGame}
-                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider"
+                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider cursor-pointer"
                 >
-                  EXIT
+                  BACK TO GAMES
                 </button>
               </div>
             </div>

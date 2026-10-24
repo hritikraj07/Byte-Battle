@@ -8,6 +8,7 @@ import { GameLeaderboardModal } from '@/components/leaderboard/GameLeaderboardMo
 
 interface MazeRunnerArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -50,6 +51,7 @@ function generateMaze(cols: number, rows: number): { grid: number[][]; start: [n
 
 export const MazeRunnerArena: React.FC<MazeRunnerArenaProps> = ({
   difficulty = 'medium',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -61,7 +63,7 @@ export const MazeRunnerArena: React.FC<MazeRunnerArenaProps> = ({
   const [personalBest, setPersonalBest] = useState(0);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
 
-  const [playerName, setPlayerName] = useState('Player');
+  const [playerName, setPlayerName] = useState(initialNickname || 'Player');
   const [participantId, setParticipantId] = useState('practice-user');
 
   // Maze dimensions based on difficulty (must be odd numbers for DFS grid)
@@ -83,16 +85,12 @@ export const MazeRunnerArena: React.FC<MazeRunnerArenaProps> = ({
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('bytebattle_active_player') ||
-        localStorage.getItem('byte_battle_last_nickname') ||
-        'MazeRunner';
-      setPlayerName(saved);
-      getOrCreateParticipant('practice-session', saved)
-        .then((p) => setParticipantId(p.id))
-        .catch(() => setParticipantId(`p-${Date.now()}`));
-    }
-  }, []);
+    const active = initialNickname || (typeof window !== 'undefined' ? sessionStorage.getItem('bytebattle_active_player') || 'MazeRunner' : 'MazeRunner');
+    setPlayerName(active);
+    getOrCreateParticipant('practice-session', active)
+      .then((p) => setParticipantId(p.id))
+      .catch(() => setParticipantId(`p-${Date.now()}`));
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -132,6 +130,13 @@ export const MazeRunnerArena: React.FC<MazeRunnerArenaProps> = ({
       setElapsedSeconds(sec);
     }, 1000);
   }, [cols, rows]);
+
+  // Direct game launch if nickname prop is provided
+  useEffect(() => {
+    if (initialNickname && gameState === 'menu') {
+      startNewMaze();
+    }
+  }, [initialNickname, gameState, startNewMaze]);
 
   // Player movement
   const movePlayer = useCallback((dx: number, dy: number) => {
@@ -435,9 +440,9 @@ export const MazeRunnerArena: React.FC<MazeRunnerArenaProps> = ({
                 </button>
                 <button
                   onClick={handleExitGame}
-                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider"
+                  className="px-6 py-3 rounded-xl bg-neo-bg hover:bg-neo-cardHover border border-neo-border text-white font-bold font-mono text-xs tracking-wider cursor-pointer"
                 >
-                  EXIT
+                  BACK TO GAMES
                 </button>
               </div>
             </div>

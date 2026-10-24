@@ -9,6 +9,7 @@ import { PlayerNameModal } from '@/components/common/PlayerNameModal';
 
 interface PulseJumperArenaProps {
   difficulty?: string;
+  nickname?: string;
   onExit?: () => void;
 }
 
@@ -34,6 +35,7 @@ const DIFFICULTY_CONFIG: Record<
 
 export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
   difficulty = 'normal',
+  nickname: initialNickname = '',
   onExit = () => window.history.back(),
 }) => {
   const diffConfig = DIFFICULTY_CONFIG[difficulty] || DIFFICULTY_CONFIG.normal;
@@ -42,7 +44,7 @@ export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
   const { playSound, playBeatPulse } = useAudio();
 
   // Player Name Confirmation State
-  const [confirmedNickname, setConfirmedNickname] = useState<string>('');
+  const [confirmedNickname, setConfirmedNickname] = useState<string>(initialNickname);
   const [activeParticipantId, setActiveParticipantId] = useState<string>('');
   const [nameModalOpen, setNameModalOpen] = useState(false);
 
@@ -84,16 +86,19 @@ export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
     canvasHeight: 500,
   });
 
-  // Prompt for player name before gameplay begins
+  // Prompt for player name before gameplay begins only if not passed as prop
   useEffect(() => {
-    if (!confirmedNickname) {
-      const remembered = typeof window !== 'undefined' ? localStorage.getItem('bytebattle_remembered_nickname') || '' : '';
-      if (remembered) {
-        setConfirmedNickname(remembered);
-      }
+    if (initialNickname) {
+      setConfirmedNickname(initialNickname);
+      getOrCreateParticipant('practice-session', initialNickname)
+        .then((p) => setActiveParticipantId(p.id))
+        .catch(() => setActiveParticipantId(`p-${Date.now()}`));
+      setNameModalOpen(false);
+      startNewRun();
+    } else if (!confirmedNickname) {
       setNameModalOpen(true);
     }
-  }, [confirmedNickname]);
+  }, [initialNickname]);
 
   // Load personal best
   useEffect(() => {
@@ -244,6 +249,20 @@ export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
       }
     }
   }, [gameState, playSound]);
+
+  // Spacebar and ArrowUp keyboard controls for zero-latency jumping
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.key === ' ' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        triggerJump();
+      } else if (e.code === 'KeyP') {
+        setGameState((prev) => (prev === 'playing' ? 'paused' : prev === 'paused' ? 'playing' : prev));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [triggerJump]);
 
   // Start / Restart game at Level 1
   const startNewRun = useCallback(() => {
@@ -737,11 +756,10 @@ export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
         </div>
       </header>
 
-      {/* FULL-VIEWPORT GAME CANVAS */}
+      {/* FULL-VIEWPORT GAME CANVAS with zero-latency onPointerDown */}
       <div
-        className="flex-1 w-full h-full relative cursor-pointer"
-        onClick={triggerJump}
-        onTouchStart={(e) => {
+        className="flex-1 w-full h-full relative cursor-pointer touch-none"
+        onPointerDown={(e) => {
           e.preventDefault();
           triggerJump();
         }}
@@ -753,6 +771,7 @@ export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
           <div
             className="absolute inset-0 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-fadeIn z-40"
             onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
           >
             <span className="text-neo-coral text-xs font-mono font-bold uppercase tracking-widest mb-1">
               Collision Detected
@@ -781,15 +800,23 @@ export const PulseJumperArena: React.FC<PulseJumperArenaProps> = ({
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={startNewRun}
-                className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-neo-lime text-slate-950 font-mono font-black text-sm shadow-neo-lime hover:bg-lime-300 transition-all active:scale-95"
+                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-neo-lime text-slate-950 font-mono font-black text-sm shadow-neo-lime hover:bg-lime-300 transition-all active:scale-95 cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
-                <span>INSTANT RETRY (LEVEL 1)</span>
+                <span>INSTANT RETRY</span>
+              </button>
+
+              <button
+                onClick={onExit}
+                className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#0D0D22] hover:bg-[#1C1C3A] border border-[#FF2E97] text-[#FF2E97] hover:text-white font-mono font-bold text-xs transition-all active:scale-95 cursor-pointer shadow-[0_0_16px_rgba(255,46,151,0.25)]"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>BACK TO GAMES</span>
               </button>
 
               <button
                 onClick={() => setLeaderboardOpen(true)}
-                className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-neo-surface hover:bg-neo-cardHover border border-neo-border text-white font-mono font-bold text-xs transition-all"
+                className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-neo-surface hover:bg-neo-cardHover border border-neo-border text-white font-mono font-bold text-xs transition-all cursor-pointer"
               >
                 <Trophy className="w-4 h-4 text-amber-400" />
                 <span>VIEW LEADERBOARD</span>
